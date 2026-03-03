@@ -3,13 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign Up</title>
+    <title>Login</title>
 </head>
 
-<body>
+<body background="https://static.vecteezy.com/system/resources/previews/013/095/122/non_2x/cute-cat-and-dogs-background-free-vector.jpg">
+    
     <h1>Welcome to Pet Adoption!</h1>
 
-    <form action="/signup-process" method="post">
+    <form action="/login-process" method="post">
         <!-- Username -->
         <label for="username">Username:</label>
         <input type="text" name="username" required>
@@ -22,16 +23,12 @@
 
         <br><br>
 
-        <label for="cfmPassword">Confirm Password:</label>
-        <input type="password" name="cfmPassword" required>
+        <button type="submit">Login</button>
 
         <br><br>
 
-        <button type="submit">Sign Up</button>
+        <em><p>If you're not an existing user, <a href="/index.html"> sign up </a>here instead!</p></em>
 
-        <br><br>
-
-        <em><p>If you're an existing user, <a href="/login.html"> login </a>here instead!</p></em>
     </form>
 </body>
 
