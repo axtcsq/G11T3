@@ -1,24 +1,26 @@
 {
   "name": "g11t3",
   "version": "1.0.0",
-  "description": "New GitHub Repository",
-  "homepage": "https://github.com/axtcsq/G11T3#readme",
-  "bugs": {
-    "url": "https://github.com/axtcsq/G11T3/issues"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/axtcsq/G11T3.git"
-  },
-  "license": "ISC",
-  "author": "",
-  "type": "commonjs",
+  "description": "*",
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/axtcsq/G11T3.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/axtcsq/G11T3/issues"
+  },
+  "homepage": "https://github.com/axtcsq/G11T3#readme",
   "dependencies": {
+    "ejs": "^4.0.1",
     "express": "^5.2.1"
   }
 }
