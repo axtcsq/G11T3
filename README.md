@@ -3,8 +3,8 @@
 ## About this Project
 This pet adoption platform website is a dynamic and data-driven web application that leverages the core back-end
 technologies taught in IS113: Node.js, Express.js, and MongoDB. This project requires us to design and
-implement a functioning back-end using routes, connect to a database, and render user-facing pages
-dynamically with authentication and security features.
+implement a functioning back-end using routes, connect to a database (MongoDB), and render user-facing pages
+dynamically with authentication and security features. This project also utilises the Model View Controller (MVC) framework.
 
 ## Student Names
 * Ryan Lim Rui Jun

@@ -17,21 +17,28 @@ server.get("/", (req, res) => {
     res.redirect("/index.html");
 })
 
+// Login
 server.post("/login-process", (req, res) => {
-  const data = req.body;
-  const username = data.username;
-  const password = data.password;
-  const cfmPassword = data.cfmPassword;
-
-  res.send("Signed up!");
-})
-
-server.post("/signup-process", (req, res) => {
   const data = req.body;
   const username = data.username;
   const password = data.password;
 
   res.send("Login!");
+})
+
+// Sign up
+server.post("/signup-process", (req, res) => {
+  const data = req.body;
+  const username = data.username;
+  const password = data.password;
+  const cfmPassword = data.cfmPassword;
+
+  if (password === cfmPassword) {
+    res.send("Signed up!");
+  }
+  else {
+    res.send("Password do not match!");
+  }
 })
 
 // END Code
