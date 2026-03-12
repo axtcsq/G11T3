@@ -12,6 +12,11 @@ server.use("/", express.static(path.join(__dirname, "public")));
 // VIEW ENGINE
 server.set("view engine", "ejs");
 
+// Specify Routes
+const adminRoutes = require("./routes/admin");
+server.use("/", adminRoutes);
+
+// ### THIS ENTIRE THING UNTIL END CODE TO BE MOVED TO MVC STRUCTURE
 // START Code
 server.get("/", (req, res) => {
     res.redirect("/index.html");
