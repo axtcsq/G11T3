@@ -4,7 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign Up</title>
+    <link rel="icon" type="image/x-icon" href="./img/paw.png">
 </head>
+
+<style>
+    body {
+        background-image: url("./img/bg2.png");
+        background-attachment: fixed;  
+        background-size: cover;
+        color: white;
+    }
+</style>
+
 <body>
     <% if (!userName || errors.length > 0) { %>
         <!-- Not submitted or got errors. Display them. -->
@@ -15,29 +26,31 @@
         </ul>
 
         <h1>Sign Up</h1>
+
+        <p>Thank you for your interest in pet adoption! Please enter your details in the provided fields to sign up.</p>
         
         <form action="/signup" method="post">
             <!-- Username -->
-            <label for="userName">Username:</label>
+            <label for="userName">Username:</label><br>
             <input type="text" name="userName" value="<%= userName %>" required>
 
             <br><br>
             
             <!-- Full Name -->
-            <label for="fullName">Full Name:</label>
+            <label for="fullName">Full Name:</label><br>
             <input type="text" name="fullName" value="<%= fullName %>" required>
 
             <br><br>
 
             <!-- Password -->
-            <label for="password">Password:</label>
-            &nbsp;<input type="password" name="password" required>
+            <label for="password">Password:</label><br>
+            <input type="password" name="password" required>
 
             <br><br>
 
             <!-- Confirm Password -->
-            <label for="password2">Confirm Password:</label>
-            &nbsp;<input type="password" name="password2" required>
+            <label for="password2">Confirm Password:</label><br>
+            <input type="password" name="password2" required>
 
             <br><br>
 
@@ -45,7 +58,7 @@
 
             <br><br>
 
-            <em><p>If you're an existing user, <a href="/login"> login </a>here instead!</p></em>
+            <em><p>An existing user? <a href="/login" style="color: white;"> Login </a>instead</p></em>
         </form>
     <% } else { %>
         Welcome

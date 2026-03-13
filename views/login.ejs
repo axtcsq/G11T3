@@ -4,9 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
+    <link rel="icon" type="image/x-icon" href="./img/paw.png">
 </head>
+
+<style>
+    body {
+        background-image: url("./img/bg2.png");
+        background-attachment: fixed;  
+        background-size: cover;
+        color: white;
+    }
+</style>
+
 <body>
-    
     <% if (!userName || errors.length > 0) { %>
         <!-- Not submitted or got errors. Display them. -->
         <ul style="color: red">
@@ -16,16 +26,19 @@
         </ul>
 
         <h1>Login</h1>
+
+        <p>Welcome back! 😄</p>
+
         <form action="/login" method="post">
             <!-- Username -->
-            <label for="userName">Username:</label>
+            <label for="userName">Username:</label><br>
             <input type="text" name="userName" value="<%= userName %>" required>
 
             <br><br>
             
             <!-- Password -->
-            <label for="password">Password:</label>
-            &nbsp;<input type="password" name="password" required>
+            <label for="password">Password:</label><br>
+            <input type="password" name="password" required>
 
             <br><br>
 
@@ -33,7 +46,7 @@
 
             <br><br>
 
-            <em><p>If you're not an existing user, <a href="/signup"> sign up </a>here instead!</p></em>
+            <em><p>Not an existing user? <a href="/signup" style="color: white;"> Sign up </a>instead</p></em>
         </form>
 
     <% } else { %>
