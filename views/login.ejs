@@ -50,9 +50,43 @@
         </form>
 
     <% } else { %>
-        User
-        <%= userName %>
-        is now logged in.
+        
+        <h1>👋 Hi <%= userName %>!</h1>
+        
+        <p>Thank you for considering to adopt our pets. Here are the pets that are adoptable currently:</p>
+
+        <table border="1">
+            <tr>
+                <th>Breed</th>
+                <th>Name</th>
+                <th>Age (years)</th>
+                <th>Description</th>
+            </tr>
+
+            <!-- CHANGE: Use forEach here eventually to make it dynamically load from the database -->
+            <tr>
+                <td>Cat</td>
+                <td>Phobe</td>
+                <td>2</td>
+                <td>Playful but loving</td>
+            </tr>
+        </table>
+
+        <br>
+
+        <form action="/chosen-pet" method="post">
+            <label for="selectedPet">I would like to adopt:</label>
+
+            <!-- CHANGE: Use forEach here eventually to make it dynamically load from the database -->
+            <select name="selectedPet">
+                <option value="Phobe">Phobe</option>
+            </select>
+
+            <br><br>
+
+            <button type="submit" disabled>Adopt!</button>
+        </form>
+        
     <% } %>
 </body>
 </html>
