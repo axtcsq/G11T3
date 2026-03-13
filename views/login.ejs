@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+</head>
+<body>
+    
+    <% if (!userName || errors.length > 0) { %>
+        <!-- Not submitted or got errors. Display them. -->
+        <ul style="color: red">
+            <% errors.forEach(error => { %>
+                <li><%= error %></li>
+            <% }) %>
+        </ul>
+
+        <h1>Login</h1>
+        <form action="/login" method="post">
+            <!-- Username -->
+            <label for="userName">Username:</label>
+            <input type="text" name="userName" value="<%= userName %>" required>
+
+            <br><br>
+            
+            <!-- Password -->
+            <label for="password">Password:</label>
+            &nbsp;<input type="password" name="password" required>
+
+            <br><br>
+
+            <button type="submit">Login</button>
+
+            <br><br>
+
+            <em><p>If you're not an existing user, <a href="/signup"> sign up </a>here instead!</p></em>
+        </form>
+
+    <% } else { %>
+        User
+        <%= userName %>
+        is now logged in.
+    <% } %>
+</body>
+</html>
