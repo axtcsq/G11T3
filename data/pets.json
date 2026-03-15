@@ -1,0 +1,10 @@
+[
+    {
+        "name": "Doggy",
+        "type": "Dog"
+    },
+    {
+        "name": "Catty",
+        "type": "Cat"
+    }
+]

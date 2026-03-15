@@ -32,6 +32,10 @@ exports.handleLogin = async (req, res) => {
         if (!isLoggedIn) {
             errors.push("Invalid username or password.");
         }
+
+        if (isLoggedIn) {
+            return res.redirect("/pet-list");
+        }
     }
 
     res.render("login", { userName, errors });

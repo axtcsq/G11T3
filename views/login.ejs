@@ -17,76 +17,36 @@
 </style>
 
 <body>
-    <% if (!userName || errors.length > 0) { %>
-        <!-- Not submitted or got errors. Display them. -->
-        <ul style="color: red">
-            <% errors.forEach(error => { %>
-                <li><%= error %></li>
-            <% }) %>
-        </ul>
+    <!-- Not submitted or got errors. Display them. -->
+    <ul style="color: red">
+        <% errors.forEach(error => { %>
+            <li><%= error %></li>
+        <% }) %>
+    </ul>
 
-        <h1>Login</h1>
+    <h1>Login</h1>
 
-        <p>Welcome back! 😄</p>
+    <p>Welcome back! 😄</p>
 
-        <form action="/login" method="post">
-            <!-- Username -->
-            <label for="userName">Username:</label><br>
-            <input type="text" name="userName" value="<%= userName %>" required>
+    <form action="/login" method="post">
+        <!-- Username -->
+        <label for="userName">Username:</label><br>
+        <input type="text" name="userName" value="<%= userName %>" required>
 
-            <br><br>
-            
-            <!-- Password -->
-            <label for="password">Password:</label><br>
-            <input type="password" name="password" required>
-
-            <br><br>
-
-            <button type="submit">Login</button>
-
-            <br><br>
-
-            <em><p>Not an existing user? <a href="/signup" style="color: white;"> Sign up </a>instead</p></em>
-        </form>
-
-    <% } else { %>
+        <br><br>
         
-        <h1>👋 Hi <%= userName %>!</h1>
+        <!-- Password -->
+        <label for="password">Password:</label><br>
+        <input type="password" name="password" required>
+
+        <br><br>
+
+        <button type="submit">Login</button>
+
+        <br><br>
+
+        <em><p>Not an existing user? <a href="/signup" style="color: white;"> Sign up </a>instead</p></em>
+    </form>
         
-        <p>Thank you for considering to adopt our pets. Here are the pets that are adoptable currently:</p>
-
-        <table border="1">
-            <tr>
-                <th>Breed</th>
-                <th>Name</th>
-                <th>Age (years)</th>
-                <th>Description</th>
-            </tr>
-
-            <!-- CHANGE: Use forEach here eventually to make it dynamically load from the database -->
-            <tr>
-                <td>Cat</td>
-                <td>Phobe</td>
-                <td>2</td>
-                <td>Playful but loving</td>
-            </tr>
-        </table>
-
-        <br>
-
-        <form action="/chosen-pet" method="post">
-            <label for="selectedPet">I would like to adopt:</label>
-
-            <!-- CHANGE: Use forEach here eventually to make it dynamically load from the database -->
-            <select name="selectedPet">
-                <option value="Phobe">Phobe</option>
-            </select>
-
-            <br><br>
-
-            <button type="submit" disabled>Adopt!</button>
-        </form>
-        
-    <% } %>
 </body>
 </html>
