@@ -3,11 +3,13 @@ const Pet = require('./../models/petsModel');
 
 // Controller function to get all the documents in the db and display it
 exports.showPets = async (req, res) => {
+  //gets isAdmin from the URL which we put inside from the previous /login
+  const isAdmin = req.query.admin
   try {
     let petList = await Pet.retrieveAll();// fetch all the list    
     console.log(petList);
 
-    res.render("display-pet", { petList }); // Render the EJS form view and pass the posts
+    res.render("display-pet", { petList, isAdmin }); // Render the EJS form view and pass the posts
 
   } catch (error) {
     console.error(error);

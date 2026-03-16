@@ -26,6 +26,12 @@ exports.handleLogin = async (req, res) => {
     if (errors.length === 0) {
         
         // Authenticate
+
+        let isAdmin = false;
+        
+        if (userName == "admin" && password == "admin"){
+            isAdmin = true
+        }
         const isLoggedIn = await Account.authenticateUser(userName, password);
         
         // If authenticate response is invalid
@@ -34,11 +40,16 @@ exports.handleLogin = async (req, res) => {
         }
 
         if (isLoggedIn) {
-            return res.redirect("/pet-list");
+            //check if its admin
+            let isAdmin = false;
+            if (userName == "admin" && password == "admin"){
+            isAdmin = true}
+            // redirect it with the get route and admin value inside url
+            return res.redirect("/pet-list?admin=" + isAdmin);
         }
     }
 
-    res.render("login", { userName, errors });
+    res.render("login", { userName, errors});
 };
 
 // Handle Signup GET request

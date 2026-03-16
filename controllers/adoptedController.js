@@ -1,11 +1,12 @@
 const adopted = require('./../models/adoptedModel');
 
 exports.displayAdopted = async (req, res) => {
+  const isAdmin = req.body.admin
   try {
     let adoptedList = await adopted.retrieveAll();// fetch all the list    
     console.log(adoptedList);
 
-    res.render("adopted-pets",); // Render the EJS form view and pass the posts
+    res.render("adopted-pets",{isAdmin}); // Render the EJS form view and pass the posts
 
   } catch (error) {
     console.error(error);

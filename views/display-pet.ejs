@@ -25,7 +25,7 @@
 
 <body>
 
-  <%- include("common/header") %>
+  <%- include("common/header", {isAdmin: isAdmin}) %>
 
   <!-- EJS conditional block: Check if there are any pet list -->
   <% if (petList.length === 0) { %>
@@ -74,6 +74,7 @@
 
           <% }); %>
       </table>
+      <input type="hidden" name="admin" value="<% isAdmin %>">
 
       <br>
       <button>Adopt!</button>
