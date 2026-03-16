@@ -32,25 +32,31 @@
     <% } %>
     
     <form action="/add-pet" method="POST">
-        <table border="1">
-            <tr>
-                <th>Name:</th><td><input type="text" name="name"></td>
-            </tr>
-            <tr>
-                <th>Type: </th><td><input type="text" name="type"></td>
-            </tr>
-            <tr>
-                <th>Age:</th><td><input type="text" name="age"></td>
-            </tr>
-            <tr>
-                <th>Description:</th><td><input type="text" name="desc"></td>
-            </tr>
-            <tr>
-                <td colspan="2"><button type="submit">Add Pet!</button></td>
-            </tr>
-        </table>
-     
-        
+        <!-- Name -->
+        <label for="userName">Name:</label><br>
+        <input type="text" name="name" required placeholder="What's this pet's name?">
+
+        <br><br>
+
+        <!-- Type -->
+        <label for="userName">Type:</label><br>
+        <input type="text" name="type" required placeholder="Cat? Dog?">
+
+        <br><br>
+
+        <!-- Age -->
+        <label for="userName">Age:</label><br>
+        <input type="text" name="age" required placeholder="How old is it?">
+
+        <br><br>
+
+        <!-- Description -->
+        <label for="userName">Description:</label><br>
+        <input type="text" name="desc" required placeholder="Any character traits?">
+
+        <br><br>
+
+        <button type="submit">Add Pet!</button>       
     </form>
 </body>
 </html>
