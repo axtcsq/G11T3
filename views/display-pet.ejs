@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pets</title>
+    <title>Pet Records</title>
     <link rel="icon" type="image/x-icon" href="./img/paw.png">
 </head>
 
@@ -18,7 +18,7 @@
 
 <body>
 
-  <p>Thank you for considering to adopt our pets. Here are the pets that are adoptable currently:</p>
+  <%- include("common/header") %>
 
   <!-- EJS conditional block: Check if there are any pet list -->
   <% if (petList.length === 0) { %>
@@ -26,7 +26,9 @@
     
   <% } else { %>
     
-    <h2>Adoptable Pets</h2>
+    <h2>Pet Records</h2>
+
+    <p>Thank you for considering to adopt our pets. Here are the pets that are adoptable currently:</p>
 
     <table border="1">
         <tr>

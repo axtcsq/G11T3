@@ -25,3 +25,8 @@ const Pet = mongoose.model("Pet", petSchema, "records");
 exports.retrieveAll = function() {
   return Pet.find();
 };
+
+// Ex 2
+exports.addPet = function(newPet) {
+    return Pet.create(newPet);
+};

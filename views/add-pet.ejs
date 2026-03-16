@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Pet Record</title>
+    <link rel="icon" type="image/x-icon" href="./img/paw.png">
+</head>
+
+<style>
+    body {
+        background-image: url("./img/bg2.png");
+        background-attachment: fixed;  
+        background-size: cover;
+        color: white;
+    }
+</style>
+
+<body>
+    <%- include("common/header") %>
+
+    <h3>Add Pet Record</h3>
+    
+    <!-- Displays error message -->
+    <% if (!result || result==="fail") { %>
+        <p style="color: red;"><%= msg %></p>
+    <% } %>
+
+    <!-- Displays success message -->
+    <% if (result) { %>
+        <p style="color: lightgreen;">Pet added successfully!</p>
+    <% } %>
+    
+    <form action="/add-pet" method="POST">
+        <table border="1">
+            <tr>
+                <th>Name:</th><td><input type="text" name="name"></td>
+            </tr>
+            <tr>
+                <th>Type: </th><td><input type="text" name="type"></td>
+            </tr>
+            <tr>
+                <th>Age:</th><td><input type="text" name="age"></td>
+            </tr>
+            <tr>
+                <th>Description:</th><td><input type="text" name="desc"></td>
+            </tr>
+            <tr>
+                <td colspan="2"><button type="submit">Add Pet!</button></td>
+            </tr>
+        </table>
+     
+        
+    </form>
+</body>
+</html>
