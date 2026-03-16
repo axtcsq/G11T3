@@ -1,5 +1,6 @@
 // Load Model functions
 const Account = require("../models/accountModel")
+const Pet = require('./../models/petsModel');
 
 // Handle Login GET request
 exports.showLogin = (req, res) => {
@@ -44,8 +45,10 @@ exports.handleLogin = async (req, res) => {
             let isAdmin = false;
             if (userName == "admin" && password == "admin"){
             isAdmin = true}
-            // redirect it with the get route and admin value inside url
-            return res.redirect("/pet-list?admin=" + isAdmin);
+            const petList = await Pet.retrieveAll()
+            console.log(isAdmin)
+            // if logged in then render the display pet with isAdmin
+            return res.render("display-pet", {petList, isAdmin});
         }
     }
 
