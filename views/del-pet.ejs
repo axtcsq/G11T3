@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delete Pet Record</title>
+    <link rel="icon" type="image/x-icon" href="./img/paw.png">
+</head>
+
+<style>
+    body {
+        background-image: url("./img/bg2.png");
+        background-attachment: fixed;  
+        background-size: cover;
+        color: white;
+    }
+</style>
+
+<body>
+    <%- include("common/header") %>
+
+    <h3>Delete Pet Record</h3>
+    
+    <!-- Displays error message -->
+    <% if (!result || result==="fail") { %>
+        <p style="color: red;"><%= msg %></p>
+    <% } else if (result) { %> 
+
+    <!-- Displays success message -->
+
+        <p style="color: lightgreen;">Pet deleted successfully!</p>
+    <% } %>
+    
+    <form action="/del-pet" method="POST">
+        <!-- Name -->
+        <label for="userName">Name:</label><br>
+        <input type="text" name="name" required placeholder="What's this pet's name?">
+
+        <br><br>
+
+        <button type="submit">Delete Pet!</button>       
+    </form>
+</body>
+</html>

@@ -71,3 +71,29 @@ exports.createPet = async (req, res) => {
       res.render("add-pet", {result, msg});
   }
 }
+
+exports.showDelForm = async (req, res) => {
+  let result = "";
+  let msg = "";
+
+  res.render("del-pet", {result, msg}); // Render the EJS form view and pass the posts
+}
+
+exports.deletePet = async (req, res) => {
+  const data = req.body;
+  const name = data.name;
+  try{
+    let result = await Pet.delPet(name);
+
+    if (result.deletedCount === 0){
+      return res.render("del-pet", { result: "fail", msg: "Pet not found" });
+    }
+    res.render("del-pet", { result, msg:"Pet deleted successfully"});
+  }
+  catch{
+      let result = "fail";
+      let msg = "Error deleting pet";
+      res.render("del-pet", {result, msg});
+  }
+}
+

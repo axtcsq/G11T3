@@ -30,3 +30,7 @@ exports.retrieveAll = function() {
 exports.addPet = function(newPet) {
     return Pet.create(newPet);
 };
+
+exports.delPet = function(name) {
+  return Pet.deleteOne({name})
+}

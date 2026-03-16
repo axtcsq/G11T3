@@ -11,5 +11,11 @@ router.get("/pet-list", petsController.showPets);
 router.get("/add-pet", petsController.showAddForm);
 router.post("/add-pet", petsController.createPet);
 
+router.get("/del-pet", petsController.showDelForm);
+router.post("/del-pet", petsController.deletePet);
+
+
+
+
 // EXPORT
 module.exports = router;
