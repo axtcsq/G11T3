@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-// Create a new pet' schema
+// Create a new adopted schema
 const adoptedSchema = new mongoose.Schema({
   userName: {
     type: String,
@@ -18,7 +18,6 @@ const adopted = mongoose.model("Adopted", adoptedSchema, "adopted");
 exports.retrieveAll = function() {
   return adopted.find();
 };
-
 
 exports.addAdopted = function(newAdopted) {
     return adopted.create(newAdopted);

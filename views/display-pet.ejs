@@ -35,47 +35,51 @@
     
     <h2>Pet Records</h2>
 
-    <form action="/adopted-pets" method="get">
-      <p>Thank you for considering to adopt our pets. Here are the pets that are adoptable currently:</p>
+    <form action="/adopted-pets" method="post">
+      <p>Thank you for considering to adopt our pets. Here are the pets that are adoptable currently <mark>(you can only choose one):</mark>:</p>
 
-    <table border="1">
-        <tr>
-          <th>No.</th>  
-          <th>Breed</th>
-          <th>Name</th>
-          <th>Age (years)</th>
-          <th>Description</th>
-          <th>Adopt?</th>
-        </tr>
-
-        <% let i = 1; %>
-        <% let dogCount = 0; %>
-        <% let catCount = 0; %>
-
-        <!-- EJS loop to render each pet -->
-        <% petList.forEach(pet => { %>
-      
+      <table border="1">
           <tr>
-            <td><%= i %>.</td>
-            <td><%= pet.type %></td><!-- Display the pet type -->
-            <td><%= pet.name %></td><!-- Display the pet name -->
-            <td><%= pet.age %></td><!-- Display the pet age -->
-            <td><%= pet.desc %></td><!-- Display the pet description -->
-            <td>
-              <!-- Smth smth add validation only can choose 1 pet to adopt & retain selection value -->
-              <input type="checkbox" name="selectPet" value="<%= pet.name %>">
-            </td>
+            <th>No.</th>  
+            <th>Breed</th>
+            <th>Name</th>
+            <th>Age (years)</th>
+            <th>Description</th>
+            <th>Adopt?</th>
           </tr>
 
-          <% if (pet.type.toLowerCase() === "dog") { dogCount++; } %>
-          <% if (pet.type.toLowerCase() === "cat") { catCount++; } %>
-          <% i++; %>
+          <% let i = 1; %>
+          <% let dogCount = 0; %>
+          <% let catCount = 0; %>
 
-        <% }); %>
+          <!-- EJS loop to render each pet -->
+          <% petList.forEach(pet => { %>
+        
+            <tr>
+              <td><%= i %>.</td>
+              <td><%= pet.type %></td><!-- Display the pet type -->
+              <td><%= pet.name %></td><!-- Display the pet name -->
+              <td><%= pet.age %></td><!-- Display the pet age -->
+              <td><%= pet.desc %></td><!-- Display the pet description -->
+              <td>
+                <!-- Smth smth add validation only can choose 1 pet to adopt & retain selection value -->
+                <input type="radio" name="selectPet" value="<%= pet.name %>">
+              </td>
+            </tr>
 
-    </table>
-    <button>Submit</button>
+            <!-- Counter for dog, cat & no. -->
+            <% if (pet.type.toLowerCase() === "dog") { dogCount++; } %>
+            <% if (pet.type.toLowerCase() === "cat") { catCount++; } %>
+            <% i++; %>
+
+          <% }); %>
+      </table>
+
+      <br>
+      <button>Adopt!</button>
+
     </form>
+
     <br>
 
     <h2>Summary</h2>
