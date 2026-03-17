@@ -1,15 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Update Pet Details</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Pet Records</title>
+    <link rel="icon" type="image/x-icon" href="./img/paw.png">
 </head>
+
+<style>
+    body {
+        background-image: url("./img/bg2.png");
+        background-attachment: fixed;  
+        background-size: cover;
+        color: white;
+    }
+    table {
+        border-collapse: collapse;
+    }
+    th, td {
+        padding: 10px 15px;
+        text-align: left;
+    }
+</style>
+
 <body>
-      <%  if(result){ %>
-    <h3>Update Pet </h3>
+    <%- include("common/header") %>
+
+    <% if (result) { %>
+    <h3>Update Pet Records for <%= result.name %>:</h3>
+
     <form action="/update-pet" method="POST">
         <table border="1">
             <tr>
-                <th>Name :</th><td><%= result.name %></td>
+                <th>Name :</th>
+                <td><input type="text" name="name" value="<%= result.name %>"></td>
             </tr>
             <tr>
                 <th>Type:</th>

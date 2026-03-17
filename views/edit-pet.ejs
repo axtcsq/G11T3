@@ -1,28 +1,51 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <title>Pets on Nodes.js</title> <!-- Title displayed in the browser tab -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Pet Records</title>
+    <link rel="icon" type="image/x-icon" href="./img/paw.png">
 </head>
-<body>
 
-  <!-- EJS conditional block: Check if there are any book list -->
-  <% if (petList.length === 0) { %>
-    <p>No pets yet.</p> <!-- Message when there is no books -->
-  <% } else { %>
-    <h2>Pet List</h2>
-    <!-- EJS loop to render each book -->
+<style>
+    body {
+        background-image: url("./img/bg2.png");
+        background-attachment: fixed;  
+        background-size: cover;
+        color: white;
+    }
+    table {
+        border-collapse: collapse;
+    }
+    th, td {
+        padding: 10px 15px;
+        text-align: left;
+    }
+</style>
+<body>
      
-    <% petList.forEach(pet => { %>
-      
-        <p><strong>ID: <%= pet.id %></strong></p>      <!-- Display the book title -->
-        Name: <%= pet.name %><br>             <!-- Display the isbn number -->
-        Type:<%=pet.type %><br>           <!-- Display the rating -->
-        Age:<%=pet.age %><br>                 <!-- Display the price  -->
-        Desc:<%=pet.desc %><br>                 <!-- Display the price  -->
-        <a href="/update-pet?id=<%= pet.id %>">Edit</a>
-      <hr>
-    <% }); %>
+   <%- include("common/header") %>
+
+    <h3>Edit Pet Record</h3>
     
-  <% } %>
-     
+    <form action="/update-pet" method="GET">
+    
+        <label>Select Pet:</label><br>
+
+        <select name="id" required>
+          <option value="">-- Choose a pet --</option>
+
+          <% petList.forEach(pet => { %>
+            <option value="<%= pet.id %>">
+              <%= pet.name %> (ID: <%= pet.id %>)
+            </option>
+          <% }); %>
+
+        </select>
+
+        <br><br>
+
+        <button type="submit">Edit Pet!</button>       
+    </form>
 </body>
 </html>
