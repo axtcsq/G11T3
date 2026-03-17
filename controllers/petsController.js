@@ -146,9 +146,9 @@ exports.showDelForm = async (req, res) => {
 
 exports.deletePet = async (req, res) => {
   const data = req.body;
-  const name = data.name;
+  const recordID = data.recordID;
   try{
-    let result = await Pet.delPet(name);
+    let result = await Pet.delPet(recordID);
 
     if (result.deletedCount === 0){
       return res.render("del-pet", { result: "fail", msg: "Pet not found" });

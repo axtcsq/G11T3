@@ -13,7 +13,6 @@ router.get("/display-pet", petsController.showPets);
 router.get("/add-pet", petsController.showAddForm);
 router.post("/add-pet", petsController.createPet);
 
-// Define GET/POST route to DELETE pets to database
 // Ex 3: Define GET/POST route to edit books in database
 router.get("/edit-pet", petsController.showPetList);
 router.get("/update-pet", petsController.getPet);

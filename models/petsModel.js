@@ -47,6 +47,6 @@ exports.editPet = function(id, name, type, age, desc) {
 };
 
 // DELETE
-exports.delPet = function(name) {
-  return Pet.deleteOne({name})
+exports.delPet = function(recordID) {
+  return Pet.deleteOne({ id: recordID})
 }
