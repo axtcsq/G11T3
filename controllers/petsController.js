@@ -104,7 +104,7 @@ exports.getPet = async (req, res) => {
     // findOne will return 1 document
     // let result = await Pet.find({isbn:isbnNo}); // find a pet with its record id
     let result = await Pet.findByID(id); // find a pet with id
-    res.render("update-pet", {result:result || null});
+    res.render("update-pet", {result:result || null, successful: false});
     
   } catch (error) {
     console.log(error);
@@ -124,10 +124,12 @@ exports.updatePet = async (req, res) => {
 
   // When successful
   try {
-    let success = await Pet.editPet (id, newName, newType, newAge, newDesc);
-    console.log(success);
+    await Pet.editPet (id, newName, newType, newAge, newDesc);
+    let updatedPet = await Pet.findByID(id)
+    // to check the output of success
+    // console.log(success);
 
-    res.send("Pet has been successfully updated.")
+    res.render("update-pet", {successful: true, result: updatedPet})
   // When unsuccessful
   } catch (error) {
     console.log(error);
