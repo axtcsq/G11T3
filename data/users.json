@@ -2,5 +2,9 @@
   "sam": {
     "fullName": "Sam Chua",
     "password": "123"
+  },
+  "admin": {
+    "fullName": "admin",
+    "password": "admin"
   }
 }

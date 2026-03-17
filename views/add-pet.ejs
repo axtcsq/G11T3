@@ -32,9 +32,15 @@
     <% } %>
     
     <form action="/add-pet" method="POST">
+        <!-- ID -->
+        <label for="userName">ID:</label><br>
+        <input type="text" name="id" required placeholder="Pet's record ID?">
+
+        <br><br>
+        
         <!-- Name -->
         <label for="userName">Name:</label><br>
-        <input type="text" name="name" required placeholder="What's this pet's name?">
+        <input type="text" name="name" required placeholder="Pet's name?">
 
         <br><br>
 

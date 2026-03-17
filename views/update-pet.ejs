@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Update Pet Details</title>
+</head>
+<body>
+      <%  if(result){ %>
+    <h3>Update Pet </h3>
+    <form action="/update-pet" method="POST">
+        <table border="1">
+            <tr>
+                <th>Name :</th><td><%= result.name %></td>
+            </tr>
+            <tr>
+                <th>Type:</th>
+                <td><input type="text" name="type" value="<%= result.type %>"></td>
+                </tr>
+            <tr>
+                <th>Age:</th><td><input type="text" name="age" value = "<%= result.age %>"></td>
+            </tr>
+            <tr>
+                <th>Desc:</th><td><input type="text" name="desc" value="<%= result.desc %>"></td>
+            </tr>
+            <input type="hidden" name="id" value="<%= result.id %>">
+            <tr>
+                <td colspan="2"><button type="submit">Update Pet!</button></td>
+            </tr>
+        </table>      
+    </form>
+     <% } %>
+
+<br><br>
+
+</body>
+</html>

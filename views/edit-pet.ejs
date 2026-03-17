@@ -1,0 +1,28 @@
+<html>
+<head>
+  <title>Pets on Nodes.js</title> <!-- Title displayed in the browser tab -->
+</head>
+<body>
+
+  <!-- EJS conditional block: Check if there are any book list -->
+  <% if (petList.length === 0) { %>
+    <p>No pets yet.</p> <!-- Message when there is no books -->
+  <% } else { %>
+    <h2>Pet List</h2>
+    <!-- EJS loop to render each book -->
+     
+    <% petList.forEach(pet => { %>
+      
+        <p><strong>ID: <%= pet.id %></strong></p>      <!-- Display the book title -->
+        Name: <%= pet.name %><br>             <!-- Display the isbn number -->
+        Type:<%=pet.type %><br>           <!-- Display the rating -->
+        Age:<%=pet.age %><br>                 <!-- Display the price  -->
+        Desc:<%=pet.desc %><br>                 <!-- Display the price  -->
+        <a href="/update-pet?id=<%= pet.id %>">Edit</a>
+      <hr>
+    <% }); %>
+    
+  <% } %>
+     
+</body>
+</html>

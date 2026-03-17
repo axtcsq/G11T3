@@ -1,3 +1,4 @@
+<!-- Nav Bar -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -25,11 +26,16 @@
 <body>
   <nav>
     <a href="/">Home</a> | 
-    <a href="/pet-list">Pet Records</a> | 
-    <% if (isAdmin){ %>
+    <a href="/display-pet">Pet Records</a> | 
     <a href="/add-pet">Add Pet Record</a> | 
+    <a href="/edit-pet">Update Pet Record</a> | 
     <a href="/del-pet">Delete Pet Record</a> | 
-    <% } %>
+
+    <!-- Temp disabled admin -->
+    <!-- < % if (isAdmin){ %>
+      
+    < % } %> -->
+
   </nav>
   <hr>
 </body>
