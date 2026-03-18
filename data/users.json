@@ -6,5 +6,9 @@
   "admin": {
     "fullName": "admin",
     "password": "admin"
+  },
+  "lyw": {
+    "fullName": "yiwei",
+    "password": "140714"
   }
 }

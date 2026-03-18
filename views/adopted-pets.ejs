@@ -20,6 +20,28 @@
     <%- include("common/header", {isAdmin: isAdmin}) %>
     
     <h1>Adopted Pet Summary</h1>
-    <p>Hi</p>
+    
+    <% if (pet) { %>
+        <table border="1" style="width: 80%; margin-top: 20px; border-collapse: collapse; text-align: left;">
+            <thead>
+                <tr style="background-color: rgba(255,255,255,0.1);">
+                    <th>Record ID</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><%= pet.id %></td>
+                    <td style="color: #4CAF50; font-weight: bold;">Adopted!</td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <p style="margin-top: 20px;">
+            Congratulations! <%= pet.userName %> <%= pet.petId %> has a new forever home.
+        </p>
+    <% } else { %>
+        <p>No pet selection found. Please go back and select a pet.</p>
+    <% } %></p>
 </body>
 </html>
