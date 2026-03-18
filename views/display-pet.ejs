@@ -65,7 +65,7 @@
               <td><%= pet.desc %></td><!-- Display the pet description -->
               <td>
                 <!-- Smth smth add validation only can choose 1 pet to adopt & retain selection value -->
-                <input type="radio" name="selectPet" value="<%= pet.name %>">
+                <input type="radio" name="selectPet" value="<%= pet.id %>">
               </td>
             </tr>
 
@@ -77,7 +77,8 @@
           <% }); %>
       </table>
       <input type="hidden" name="admin" value="<% isAdmin %>">
-
+      
+      
       <br>
       <button>Adopt!</button>
 

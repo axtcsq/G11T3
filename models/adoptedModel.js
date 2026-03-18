@@ -6,14 +6,14 @@ const adoptedSchema = new mongoose.Schema({
     type: String,
     required: [true, "User must exist"],
   },
-  petName: {
+  petId: {
     type: String,
-    required: [true, "Pet name must exist"],
+    required: [true, "Pet id must exist"],
   },
   
 });
 
-const adopted = mongoose.model("Adopted", adoptedSchema, "adopted");
+const adopted = mongoose.model("pet", adoptedSchema, "adopted");
 
 exports.retrieveAll = function() {
   return adopted.find();
@@ -22,3 +22,4 @@ exports.retrieveAll = function() {
 exports.addAdopted = function(newAdopted) {
     return adopted.create(newAdopted);
 };
+
