@@ -5,6 +5,7 @@ const petSchema = new mongoose.Schema({
   id:   {
     type: String,
     required: [true, "A pet must have a record ID"],
+    unique: true
   },
   name: {
     type: String,

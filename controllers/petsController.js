@@ -35,10 +35,18 @@ exports.createPet = async (req, res) => {
   const data = req.body;
 
   const id = data.id;
-  const name = data.name;
-  const type = data.type;
-  const age = data.age;
-  const desc = data.desc;
+  const name = (data.name || "").trim();
+  const type = (data.type || "").trim();
+  const age = (data.age || "").trim();
+  const desc = (data.desc || "").trim();
+
+  // Validation: Handles invalid fields
+  if (!id || !name || !type || !age || !desc) {
+    let result = null;
+    let msg = "All fields are required";
+
+    return res.render("add-pet", { result: "fail", msg });
+  }
 
   // Create a structure that stores the new pet
   let newPet = {
@@ -47,14 +55,6 @@ exports.createPet = async (req, res) => {
     type: type,
     age: age,
     desc: desc
-  }
-
-  // Validation: Handles invalid fields
-  if (!id || !name || !type || !age || !desc) {
-    let result = null;
-    let msg = "All fields are required";
-
-    res.render("add-pet", { result, msg });
   }
 
   // NOTE: HAVE YET TO IMPLEMENT DUPLICATE ADDITION LOGIC (will need to add some sort of Pet ID as unique identifier)
@@ -72,7 +72,7 @@ exports.createPet = async (req, res) => {
       
       // Added as result will not be returned when operation is not successful
       let result = "fail";
-      let msg = "Error creating pet";
+      let msg = "Record ID already exists";
 
       res.render("add-pet", {result, msg});
   }
