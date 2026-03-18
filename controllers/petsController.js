@@ -143,24 +143,31 @@ exports.showDelForm = async (req, res) => {
   let result = "";
   let msg = "";
 
-  res.render("del-pet", {result, msg}); // Render the EJS form view and pass the posts
+  let petLists = await Pet.retrieveAll()
+  res.render("del-pet", {petLists, result, msg}); // Render the EJS form view and pass the posts
 }
 
 exports.deletePet = async (req, res) => {
   const data = req.body;
   const recordID = data.recordID;
+
+  let petLists = await Pet.retrieveAll() // fetch all the list    
+
   try{
     let result = await Pet.delPet(recordID);
 
     if (result.deletedCount === 0){
-      return res.render("del-pet", { result: "fail", msg: "Pet not found" });
+      return res.render("del-pet", { petLists, result: "fail", msg: "Pet not found" });
     }
-    res.render("del-pet", { result, msg:"Pet deleted successfully"});
+
+    res.render("del-pet", { petLists, result, msg:"Pet deleted successfully"});
   }
-  catch{
+
+  catch(err){
       let result = "fail";
       let msg = "Error deleting pet";
-      res.render("del-pet", {result, msg});
-  }
+
+      res.render("del-pet", {petLists, result, msg})};
 }
+
 
