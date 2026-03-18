@@ -1,10 +1,24 @@
 const adopted = require('./../models/adoptedModel');
+const Pet = require('./../models/petsModel');
 
 exports.displayAdopted = async (req, res) => {
   const isAdmin = req.body.admin
+  const id  = req.body.selectPet
+  const userName = req.body.userName
+  let newAdopted = 
+  { 
+  userName: "sam",
+  petId: id
+  }
+
   try {
-    let adoptedList = await adopted.retrieveAll();// fetch all the list    
-    console.log(adoptedList);
+
+    //delete pet
+    await Pet.delPet(id)
+
+    //add adopted
+    await adopted.addAdopted(newAdopted)
+
 
     res.render("adopted-pets",{isAdmin}); // Render the EJS form view and pass the posts
 
