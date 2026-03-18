@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pet Records</title>
+    <link rel="icon" type="image/x-icon" href="./img/paw.png">
+</head>
+
+<style>
+    body {
+        background-image: url("./img/bg2.png");
+        background-attachment: fixed;  
+        background-size: cover;
+        color: white;
+    }
+    table {
+        border-collapse: collapse;
+    }
+    th, td {
+        padding: 10px 15px;
+        text-align: left;
+    }
+</style>
+
+<body>
+
+  <%- include("common/header") %>
+<table border="1">
+    <tr>
+        <th>Name</th>
+        <th>Id</th>
+    </tr>
+        <% adoptedList.forEach(adopted => { %>
+            <tr>
+             <td><%= adopted.userName %></td>
+            <td><%= adopted.petId %></td>
+            </tr>
+        <% }) %>
+    
+</table>
+    
+</body>

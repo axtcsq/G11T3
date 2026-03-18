@@ -39,19 +39,8 @@ exports.displayAdopted = async (req, res) => {
   }
 };
 
-exports.createAdopted = (req, res) => {
-  // Retrieves form data
-  const data = req.body;
-
-  const name = data.name;
-  const petName = data.selectPet
-
-  // Create a structure that stores the new pet
-  let newPet = {
-    name: name,
-    type: type,
-    age: age,
-    desc: desc
-  }
+exports.displayAdoptedList = async (req,res) => {
+  adoptedList = await adopted.retrieveAll()
+  res.render('adopted-list', {adoptedList})
 }
   
