@@ -32,10 +32,18 @@
     <% } %>
     
     <form action="/del-pet" method="POST">
+        
         <!-- PetID -->
         <label for="recordID">Record ID:</label><br>
-        <input type="text" ID="recordID" name="recordID" required placeholder="What's this record ID?">
-
+        
+        <select name="recordID" required>
+          <option value="">-- What is the Pet ID --</option>
+          <% petLists.forEach(pet => { %>
+            <option value="<%= pet.id %>">
+              <%= pet.name %> (ID: <%= pet.id %>)
+            </option>
+          <% }); %>
+        </select> 
         <br><br>
 
         <button type="submit">Delete Pet!</button>       
