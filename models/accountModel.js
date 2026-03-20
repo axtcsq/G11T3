@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 // Create a new pet' schema
 const accountSchema = new mongoose.Schema({
-  userName:   {
+  userName: {
     type: String,
     required: [true, "A user must have a unique username"],
     unique: true
@@ -39,7 +39,7 @@ exports.addUser = function(newUser) {
 
 // Search
 exports.findByID = function(userName) {
-    return Account.findOne({userName});
+    return Account.findOne({userName:userName});
 };
 
 // UPDATE

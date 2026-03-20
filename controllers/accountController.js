@@ -1,5 +1,7 @@
 // Load Account Model functions
 const Account = require("../models/accountModel")
+const Pet = require('./../models/petsModel');
+
 
 // Sign Ups
 // Handle Signup GET request: Displays form on initial load
@@ -70,53 +72,59 @@ exports.handleSignup = async (req, res) => {
 // Login
 // Handle Login GET request
 exports.showLogin = (req, res) => {
-    res.render("login", { userName: undefined, errors: [] });
+    res.render("login", { userName: undefined, password: undefined, errors: [], isAdmin: null });
 };
 
 // Handle Login POST request
 exports.handleLogin = async (req, res) => {
-    let userName = (req.body.userName ?? "").trim();
-    let password = req.body.password;
+    
+    // Retrieves form data
+    const data = req.body;
+    let userName = data.userName;
+    let password = data.password;
+
+    // Initialise error list
     let errors = [];
+    let isAdmin = false;
     
     // Invalid Username
     if (!userName) {
         errors.push("Username is required");
-    }
+    };
 
     // Invalid Password
     if (!password) {
         errors.push("Password is required");
+    };
+
+    // Displays error
+    if (errors.length > 0) {
+        return res.render("login", { userName, errors, isAdmin });
     }
 
     // No Errors
     if (errors.length === 0) {
         
-        // Authenticate
-
-        let isAdmin = false;
+        // Check if its an existing user
+        const user = await Account.findByID(userName);
         
-        if (userName == "admin" && password == "admin"){
-            isAdmin = true
-        }
-        const isLoggedIn = await Account.authenticateUser(userName, password);
-        
-        // If authenticate response is invalid
-        if (!isLoggedIn) {
+        // Checks users existence & credentials
+        if (!user || user.password !== password) {
             errors.push("Invalid username or password.");
+
+            return res.render("login", { userName, errors, isAdmin });
         }
 
-        if (isLoggedIn) {
-            //check if its admin
-            let isAdmin = false;
-            if (userName == "admin" && password == "admin"){
-            isAdmin = true}
-            const petList = await Pet.retrieveAll()
-            console.log(isAdmin)
-            // if logged in then render the display pet with isAdmin
-            return res.render("display-pet", {petList, isAdmin, userName});
+        // Checks user type status
+        if (user.type === "admin") {
+            isAdmin = true;
         }
     }
 
-    res.render("login", { userName, errors});
+    // Required to pass to the next page
+    let petList = await Pet.retrieveAll();// fetch all the list    
+    console.log(petList);
+
+    res.render("display-pet", { petList, isAdmin, userName }); // Render the EJS form view and pass the posts
+
 };

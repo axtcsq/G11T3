@@ -17,16 +17,16 @@
 </style>
 
 <body>
-    <!-- Not submitted or got errors. Display them. -->
+    <h1>Login</h1>
+
+    <!-- Display errors -->
     <ul style="color: red">
         <% errors.forEach(error => { %>
             <li><%= error %></li>
         <% }) %>
     </ul>
 
-    <h1>Login</h1>
-
-    <p>Welcome back! 😄</p>
+    <p>Welcome! 😄</p>
 
     <form action="/login" method="post">
         <!-- Username -->
