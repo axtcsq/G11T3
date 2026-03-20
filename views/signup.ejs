@@ -17,53 +17,70 @@
 </style>
 
 <body>
-    <% if (!userName || errors.length > 0) { %>
+    <h1>Sign Up</h1>
+
+    <!-- Displays error msg -->
+    <% if (errors.length > 0) { %>
         <!-- Not submitted or got errors. Display them. -->
         <ul style="color: red">
             <% errors.forEach(error => { %>
-                <li><%= error %></li>
+                <li><%= error %></li>     
             <% }) %>
         </ul>
-
-        <h1>Sign Up</h1>
-
-        <p>Thank you for your interest in pet adoption! Please enter your details in the provided fields to sign up.</p>
-        
-        <form action="/signup" method="post">
-            <!-- Username -->
-            <label for="userName">Username:</label><br>
-            <input type="text" name="userName" value="<%= userName %>" required>
-
-            <br><br>
-            
-            <!-- Full Name -->
-            <label for="fullName">Full Name:</label><br>
-            <input type="text" name="fullName" value="<%= fullName %>" required>
-
-            <br><br>
-
-            <!-- Password -->
-            <label for="password">Password:</label><br>
-            <input type="password" name="password" required>
-
-            <br><br>
-
-            <!-- Confirm Password -->
-            <label for="password2">Confirm Password:</label><br>
-            <input type="password" name="password2" required>
-
-            <br><br>
-
-            <button type="submit">Signup</button>
-
-            <br><br>
-
-            <em><p>An existing user? <a href="/login" style="color: white;"> Login </a>instead</p></em>
-        </form>
-    <% } else { %>
-        Welcome
-        <%= fullName %>
-        to Pet Adoption!
     <% } %>
+
+    <p>Thank you for your interest in pet adoption! Please enter your details in the provided fields to sign up.</p>
+    
+    <form action="/signup" method="post">
+        <!-- Username -->
+        <label for="userName">Username:</label><br>
+        <input type="text" name="userName" value="<%= userName %>" required>
+
+        <br><br>
+        
+        <!-- Full Name -->
+        <label for="fullName">Full Name:</label><br>
+        <input type="text" name="fullName" value="<%= fullName %>" required>
+
+        <br><br>
+
+        <!-- Password -->
+        <label for="password">Password:</label><br>
+        <input type="password" name="password" required>
+
+        <br><br>
+
+        <!-- Confirm Password -->
+        <label for="password2">Confirm Password:</label><br>
+        <input type="password" name="password2" required>
+
+        <br><br>
+
+        <!-- Gender -->
+        <label>Gender</label><br>
+        <input type="radio" name="gender" value="Male">
+        <label for="gender">Male</label>
+
+        <input type="radio" name="gender" value="Female" checked>
+        <label for="gender">Female</label><br>
+
+        <br>
+
+        <!-- Type -->
+        <label>Type:</label><br>
+        <select name="type">
+            <option value="user">User</option>
+            <option value="admin">Admin</option>
+        </select>
+
+        <br><br><br>
+
+        <button type="submit" style="background-color: orange;">Sign up</button>
+
+        <br><br>
+
+        <em><p>An existing user? <a href="/login" style="color: white;"> Login </a>instead</p></em>
+    </form>
+
 </body>
 </html>

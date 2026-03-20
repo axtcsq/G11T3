@@ -1,7 +1,73 @@
-// Load Model functions
+// Load Account Model functions
 const Account = require("../models/accountModel")
-const Pet = require('./../models/petsModel');
 
+// Sign Ups
+// Handle Signup GET request: Displays form on initial load
+exports.showSignup = (req, res) => {
+    res.render("signup", { userName: undefined, fullName: undefined, password: undefined, password2: undefined, gender: undefined, type: undefined, errors: [] });
+};
+
+// Handle Signup POST request: Takes care of form submission
+exports.handleSignup = async (req, res) => {
+    
+    // Retrieves data from form
+    let data = req.body;
+  
+    let userName = data.userName;
+    let fullName = data.fullName;
+    let password = data.password;
+    let password2 = data.password2;
+    let gender = data.gender;
+    let type = data.type;
+
+    // Initialise error list
+    let errors = [];
+
+    // Create a structure that stores the new user
+    let newUser = {
+        userName: userName,
+        fullName: fullName,
+        password: password,
+        gender: gender,
+        type: type
+    };
+
+    // Validation: Handles invalid fields
+    if (!userName || !fullName || !password || !password2 || !gender || !type) {
+        errors.push("All fields are required");
+    }
+    
+    // Unmatched password
+    if (password !== password2) {
+        errors.push("Passwords don't match");
+    };
+
+    // If there's errors
+    if (errors.length > 0) {
+        return res.render("signup", { userName, fullName, gender, type, errors });
+    }
+
+    // No errors
+    // Attempt sign up process
+    try {
+        let result = await Account.addUser(newUser);
+        console.log("User added successfully");
+    
+        res.redirect("/login");
+    } catch (err) {
+        console.error(err);
+    
+        // Added as result will not be returned when operation is not successful
+        let result = "fail";
+        errors.push("An error occured while adding to the database");
+
+        res.render("signup", { result, userName, fullName, gender, type, errors });
+    }
+};
+
+// -------------------------------------------------------------------------------------------------------------------------------------------------
+
+// Login
 // Handle Login GET request
 exports.showLogin = (req, res) => {
     res.render("login", { userName: undefined, errors: [] });
@@ -53,55 +119,4 @@ exports.handleLogin = async (req, res) => {
     }
 
     res.render("login", { userName, errors});
-};
-
-// Handle Signup GET request
-exports.showSignup = (req, res) => {
-    res.render("signup", { userName: undefined, fullName: undefined, errors: [] })
-};
-
-// Handle Signup POST request
-exports.handleSignup = async (req, res) => {
-    
-    // Retrieves data from form
-    let data = req.body;
-  
-    let userName = (data.userName ?? "").trim();
-    let fullName = (data.fullName ?? "").trim();
-    let password = data.password;
-    let password2 = data.password2;
-    let errors = [];
-
-    // Empty username
-    if (!userName) {
-        errors.push("Username is required");
-    }
-
-    // Empty fullname
-    if (!fullName) {
-        errors.push("Full Name is required");
-    }
-
-    // Empty password
-    if (!password) {
-        errors.push("Password is required");
-    }
-
-    // Unmatched password
-    if (password !== password2) {
-        errors.push("Passwords don't match");
-    }
-
-    // No errors
-    if (errors.length === 0) {
-        
-        // Attempt sign up process
-        try {
-            await Account.registerUser(userName, fullName, password);
-        } catch (err) {
-            errors.push(err.message);
-        }
-    }
-
-    res.render("signup", { userName, fullName, errors });
 };
