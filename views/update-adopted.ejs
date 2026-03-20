@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Pet Records</title>
+    <link rel="icon" type="image/x-icon" href="./img/paw.png">
+</head>
+
+<style>
+    body {
+        background-image: url("./img/bg2.png");
+        background-attachment: fixed;  
+        background-size: cover;
+        color: white;
+    }
+    table {
+        border-collapse: collapse;
+    }
+    th, td {
+        padding: 10px 15px;
+        text-align: left;
+    }
+</style>
+
+<body>
+    <%- include("common/header") %>
+
+    <% if (result) { %>
+    <h3>Update Pet Records for <%= result.name %>:</h3>
+
+    <form action="/update-adopted" method="POST">
+        <table border="1">
+            <tr>
+                <th>Username :</th>
+                <td><input type="text" name="name" value="<%= result.userName %>"></td>
+            </tr>
+            <tr>
+                <th>Pet ID</th>
+                <td><input type="text" name="id" value="<%= result.petId %>"></td>
+                </tr>
+            <input type="hidden" name="id" value="<%= result.petId %>">
+            <tr>
+                <td colspan="2"><button type="submit">Update Adopted!</button></td>
+            </tr>
+        </table>      
+    </form>
+     <% } %>
+
+    <% if (successful) { %>
+        <p style="color: lightgreen;">Adoption Record updated successfully!</p>
+    <% } %>
+
+<br><br>
+
+</body>
+</html>

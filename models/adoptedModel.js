@@ -23,3 +23,11 @@ exports.addAdopted = function(newAdopted) {
     return adopted.create(newAdopted);
 };
 
+exports.findByID = function(id) {
+    return adopted.findOne({ petId:id });
+};
+
+exports.editAdopted = function(id, name) {
+    return adopted.updateOne({petId:id}, {userName:name});
+};
+

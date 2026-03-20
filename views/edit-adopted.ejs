@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Pet Records</title>
+    <link rel="icon" type="image/x-icon" href="./img/paw.png">
+</head>
+
+<style>
+    body {
+        background-image: url("./img/bg2.png");
+        background-attachment: fixed;  
+        background-size: cover;
+        color: white;
+    }
+    table {
+        border-collapse: collapse;
+    }
+    th, td {
+        padding: 10px 15px;
+        text-align: left;
+    }
+</style>
+<body>
+     
+   <%- include("common/header") %>
+
+    <h3>Edit Adopted Record</h3>
+    
+    <form action="/update-adopted" method="GET">
+    
+        <label>Select Adopted:</label><br>
+
+        <select name="petId" required>
+          <option value="">-- Choose an option --</option>
+
+          <% adoptedList.forEach(adopted => { %>
+            <option value="<%= adopted.petId %>">
+              <%= adopted.userName %> (ID: <%= adopted.petId %>)
+            </option>
+          <% }); %>
+
+        </select>
+
+        <br><br>
+
+        <button type="submit">Edit Adopted!</button>       
+    </form>
+</body>
+</html>
