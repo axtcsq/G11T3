@@ -13,7 +13,7 @@ exports.showSignup = (req, res) => {
 exports.handleSignup = async (req, res) => {
     
     // Retrieves data from form
-    let data = req.body;
+    const data = req.body;
   
     let userName = data.userName;
     let fullName = data.fullName;
@@ -58,12 +58,10 @@ exports.handleSignup = async (req, res) => {
         res.redirect("/login");
     } catch (err) {
         console.error(err);
-    
-        // Added as result will not be returned when operation is not successful
-        let result = "fail";
-        errors.push("An error occured while adding to the database");
 
-        res.render("signup", { result, userName, fullName, gender, type, errors });
+        errors.push("An error occurred while adding to the database");
+
+        res.render("signup", { userName, fullName, gender, type, errors });
     }
 };
 

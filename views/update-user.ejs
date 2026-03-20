@@ -49,20 +49,20 @@
             </tr>
             <tr>
                 <th>Gender:</th>
-                <td>
-                    <input type="radio" name="gender" value="Male">
+                <td>                  
+                    <input type="radio" name="gender" value="Male" <%= result.gender === "Male" ? "checked" : "" %>>
                     <label for="gender">Male</label>
 
-                    <input type="radio" name="gender" value="Female">
-                    <label for="gender">Female</label><br>
+                    <input type="radio" name="gender" value="Female" <%= result.gender === "Female" ? "checked" : "" %>>
+                    <label for="gender">Female</label><br>      
                 </td>
             </tr>
             <tr>
                 <th>Type:</th>
                 <td>
                     <select name="type">
-                        <option value="user">User</option>
-                        <option value="admin">Admin</option>
+                        <option value="user" <%= result.type === "user" ? "selected" : "" %>>User</option>
+                        <option value="admin" <%= result.type === "admin" ? "selected" : "" %>>Admin</option>
                     </select>
                 </td>
             </tr>
