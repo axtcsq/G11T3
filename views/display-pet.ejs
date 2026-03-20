@@ -36,19 +36,20 @@
     <h2>Pet Records</h2>
 
     <form action="/adopted-pets" method="post">
-      <p>Thank you for considering to adopt our pets. Here are the pets that are adoptable currently <mark>(you can only choose one)</mark>:</p>
+      <p>Hey <%= userName %>! Thank you for considering to adopt our pets. Here are the pets that are adoptable currently <mark>(you can only choose one)</mark>:</p>
 
       <table border="1">
           <tr>
-            <th>No.</th>  
-            <th>Record ID</th>
-            <th>Breed</th>
-            <th>Name</th>
-            <th>Age (years)</th>
-            <th>Description</th>
-            <th>Adopt?</th>
+            <th style="background-color: rgb(88, 87, 86);">No.</th>  
+            <th style="background-color: rgb(88, 87, 86);">Record ID</th>
+            <th style="background-color: rgb(88, 87, 86);">Breed</th>
+            <th style="background-color: rgb(88, 87, 86);">Name</th>
+            <th style="background-color: rgb(88, 87, 86);">Age (years)</th>
+            <th style="background-color: rgb(88, 87, 86);">Description</th>
+            <th style="background-color: rgb(88, 87, 86);">Adopt?</th>
           </tr>
 
+          <!-- For counter -->
           <% let i = 1; %>
           <% let dogCount = 0; %>
           <% let catCount = 0; %>
@@ -58,11 +59,11 @@
         
             <tr>
               <td><%= i %>.</td>
-              <td><%= pet.id %></td><!-- Display the pet id -->
-              <td><%= pet.type %></td><!-- Display the pet type -->
-              <td><%= pet.name %></td><!-- Display the pet name -->
-              <td><%= pet.age %></td><!-- Display the pet age -->
-              <td><%= pet.desc %></td><!-- Display the pet description -->
+              <td><%= pet.id %></td>
+              <td><%= pet.type %></td>
+              <td><%= pet.name %></td>
+              <td><%= pet.age %></td>
+              <td><%= pet.desc %></td>
               <td>
                 <!-- Smth smth add validation only can choose 1 pet to adopt & retain selection value -->
                 <input type="radio" name="selectPet" value="<%= pet.id %>">
@@ -85,22 +86,28 @@
     </form>
 
     <br>
+    <hr>
 
     <h2>Summary</h2>
     <table border="1">
       <tr>
-        <th>Total Pets</th>
-        <td><%= i - 1 %></td>
+        <th style="background-color: rgb(88, 87, 86);">Total Type</th>
+        <th style="background-color: rgb(88, 87, 86);">Count</th>
       </tr>
 
       <tr>
-        <th>Total Dogs</th>
+        <th>Dogs</th>
         <td><%= dogCount %></td>
       </tr>
 
       <tr>
-        <th>Total Cats</th>
+        <th>Cats</th>
         <td><%= catCount %></td>
+      </tr>
+
+      <tr>
+        <th style="background-color: rgb(144, 128, 108);">Pets</th>
+        <td style="background-color: rgb(144, 128, 108);"><%= i - 1 %></td>
       </tr>
     </table>
     

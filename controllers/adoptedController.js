@@ -5,6 +5,7 @@ exports.displayAdopted = async (req, res) => {
   const isAdmin = req.body.admin
   const id  = req.body.selectPet
   const userName = req.body.userName
+  
   let newAdopted = 
   { 
   userName: "sam",

@@ -48,7 +48,7 @@ exports.handleLogin = async (req, res) => {
             const petList = await Pet.retrieveAll()
             console.log(isAdmin)
             // if logged in then render the display pet with isAdmin
-            return res.render("display-pet", {petList, isAdmin});
+            return res.render("display-pet", {petList, isAdmin, userName});
         }
     }
 

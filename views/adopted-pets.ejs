@@ -14,12 +14,19 @@
         background-size: cover;
         color: white;
     }
+    table {
+        border-collapse: collapse;
+    }
+    th, td {
+        padding: 10px 15px;
+        text-align: left;
+    }
 </style>
 
 <body>
     <%- include("common/header", {isAdmin: isAdmin}) %>
     
-    <h1>Adopted Pet Summary</h1>
+    <h3>Adopted Pet Summary</h3>
     
     <% if (pet) { %>
         <table border="1" style="width: 80%; margin-top: 20px; border-collapse: collapse; text-align: left;">
@@ -37,8 +44,8 @@
             </tbody>
         </table>
         
-        <p style="margin-top: 20px;">
-            Congratulations! <%= pet.userName %> <%= pet.petId %> has a new forever home.
+        <p style="margin-top: 20px; color: lightgreen;">
+            Congratulations <%= pet.userName %>! Your request to adopt pet record ID <%= pet.petId %> has been noted. We will keep in touch!
         </p>
     <% } else { %>
         <p>No pet selection found. Please go back and select a pet.</p>

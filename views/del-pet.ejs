@@ -34,10 +34,10 @@
     <form action="/del-pet" method="POST">
         
         <!-- PetID -->
-        <label for="recordID">Record ID:</label><br>
+        <label for="recordID">Select Pet:</label><br>
         
         <select name="recordID" required>
-          <option value="">-- What is the Pet ID --</option>
+          <option value="">-- Choose a pet --</option>
           <% petLists.forEach(pet => { %>
             <option value="<%= pet.id %>">
               <%= pet.name %> (ID: <%= pet.id %>)

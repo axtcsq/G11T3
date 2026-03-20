@@ -5,12 +5,14 @@ const Pet = require('./../models/petsModel');
 // READ
 exports.showPets = async (req, res) => {
   //gets isAdmin from the URL which we put inside from the previous /login
-  const isAdmin = req.query.admin
+  const isAdmin = req.query.admin;
+  const userName = req.query.userName; // username is abit broken atm, waiting for session implementation
+
   try {
     let petList = await Pet.retrieveAll();// fetch all the list    
     console.log(petList);
 
-    res.render("display-pet", { petList, isAdmin }); // Render the EJS form view and pass the posts
+    res.render("display-pet", { petList, isAdmin, userName }); // Render the EJS form view and pass the posts
 
   } catch (error) {
     console.error(error);

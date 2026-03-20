@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pet Records</title>
+    <title>Adoption History</title>
     <link rel="icon" type="image/x-icon" href="./img/paw.png">
 </head>
 
@@ -25,19 +25,23 @@
 
 <body>
 
-  <%- include("common/header") %>
-<table border="1">
-    <tr>
-        <th>Name</th>
-        <th>Id</th>
-    </tr>
+    <%- include("common/header") %>
+
+    <h3>Adoption History</h3>
+  
+    <table border="1">
+        <tr>
+            <th style="background-color: rgb(88, 87, 86);">Name</th>
+            <th style="background-color: rgb(88, 87, 86);">Record ID</th>
+        </tr>
+
         <% adoptedList.forEach(adopted => { %>
             <tr>
-             <td><%= adopted.userName %></td>
-            <td><%= adopted.petId %></td>
+                <td><%= adopted.userName %></td>
+                <td><%= adopted.petId %></td>
             </tr>
         <% }) %>
-    
-</table>
+        
+    </table>
     
 </body>
