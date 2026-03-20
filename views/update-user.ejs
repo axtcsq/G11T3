@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update User Records</title>
+    <link rel="icon" type="image/x-icon" href="./img/paw.png">
+</head>
+
+<style>
+    body {
+        background-image: url("./img/bg2.png");
+        background-attachment: fixed;  
+        background-size: cover;
+        color: white;
+    }
+    table {
+        border-collapse: collapse;
+    }
+    th, td {
+        padding: 10px 15px;
+        text-align: left;
+    }
+</style>
+
+<body>
+    <%- include("common/header") %>
+
+    <% if (successful) { %>
+        <p style="color: lightgreen;">User updated successfully!</p>
+    <% } %>
+
+    <% if (result) { %>
+    <h3>Update User: <%= result.userName %></h3>
+
+    <form action="/update-user" method="POST">
+        <table border="1">
+            <tr>
+                <th>Username:</th>
+                <td><input type="text" name="userName" value="<%= result.userName %>" readonly></td>
+            </tr>
+            <tr>
+                <th>Full Name:</th>
+                <td><input type="text" name="fullName" value="<%= result.fullName %>"></td>
+            </tr>
+            <tr>
+                <th>Password:</th>
+                <td><input type="text" name="password" value="<%= result.password %>"></td>
+            </tr>
+            <tr>
+                <th>Gender:</th>
+                <td>
+                    <input type="radio" name="gender" value="Male">
+                    <label for="gender">Male</label>
+
+                    <input type="radio" name="gender" value="Female">
+                    <label for="gender">Female</label><br>
+                </td>
+            </tr>
+            <tr>
+                <th>Type:</th>
+                <td>
+                    <select name="type">
+                        <option value="user">User</option>
+                        <option value="admin">Admin</option>
+                    </select>
+                </td>
+            </tr>
+
+            <tr>
+                <td colspan="2"><button type="submit">Update User!</button></td>
+            </tr>
+        </table>      
+    </form>
+     <% } %>
+
+<br><br>
+
+</body>
+</html>

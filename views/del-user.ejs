@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delete User Record</title>
+    <link rel="icon" type="image/x-icon" href="./img/paw.png">
+</head>
+
+<style>
+    body {
+        background-image: url("./img/bg2.png");
+        background-attachment: fixed;  
+        background-size: cover;
+        color: white;
+    }
+</style>
+
+<body>
+    <%- include("common/header") %>
+
+    <h3>Delete User Record</h3>
+    
+    <!-- Displays error message -->
+    <% if (!result || result === "fail") { %>
+        <p style="color: red;"><%= msg %></p>
+    <% } else if (result) { %> 
+
+    <!-- Displays success message -->
+
+        <p style="color: lightgreen;">User deleted successfully!</p>
+    <% } %>
+    
+    <form action="/del-user" method="POST">
+        
+        <!-- UserName -->
+        <label for="userName">Select User:</label><br>
+        
+        <select name="userName" required>
+          <option value="">-- Choose a user --</option>
+          <% userList.forEach(user => { %>
+            <option value="<%= user.userName %>">
+              <%= user.fullName %> (Username: <%= user.userName %>)
+            </option>
+          <% }); %>
+        </select> 
+        <br><br>
+
+        <button type="submit">Delete User!</button>       
+    </form>
+</body>
+</html>

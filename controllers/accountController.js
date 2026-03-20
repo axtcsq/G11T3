@@ -238,6 +238,7 @@ exports.getUser = async (req, res) => {
 
 // UPDATE - Update user
 exports.updateUser = async (req, res) => {
+    // Retrieve form data
     const data = req.body;
 
     const userName = data.userName;
@@ -248,10 +249,15 @@ exports.updateUser = async (req, res) => {
 
     // When successful
     try {
-        await Account.editUser(userName, newFullName, newPassword, newGender, newType);
+        const result = await Account.editUser(userName, newFullName, newPassword, newGender, newType);
         let updatedUser = await Account.findByID(userName);
 
+        if (result.modifiedCount === 0) {
+            return res.render("update-user", { successful: false, result: updatedUser });
+        }
+
         res.render("update-user", { successful: true, result: updatedUser });
+
     // When unsuccessful
     } catch (err) {
         console.error(err);
@@ -284,7 +290,7 @@ exports.deleteUser = async (req, res) => {
     
     } catch (err) {
         let result = "fail";
-        let msg = "Error deleting pet";
+        let msg = "Error deleting user";
 
         console.error(err);
 

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update User Records</title>
+    <link rel="icon" type="image/x-icon" href="./img/paw.png">
+</head>
+
+<style>
+    body {
+        background-image: url("./img/bg2.png");
+        background-attachment: fixed;  
+        background-size: cover;
+        color: white;
+    }
+    table {
+        border-collapse: collapse;
+    }
+    th, td {
+        padding: 10px 15px;
+        text-align: left;
+    }
+</style>
+<body>
+     
+   <%- include("common/header") %>
+
+    <h3>Edit User Record</h3>
+    
+    <form action="/update-user" method="GET">
+    
+        <label>Select User:</label><br>
+
+        <select name="userName" required>
+          <option value="">-- Choose a user --</option>
+
+          <% userList.forEach(user => { %>
+            <option value="<%= user.userName %>">
+              <%= user.fullName %> (Username: <%= user.userName %>)
+            </option>
+          <% }); %>
+
+        </select>
+
+        <br><br>
+
+        <button type="submit">Edit User!</button>       
+    </form>
+</body>
+</html>

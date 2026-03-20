@@ -43,11 +43,11 @@ exports.findByID = function(userName) {
 };
 
 // UPDATE
-exports.editUser = function(userName, name, password, gender, type) {
-    return Account.updateOne({userName}, {name, password, gender, type});
+exports.editUser = function(userName, fullName, password, gender, type) {
+    return Account.updateOne({userName}, {fullName, password, gender, type});
 };
 
 // DELETE
-exports.delUser = function(userName) {
+exports.deleteUser = function(userName) {
   return Account.deleteOne({userName})
-}
+};
