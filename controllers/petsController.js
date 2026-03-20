@@ -171,5 +171,3 @@ exports.deletePet = async (req, res) => {
 
       res.render("del-pet", {petLists, result, msg})};
 }
-
-

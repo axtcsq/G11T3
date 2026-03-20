@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add User Record</title>
+    <link rel="icon" type="image/x-icon" href="./img/paw.png">
+</head>
+
+<style>
+    body {
+        background-image: url("./img/bg2.png");
+        background-attachment: fixed;  
+        background-size: cover;
+        color: white;
+    }
+</style>
+
+<body>
+    <%- include("common/header") %>
+
+    <h3>Add User Record</h3>
+    
+    <!-- Displays error message -->
+    <% if (!result || result==="fail") { %>
+        <p style="color: red;"><%= msg %></p>
+    <% } %>
+
+    <!-- Displays success message -->
+    <% if (result && result !== "fail") { %>
+        <p style="color: lightgreen;">User added successfully!</p>
+    <% } %>
+    
+    <form action="/add-user" method="POST">
+        <!-- Username -->
+        <label for="userName">Username:</label><br>
+        <input type="text" name="userName" value="<%= userName || '' %>" required>
+
+        <br><br>
+        
+        <!-- Full Name -->
+        <label for="fullName">Full Name:</label><br>
+        <input type="text" name="fullName" value="<%= fullName || '' %>" required>
+
+        <br><br>
+
+        <!-- Password -->
+        <label for="password">Password:</label><br>
+        <input type="password" name="password" required>
+
+        <br><br>
+
+        <!-- Confirm Password -->
+        <label for="password2">Confirm Password:</label><br>
+        <input type="password" name="password2" required>
+
+        <br><br>
+
+        <!-- Gender -->
+        <label>Gender</label><br>
+        <input type="radio" name="gender" value="Male">
+        <label for="gender">Male</label>
+
+        <input type="radio" name="gender" value="Female" checked>
+        <label for="gender">Female</label><br>
+
+        <br>
+
+        <!-- Type -->
+        <label>Type:</label><br>
+        <select name="type">
+            <option value="user">User</option>
+            <option value="admin">Admin</option>
+        </select>
+
+        <br><br><br>
+
+        <button type="submit">Add User!</button>       
+    </form>
+</body>
+</html>

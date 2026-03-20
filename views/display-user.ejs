@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Records</title>
+    <link rel="icon" type="image/x-icon" href="./img/paw.png">
+</head>
+
+<style>
+    body {
+        background-image: url("./img/bg2.png");
+        background-attachment: fixed;  
+        background-size: cover;
+        color: white;
+    }
+    table {
+        border-collapse: collapse;
+    }
+    th, td {
+        padding: 10px 15px;
+        text-align: left;
+    }
+</style>
+
+<body>
+
+  <%- include("common/header") %>
+
+  <!-- EJS conditional block: Check if there are any user list -->
+  <% if (userList.length === 0) { %>
+    <p>No users yet.</p> <!-- Message when there is no users -->
+    
+  <% } else { %>
+    
+    <h2>User Records</h2>
+
+    <table border="1">
+        <tr>
+          <th style="background-color: rgb(88, 87, 86);">No.</th>  
+          <th style="background-color: rgb(88, 87, 86);">User ID</th>
+          <th style="background-color: rgb(88, 87, 86);">Name</th>
+          <th style="background-color: rgb(88, 87, 86);">Gender</th>
+          <th style="background-color: rgb(88, 87, 86);">Type</th>
+        </tr>
+
+        <!-- For counter -->
+        <% let i = 1; %>
+        <% let adminCount = 0; %>
+        <% let userCount = 0; %>
+
+        <!-- EJS loop to render each pet -->
+        <% userList.forEach(user => { %>
+      
+          <tr>
+            <td><%= i %>.</td>
+            <td><%= user.userName %></td>
+            <td><%= user.fullName %></td>
+            <td><%= user.gender %></td>
+            <td><%= user.type %></td>
+          </tr>
+
+          <!-- Counter for adm, cat & no. -->
+          <% if (user.type.toLowerCase() === "admin") { adminCount++; } %>
+          <% if (user.type.toLowerCase() === "user") { userCount++; } %>
+          <% i++; %>
+
+        <% }); %>
+    </table>
+
+    <br>
+    <hr>
+
+    <h2>Summary</h2>
+    <table border="1">
+      <tr>
+        <th style="background-color: rgb(88, 87, 86);">Type</th>
+        <th style="background-color: rgb(88, 87, 86);">Count</th>
+      </tr>
+
+      <tr>
+        <th>Admins</th>
+        <td><%= adminCount %></td>
+      </tr>
+
+      <tr>
+        <th>Users</th>
+        <td><%= userCount %></td>
+      </tr>
+
+      <tr>
+        <th style="background-color: rgb(144, 128, 108);">Total</th>
+        <td style="background-color: rgb(144, 128, 108);"><%= i - 1 %></td>
+      </tr>
+    </table>
+    
+  <% } %>
+     
+</body>
+</html>

@@ -21,23 +21,85 @@
     a:hover {
         color: cyan;
     }
+    /* Dropdown container */
+    .dropdown {
+        display: inline-block;
+        position: relative;
+    }
+
+    /* Button */
+    .dropbtn {
+        cursor: pointer;
+        color: white;
+    }
+
+    /* Dropdown menu */
+    .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: #333;
+        min-width: 150px;
+        z-index: 1;
+    }
+
+    /* Links inside dropdown */
+    .dropdown-content a {
+        display: block;
+        padding: 8px 12px;
+        text-decoration: none;
+        color: white;
+    }
+
+    /* Hover effect */
+    .dropdown-content a:hover {
+        background-color: #555;
+    }
+
+    /* Show dropdown on hover */
+    .dropdown:hover .dropdown-content {
+        display: block;
+    }
 </style>
 
 <body>
   <nav>
-    <a href="/">Home</a> | 
-    <a href="/display-pet">Pet Records</a> | 
-    <a href="/add-pet">Add Pet Record</a> | 
-    <a href="/edit-pet">Update Pet Record</a> | 
-    <a href="/del-pet">Delete Pet Record</a> | 
-    <a href="/adopted-list">Adopted Record</a> | 
+  <a href="/">Home</a> | 
 
-    <!-- Temp disabled admin -->
-    <!-- < % if (isAdmin){ %>
-      
-    < % } %> -->
+  <!-- Dropdown Menu -->
+  <!-- Pet Records -->
+  <div class="dropdown">
+    <span class="dropbtn">Pet Records ▾</span>
+    <div class="dropdown-content">
+      <a href="/display-pet">View Pets</a>
+      <a href="/add-pet">Add Pet</a>
+      <a href="/edit-pet">Update Pet</a>
+      <a href="/del-pet">Delete Pet</a>
+    </div>
+  </div> |
 
-  </nav>
-  <hr>
+  <!-- User Records -->
+  <div class="dropdown">
+    <span class="dropbtn">User Records ▾</span>
+    <div class="dropdown-content">
+      <a href="/display-user">View Users</a>
+      <a href="/add-user">Add User</a>
+      <a href="/edit-user">Update User</a>
+      <a href="/del-user">Delete User</a>
+    </div>
+  </div> |
+
+  <!-- Adoption Records -->
+  <div class="dropdown">
+    <span class="dropbtn">Adoption Records ▾</span>
+    <div class="dropdown-content">
+      <a href="/display-pet">View Pets</a>
+      <a href="/adopted-list">Adopted</a>
+    </div>
+  </div>
+
+</nav>
+
+<hr>
+
 </body>
 </html>
