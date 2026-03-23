@@ -15,8 +15,6 @@ exports.displayAdopted = async (req, res) => {
   try {
 
     // 1. perform the database actions 
-    //delete pet
-    await Pet.delPet(id)
     //add adopted
     await adopted.addAdopted(newAdopted)
 
