@@ -1,0 +1,24 @@
+<h2>My Visits</h2>
+<table>
+  <tr>
+    <th>Pet ID</th>
+    <th>Date</th>
+    <th>Actions</th>
+  </tr>
+  <% appointments.forEach(app => { %>
+    <tr>
+      <td><%= app.petId %></td>
+      <td><%= app.date.toDateString() %></td>
+      <td>
+        <form action="/appointments/update/<%= app._id %>" method="POST" style="display:inline;">
+          <input type="datetime-local" name="newDate" required>
+          <button type="submit">Reschedule</button>
+        </form>
+
+        <form action="/appointments/delete/<%= app._id %>" method="POST" style="display:inline;">
+          <button type="submit" onclick="return confirm('Cancel this visit?')">Cancel</button>
+        </form>
+      </td>
+    </tr>
+  <% }) %>
+</table>
