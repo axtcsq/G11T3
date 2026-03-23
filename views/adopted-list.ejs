@@ -33,12 +33,16 @@
         <tr>
             <th style="background-color: rgb(88, 87, 86);">Name</th>
             <th style="background-color: rgb(88, 87, 86);">Pet ID</th>
+            <th style="background-color: rgb(88, 87, 86);">Adoption Time</th>
+            <th style="background-color: rgb(88, 87, 86);">Status</th>
         </tr>
 
         <% adoptedList.forEach(adopted => { %>
             <tr>
                 <td><%= adopted.userName %></td>
                 <td><%= adopted.petId %></td>
+                <td><%= (adopted.adoptedAt).toLocaleString() %></td>
+                <td><%= adopted.status %></td>
             </tr>
         <% }) %>
         

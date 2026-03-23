@@ -9,7 +9,8 @@ exports.displayAdopted = async (req, res) => {
   let newAdopted = 
   { 
   userName: "sam",
-  petId: id
+  petId: id,
+  adoptedAt: new Date().toLocaleString(),
   }
 
   try {
@@ -76,13 +77,13 @@ exports.updateAdopted = async (req, res) => {
   const data = req.body;
 
   const id = data.id; // in the hidden field
-
+  const status = data.status
   const newName = data.name;
   console.log(newName)
 
   // When successful
   try {
-    await adopted.editAdopted (id, newName);
+    await adopted.editAdopted (id, newName, status);
     let updatedAdopted = await adopted.findByID(id)
     console.log(updatedAdopted)
     // to check the output of success

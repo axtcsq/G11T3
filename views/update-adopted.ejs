@@ -38,7 +38,17 @@
             <tr>
                 <th>Pet ID</th>
                 <td><input type="text" name="id" value="<%= result.petId %>"></td>
-                </tr>
+            </tr>
+            <tr>
+                <th>Status</th>
+                <td>
+                    <select name="status">
+                    <option value="<%= result.status %>"><%= result.status %> </option>
+                    <option value="Approved">Approved</option>
+                    <option value="rejected">Rejected</option>
+                    </select>
+                </td>
+            </tr>
             <input type="hidden" name="id" value="<%= result.petId %>">
             <tr>
                 <td colspan="2"><button type="submit">Update Adopted!</button></td>

@@ -10,7 +10,16 @@ const adoptedSchema = new mongoose.Schema({
     type: String,
     required: [true, "Pet id must exist"],
   },
-  
+  adoptedAt: {
+    type: Date,
+    default: Date.now
+  },
+  status: {
+    type: String,
+    enum: ["Pending", "Approved", "rejected"],
+    default: "Pending"
+  }
+
 });
 
 const adopted = mongoose.model("pet", adoptedSchema, "adopted");
@@ -27,7 +36,7 @@ exports.findByID = function(id) {
     return adopted.findOne({ petId:id });
 };
 
-exports.editAdopted = function(id, name) {
-    return adopted.updateOne({petId:id}, {userName:name});
+exports.editAdopted = function(id, name, status) {
+    return adopted.updateOne({petId:id}, {userName:name, status: status});
 };
 
