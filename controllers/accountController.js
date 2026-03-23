@@ -1,7 +1,7 @@
 // Load Account Model functions
 const Account = require("../models/accountModel")
 const Pet = require('./../models/petsModel');
-
+const Favourite = require('./../models/favouritesModel')
 
 // Sign Ups
 // Handle Signup GET request: Displays form on initial load
@@ -120,10 +120,15 @@ exports.handleLogin = async (req, res) => {
     }
 
     // Required to pass to the next page
-    let petList = await Pet.retrieveAll();// fetch all the list    
+    let petList = await Pet.retrieveAll();// fetch all the list  
+    let favourites = await Favourite.findById(userName)
+    let favouriteList = []
+    for (let i = 0; i < favourites.length; i++) {
+    favouriteList.push(favourites[i].petID);
+    }
     console.log(petList);
 
-    res.render("display-pet", { petList, isAdmin, userName }); // Render the EJS form view and pass the posts
+    res.render("display-pet", { petList, isAdmin, userName, favouriteList }); // Render the EJS form view and pass the posts
 
 };
 
