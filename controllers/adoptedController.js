@@ -10,7 +10,6 @@ exports.displayAdopted = async (req, res) => {
   { 
   userName: "sam",
   petId: id,
-  adoptedAt: new Date().toLocaleString(),
   }
 
   try {
