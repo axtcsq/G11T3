@@ -46,6 +46,7 @@
             <th style="background-color: rgb(88, 87, 86);">Name</th>
             <th style="background-color: rgb(88, 87, 86);">Age (years)</th>
             <th style="background-color: rgb(88, 87, 86);">Description</th>
+            <th style="background-color: rgb(88, 87, 86);">Favourites</th>
             <th style="background-color: rgb(88, 87, 86);">Adopt?</th>
           </tr>
 
@@ -64,6 +65,13 @@
               <td><%= pet.name %></td>
               <td><%= pet.age %></td>
               <td><%= pet.desc %></td>
+              <td>
+                <% if (favouriteList.includes(pet.id)) { %>
+                  <a href="/remove-favourite?petID=<%=pet.id%>">❤️ Remove</a>
+                <% } else { %>
+                  <a href="/add-favourite?petID=<%=pet.id%>">🤍 Add</a>
+                <% } %>
+              </td>
               <td>
                 <!-- Smth smth add validation only can choose 1 pet to adopt & retain selection value -->
                 <input type="radio" name="selectPet" value="<%= pet.id %>">

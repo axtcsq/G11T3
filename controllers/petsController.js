@@ -1,5 +1,6 @@
 // Get Service model
 const Pet = require('./../models/petsModel');
+const Favourite = require('./../models/favouritesModel');
 
 // Controller function to get all the documents in the db and display it
 // READ
@@ -9,10 +10,16 @@ exports.showPets = async (req, res) => {
   const userName = req.query.userName; // username is abit broken atm, waiting for session implementation
 
   try {
-    let petList = await Pet.retrieveAll();// fetch all the list    
+    let petList = await Pet.retrieveAll();// fetch all the list
+    // change after session is implementation
+    let userName = "sam"  
+    let favouriteList = []
     console.log(petList);
-
-    res.render("display-pet", { petList, isAdmin, userName }); // Render the EJS form view and pass the posts
+    const favourites = await Favourite.findById(userName)
+    favourites.forEach((pet) => {
+      favouriteList.push(pet.petID)
+    })
+    res.render("display-pet", { petList, isAdmin, userName, favouriteList }); // Render the EJS form view and pass the posts
 
   } catch (error) {
     console.error(error);

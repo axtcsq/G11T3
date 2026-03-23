@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Favourites</title>
+    <link rel="icon" type="image/x-icon" href="./img/paw.png">
+</head>
+
+<style>
+    body {
+        background-image: url("./img/bg2.png");
+        background-attachment: fixed;  
+        background-size: cover;
+        color: white;
+    }
+    table {
+        border-collapse: collapse;
+    }
+    th, td {
+        padding: 10px 15px;
+        text-align: left;
+    }
+</style>
+
+<body>
+
+  <%- include("common/header", {isAdmin: isAdmin}) %>
+
+  <h2>Edit Remark</h2>
+
+  <form action="/update-favourite" method="post">
+    <input type="hidden" name="id" value="<%= favourite.petID %>">
+
+    <p>Pet ID: <%= favourite.petID %></p>
+
+    <label>Remark:</label><br>
+    <textarea name="remark" rows="4" cols="50"><%= favourite.remark %></textarea>
+
+    <br><br>
+    <button type="submit">Update Remark</button>
+  </form>
+
+</body>

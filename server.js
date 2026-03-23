@@ -26,6 +26,9 @@ server.use(pet);
 
 const adopted = require("./routes/adopted");
 server.use(adopted);
+
+const favourites = require("./routes/favourites")
+server.use(favourites)
 // async function to connect to DB
 async function connectDB() {
   try {

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Favourites</title>
+    <link rel="icon" type="image/x-icon" href="./img/paw.png">
+</head>
+
+<style>
+    body {
+        background-image: url("./img/bg2.png");
+        background-attachment: fixed;  
+        background-size: cover;
+        color: white;
+    }
+    table {
+        border-collapse: collapse;
+    }
+    th, td {
+        padding: 10px 15px;
+        text-align: left;
+    }
+</style>
+
+<body>
+
+  <%- include("common/header", {isAdmin: isAdmin}) %>
+
+  <% if (favouriteList.length === 0) { %>
+    <p>No favourite pets yet.</p>
+
+  <% } else { %>
+
+    <h2>Favourite Pets</h2>
+
+    <form action="/adopted-pets" method="post">
+      <p>
+        <% if (favouriteList.length === 1) { %>
+          Hey <%= userName %>! Here is your favourite pet.  
+        <% } else { %>
+          Hey <%= userName %>! Here are your favourite pets.  
+        <% } %>
+        You may choose <mark>one</mark> to adopt:
+      </p>
+
+      <table border="1">
+        <tr>
+          <th style="background-color: rgb(88, 87, 86);">No.</th>
+          <th style="background-color: rgb(88, 87, 86);">Record ID</th>
+          <th style="background-color: rgb(88, 87, 86);">Breed</th>
+          <th style="background-color: rgb(88, 87, 86);">Name</th>
+          <th style="background-color: rgb(88, 87, 86);">Age (years)</th>
+          <th style="background-color: rgb(88, 87, 86);">Description</th>
+          <th style="background-color: rgb(88, 87, 86);">Remark</th>
+          <th style="background-color: rgb(88, 87, 86);">Actions</th>
+          <th style="background-color: rgb(88, 87, 86);">Adopt?</th>
+        </tr>
+
+        <% let i = 1; %>
+
+        <% favouriteList.forEach(fav => { %>
+
+          <tr>
+            <td><%= i %>.</td>
+            <td><%= fav.petID %></td>
+            <td><%= fav.type %></td>
+            <td><%= fav.name %></td>
+            <td><%= fav.age %></td>
+            <td><%= fav.desc %></td>
+            <td><%= fav.remark || "No remarks yet." %></td>
+
+            <td>
+              <a href="/edit-favourite?petID=<%= fav.petID %>">Edit remark</a> |
+              <a href="/delete-favourite?petID=<%= fav.petID %>">Remove favourite</a>
+            </td>
+
+            <td>
+              <input type="radio" name="selectPet" value="<%= fav.petID %>">
+            </td>
+          </tr>
+
+          <% i++; %>
+
+        <% }); %>
+
+      </table>
+
+      <br>
+      <button>Adopt!</button>
+
+    </form>
+
+  <% } %>
+
+</body>
