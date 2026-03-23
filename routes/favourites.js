@@ -6,6 +6,7 @@ const favouritesController = require("../controllers/favouritesController")
 router.get("/add-favourite", favouritesController.addFavourite)
 router.get("/remove-favourite", favouritesController.removeFavourite)
 router.get("/view-favourites", favouritesController.showFavourites)
+router.get("/delete-favourite", favouritesController.deleteFavourite)
 router.get("/edit-favourite", favouritesController.editFavourite);
 router.post("/update-favourite", favouritesController.updateFavourite);
 

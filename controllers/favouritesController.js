@@ -33,6 +33,19 @@ exports.removeFavourite = async (req, res) => {
     }
 }
 
+exports.deleteFavourite = async (req, res) => {
+    const petID = req.query.petID
+    // have to change when session is implemented
+    let userName = "sam"
+
+    try {
+        await Favourite.removeFavourite(petID)
+        res.redirect("/view-favourites")
+    } catch(error) {
+        console.log(error)
+    }
+}
+
 exports.showFavourites = async (req, res) => {
   try {
     // to change when session is implemented
