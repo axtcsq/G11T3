@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<%- include("common/header", {isAdmin: isAdmin}) %>
+<html>
+<head>
+    <title>My Appointments</title>
+</head>
+
+<body>
+    <h1>My Appointments</h1>
+    <ul>
+        <% appointments.forEach(app => { %>
+            <li>
+                Pet ID: <%= app.petId %> | 
+                Date: <%= app.date %> | 
+                Time: <%= app.time %>
+            </li>
+        <% }) %>
+    </ul>
+    <a href="/">Go Back Home</a>
+</body>
+</html>

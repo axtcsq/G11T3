@@ -33,7 +33,7 @@
             <thead>
                 <tr style="background-color: rgba(255,255,255,0.1);">
                     <th>Record ID</th>
-                    <th>Status</th>
+                    <th>Adoption Status</th>
                 </tr>
             </thead>
             <tbody>
@@ -48,18 +48,29 @@
             Congratulations <%= pet.userName %>! Your request to adopt pet record ID <%= pet.petId %> has been noted. We will keep in touch!
         </p>
 
+        <br>
+
+        <h3>
+            Please make an appointment below:
+        </h3>
         <!-- added this chunk to display an appointment slot booker (Work in progress)-->
-       <form action="/appointments/book" method="POST">
+       <form action="/appointment/book" method="POST">
             <input type="hidden" name="petId" value="017">
             <input type="hidden" name="userName" value="sam">
             
-            <label for="appointmentDate">Select Date:</label><br>
-            <select name="appointmentDate" id="appointmentDate" required style="padding: 8px; margin-bottom: 10px;">
-                <option value="2026-03-24">Tuesday, March 24</option>
-                <option value="2026-03-25">Wednesday, March 25</option>
-                <option value="2026-03-26">Thursday, March 26</option>
+            <label for="appointmentDate">Pick a Date:</label><br>
+            <select name="appointmentDate" id="appointmentDate" style="padding: 8px; margin-bottom: 10px; background-color: white; color: black;">
+                <% 
+                const options = { weekday: 'long', month: 'long', day: 'numeric' };
+                for(let i = 1; i <= 7; i++) { 
+                    let d = new Date();
+                    d.setDate(d.getDate() + i);
+                %>
+                <option value="<%= d.toISOString().split('T')[0] %>">
+                    <%= d.toLocaleDateString(undefined, options) %>
+                </option>
+                <% } %>
             </select>
-
             <br>
 
             <label for="timeSlot">Select Time Slot (2-hour intervals):</label><br>

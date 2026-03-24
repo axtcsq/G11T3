@@ -29,6 +29,10 @@ server.use(adopted);
 
 const favourites = require("./routes/favourites")
 server.use(favourites)
+
+const appointment = require("./routes/appointment")
+server.use('/appointment' , appointment )
+
 // async function to connect to DB
 async function connectDB() {
   try {

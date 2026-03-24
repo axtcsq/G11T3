@@ -1,24 +1,28 @@
 <h2>My Visits</h2>
-<table>
-  <tr>
-    <th>Pet ID</th>
-    <th>Date</th>
-    <th>Actions</th>
-  </tr>
-  <% appointments.forEach(app => { %>
-    <tr>
-      <td><%= app.petId %></td>
-      <td><%= app.date.toDateString() %></td>
-      <td>
-        <form action="/appointments/update/<%= app._id %>" method="POST" style="display:inline;">
-          <input type="datetime-local" name="newDate" required>
-          <button type="submit">Reschedule</button>
-        </form>
 
-        <form action="/appointments/delete/<%= app._id %>" method="POST" style="display:inline;">
-          <button type="submit" onclick="return confirm('Cancel this visit?')">Cancel</button>
-        </form>
-      </td>
-    </tr>
-  <% }) %>
+<%- include("common/header", {isAdmin: isAdmin}) %> <!-- common header fo all pages -->
+
+<table>
+    <thead>
+        <tr>
+            <th>Pet ID</th>
+            <th>Date</th>
+            <th>Time</th>
+            <th>User</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        <% appointments.forEach(appt => { %>
+            <tr>
+                <td><%= appt.petId %></td>
+                <td><%= appt.date %></td>
+                <td><%= appt.time %></td>
+                <td><%= appt.userName %></td>
+                <td>
+                    <a href="/delete-appointment/<%= appt._id %>">Cancel</a>
+                </td>
+            </tr>
+        <% }) %>
+    </tbody>
 </table>

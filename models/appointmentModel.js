@@ -2,10 +2,32 @@ const mongoose = require("mongoose");
 
 // Create a new appointment schema
 const appointmentSchema = new mongoose.Schema({
- userName: { type: String, required: [true, "User must exist"] },
-    petId: { type: String, required: [true, "Pet id must exist"] },
-    date: { type: Date, required: true },
-    status: { type: String, default: "Scheduled" } // Scheduled, Completed, Cancelled
+  userName: {
+    type: String,
+    required: [true, "User must exist"],
+  },
+  petId: {
+    type: String,
+    required: [true, "Pet id must exist"],
+  },
+  
 });
 
-module.exports = mongoose.model("Appointment", appointmentSchema);
+const Appointment = mongoose.model("Appointment", appointmentSchema, "appointments");
+
+exports.retrieveAll = function() {
+  return Appointment.find();
+};
+
+exports.addAppointment = function(newAppointment) {
+    return Appointment.create(newAppointment);
+};
+
+exports.findById = function(id) {
+    return Appointment.findOne({ petId:id });
+};
+
+exports.editAppointment = function(id, name) {
+    return Appointment.updateOne({petId:id}, {userName:name});
+};
+

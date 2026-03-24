@@ -1,42 +1,55 @@
 const appointment = require('./../models/appointmentModel');
 const Pet = require('./../models/petsModel');
 
-// READ: Display "My Visits"
-exports.getMyAppointments = async (req, res) => {
+// controller/appointmentController.js (or similar)
+
+// controllers/appointmentController.js
+
+exports.bookAppointment = async (req, res) => {
+    console.log('I am in the controller');
     try {
-        const appointments = await Appointment.find({ userName: req.body.userName }); // Logic to filter by current user
-        res.render('appointment-list', { appointments });
+        const petId = req.body.petId
+        const appointmentDate = req.body.appointmentDate
+        const timeSlot = req.body.timeSlot
+        const userName = req.body.userName 
+        
+        
+        // 2. This now matches the variable name 'appointmentModel' above
+        const existing = await appointment.findById(petId);
+
+        // 3. Conflict Check
+        if (existing && existing.date === appointmentDate && existing.time === timeSlot) {
+            return res.status(400).send("This pet is already booked for this time!");
+        }
+
+        // 4. Using the exported function from your model
+        await appointment.addAppointment({
+            petId: petId,
+            date: appointmentDate,
+            time: timeSlot,
+            userName: userName
+        });
+
+        res.redirect('/appointment/appointments'); 
     } catch (err) {
-        res.status(500).send(err.message);
+        console.error(err);
+        res.status(500).send("Error saving appointment");
     }
 };
 
-// CREATE: Show the form and save the data
-exports.createAppointment = async (req, res) => {
+exports.viewAppointments = async (req, res) => {
     try {
-        await Appointment.create(req.body);
-        res.redirect('/appointments/my-visits');
+        // This calls the retrieveAll function you already have in your model
+        const allAppointments = await appointment.retrieveAll(); 
+        
+        res.render('view-appointment', { 
+            appointments: allAppointments,
+            isAdmin: false // or req.session.isAdmin if you have login logic
+        });
+        // This renders the EJS file and passes the data to it
+        res.render('view-appointment', { appointments: allAppointments });
     } catch (err) {
-        res.status(400).send("Error creating appointment");
-    }
-};
-
-// UPDATE: Reschedule
-exports.updateAppointment = async (req, res) => {
-    try {
-        await Appointment.findByIdAndUpdate(req.params.id, { date: req.body.newDate });
-        res.redirect('/appointments/my-visits');
-    } catch (err) {
-        res.status(400).send("Update failed");
-    }
-};
-
-// DELETE: Cancel visit
-exports.deleteAppointment = async (req, res) => {
-    try {
-        await Appointment.findByIdAndDelete(req.params.id);
-        res.redirect('/appointments/my-visits');
-    } catch (err) {
-        res.status(400).send("Cancellation failed");
+        console.error(err);
+        res.status(500).send("Could not load appointments.");
     }
 };
