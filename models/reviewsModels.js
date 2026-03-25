@@ -29,7 +29,7 @@ const reviewSchema = new mongoose.Schema({
     }
 });
 
-const Review = mongoose.model("Review", reviewSchema)
+const Review = mongoose.model("Review", reviewSchema, "reviews")
 
 // CREATE
 exports.addReview = function(newReview) {
@@ -65,5 +65,3 @@ exports.updateReview = function(id, title, message, rating) {
 exports.deleteReview = function(id) {
     return Review.deleteOne({ _id: id }); // Deletes the review by ID
 };
-
-module.exports = Review;

@@ -43,8 +43,10 @@
             <p><strong>Rating:</strong><%= review.rating %>/5</p>
             <p><strong>Review:</strong><%= review.message %></p>
             <p><strong>Written by:</strong><%= review.username %></p>
-            <p><strong>Date:</strong><%= new Date(review.createdAt).toLocaleDateString()</p> //new Date(review.createdAt) cponverts the createdAt string into a JavaScript Date object.
-                                                                                            // .toLocaleDateString() formats the date in a readable format (MM/DD/YYYY)
+            <!-- new Date(review.createdAt) cponverts the createdAt string into a JavaScript Date object. -->
+            <!-- .toLocaleDateString() formats the date in a readable format (MM/DD/YYYY) -->
+            <p><strong>Date:</strong><%= new Date(review.createdAt).toLocaleDateString() %></p>
+                                                                                            
         <% if (currentUser && review.username === currentUser.username) { %>
             <p>
                 <a href="/update-review?id=<%= review._id %>">Edit</a>
