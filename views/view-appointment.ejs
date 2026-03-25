@@ -1,21 +1,76 @@
 <!DOCTYPE html>
-<%- include("common/header", {isAdmin: isAdmin}) %>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Appointments</title>
+    <link rel="icon" type="image/x-icon" href="/img/paw.png">
+    
+    <style>
+        body {
+            /* Fix: Changed ./img to /img and added a dark fallback color */
+            background: #2c3e50 url("/img/bg2.png") no-repeat center center fixed; 
+            background-size: cover;
+            color: white;
+            font-family: Arial, sans-serif;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 80%;
+            margin-top: 20px;
+            background-color: rgba(0, 0, 0, 0.6); /* Makes table readable against image */
+        }
+
+        th, td {
+            border: 1px solid white;
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .container {
+            padding: 20px;
+        }
+    </style>
 </head>
 
 <body>
-    <h1>My Appointments</h1>
-    <ul>
-        <% appointments.forEach(app => { %>
-            <li>
-                Pet ID: <%= app.petId %> | 
-                Date: <%= app.date %> | 
-                Time: <%= app.time %>
-            </li>
-        <% }) %>
-    </ul>
-    <a href="/">Go Back Home</a>
+    <%- include("common/header", {isAdmin: isAdmin}) %>
+
+    <div class="container">
+        <h1>My Appointments</h1>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>Pet ID</th>
+                    <th>Date</th>
+                    <th>Time</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% if (appointments.length > 0) { %>
+                    <% appointments.forEach(app => { %>
+                        <tr>
+                            <td><%= app.petId %></td>
+                            <td><%= app.date %></td>
+                            <td><%= app.time %></td>
+                        </tr>
+                    <% }) %>
+                <% } else { %>
+                    <tr>
+                        <td colspan="3" style="text-align:center;">No appointments found.</td>
+                    </tr>
+                <% } %>
+            </tbody>
+        </table>
+
+        <br>
+        <a href="/" style="color: #ffcc00;">Go Back Home</a>
+    </div>
 </body>
 </html>

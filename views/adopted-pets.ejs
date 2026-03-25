@@ -54,9 +54,9 @@
             Please make an appointment below:
         </h3>
         <!-- added this chunk to display an appointment slot booker (Work in progress)-->
-       <form action="/appointment/book" method="POST">
-            <input type="hidden" name="petId" value="017">
-            <input type="hidden" name="userName" value="sam">
+       <form action="/book" method="POST">
+            <input type="hidden" name="petId" value="<%= pet.id %>">
+            <input type="hidden" name="userName" value="<%= pet.userName%>">
             
             <label for="appointmentDate">Pick a Date:</label><br>
             <select name="appointmentDate" id="appointmentDate" style="padding: 8px; margin-bottom: 10px; background-color: white; color: black;">

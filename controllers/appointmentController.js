@@ -30,7 +30,7 @@ exports.bookAppointment = async (req, res) => {
             userName: userName
         });
 
-        res.redirect('/appointment/appointments'); 
+        res.redirect('/view-appointment'); 
     } catch (err) {
         console.error(err);
         res.status(500).send("Error saving appointment");
@@ -39,15 +39,14 @@ exports.bookAppointment = async (req, res) => {
 
 exports.viewAppointments = async (req, res) => {
     try {
-        // This calls the retrieveAll function you already have in your model
-        const allAppointments = await appointment.retrieveAll(); 
-        
-        res.render('view-appointment', { 
+    
+        const allAppointments = await appointment.retrieveAll();
+
+        res.render('view-appointment', {
             appointments: allAppointments,
-            isAdmin: false // or req.session.isAdmin if you have login logic
+            isAdmin: false
         });
         // This renders the EJS file and passes the data to it
-        res.render('view-appointment', { appointments: allAppointments });
     } catch (err) {
         console.error(err);
         res.status(500).send("Could not load appointments.");

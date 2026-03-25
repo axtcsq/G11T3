@@ -27,11 +27,12 @@ server.use(pet);
 const adopted = require("./routes/adopted");
 server.use(adopted);
 
-const favourites = require("./routes/favourites")
+const favourites = require("./routes/favourites");
 server.use(favourites)
 
-const appointment = require("./routes/appointment")
-server.use('/appointment' , appointment )
+const appointment = require("./routes/appointment");
+server.use(appointment)
+
 const reviews = require("./routes/reviews");
 server.use(reviews)
 

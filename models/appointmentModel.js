@@ -2,21 +2,30 @@ const mongoose = require("mongoose");
 
 // Create a new appointment schema
 const appointmentSchema = new mongoose.Schema({
-  userName: {
+    userName: {
     type: String,
     required: [true, "User must exist"],
   },
-  petId: {
+    petId: {
     type: String,
     required: [true, "Pet id must exist"],
   },
-  
+    date: { 
+        type: String,  
+    required: [true, "You must select a date"],
+    },
+
+    time: {
+        type: String,
+    required: [true , "You must select a timeslot"]
+    }
 });
 
 const Appointment = mongoose.model("Appointment", appointmentSchema, "appointments");
 
 exports.retrieveAll = function() {
-  return Appointment.find();
+    // This filters the database for only this user's appointments
+    return Appointment.find(); 
 };
 
 exports.addAppointment = function(newAppointment) {
