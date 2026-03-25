@@ -3,6 +3,9 @@ const Account = require("../models/accountModel")
 const Pet = require('./../models/petsModel');
 const Favourite = require('./../models/favouritesModel')
 
+// Import the bcrypt library
+const bcrypt = require('bcrypt');
+
 // Sign Ups
 // Handle Signup GET request: Displays form on initial load
 exports.showSignup = (req, res) => {
@@ -22,6 +25,9 @@ exports.handleSignup = async (req, res) => {
     let gender = data.gender;
     let type = data.type;
 
+    // Hashes password using bcrypt
+    let hashedPassword = await bcrypt.hash(password, 10);
+
     // Initialise error list
     let errors = [];
 
@@ -29,7 +35,7 @@ exports.handleSignup = async (req, res) => {
     let newUser = {
         userName: userName,
         fullName: fullName,
-        password: password,
+        password: hashedPassword,
         gender: gender,
         type: type
     };
@@ -105,11 +111,20 @@ exports.handleLogin = async (req, res) => {
         
         // Check if its an existing user
         const user = await Account.findByID(userName);
-        
+
         // Checks users existence & credentials
-        if (!user || user.password !== password) {
+        if (!user) {
             errors.push("Invalid username or password.");
 
+            return res.render("login", { userName, errors, isAdmin });
+        }
+
+        // Checks if user input password's hash (it does this automatically) matches with our database registered password for this user that we hashed earlier during registration (THIS PART HERE ALSO)
+        const match = await bcrypt.compare(password, user.password);
+        console.log('Is match :' + match);
+
+        if (!match) {
+            errors.push("Password mismatch");
             return res.render("login", { userName, errors, isAdmin });
         }
 
@@ -164,6 +179,7 @@ exports.createUser = async (req, res) => {
     const userName = data.userName;
     const fullName = data.fullName;
     const password = data.password;
+    const hashedPassword = await bcrypt.hash(password, 10);
     const gender = data.gender;
     const type = data.type;
 
@@ -171,7 +187,7 @@ exports.createUser = async (req, res) => {
     let newUser = {
         userName: userName,
         fullName: fullName,
-        password: password,
+        password: hashedPassword,
         gender: gender,
         type: type
     };
