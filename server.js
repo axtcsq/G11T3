@@ -9,7 +9,7 @@ server.use(express.urlencoded({ extended: true }));
 server.use("/", express.static(path.join(__dirname, "public")));
 server.set("view engine", "ejs");
 
-// Specify the path to the environment variablef file 'config.env'
+// Specify the path to the environment variable file 'config.env'
 dotenv.config({ path: './config.env' });
 
 // Handles GET request: Redirect the GET request to a static file
@@ -29,6 +29,10 @@ server.use(adopted);
 
 const favourites = require("./routes/favourites")
 server.use(favourites)
+
+const reviews = require("./routes/reviews");
+server.use(reviews)
+
 // async function to connect to DB
 async function connectDB() {
   try {
@@ -45,7 +49,7 @@ async function connectDB() {
 function startServer() {
   const hostname = "localhost"; // Define server hostname
   const port = 8000;// Define port number
- 
+
   // Start the server and listen on the specified hostname and port
   server.listen(port, hostname, () => {
     console.log(`Server running at http://${hostname}:${port}/`);

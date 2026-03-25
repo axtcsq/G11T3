@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Review</title>
+    <link rel="icon" type="image/x-icon" href="./img/paw.png">
+</head>
+<style>
+    body {
+        background-image: url("./img/bg2.png");
+        background-attachment: fixed;  
+        background-size: cover;
+        color: white;
+    }
+</style>
+<body>
+    <h3>Drop Us a Review Now!!</h3>
+        <!-- Displays error message -->
+    <% if (!result || result==="fail") { %>
+        <p style="color: red;"><%= msg %></p>
+    <% } %>
+
+    <!-- Displays success message -->
+    <% if (result && result !== "fail") { %>
+        <p style="color: lightgreen;">Pet added successfully!</p>
+    <% } %>
+    
+    <form action="/add-review" method="POST">
+        <!-- Pet's name -->
+        <label for="petName">Pet's Name:</label><br>
+        <input type="text" name="petName" required placeholder="Pet's Name?">
+
+        <br><br>
+        
+        <!-- Review Title -->
+        <label for="title">Title:</label><br>
+        <input type="text" name="title" required placeholder="Give your review a title!">
+
+        <br><br>
+
+        <!-- Rating -->
+        <label for="rating">Rating:</label><br>
+        <input type="number" name="rating" required placeholder="Rating (1-5)?">
+
+        <br><br>
+
+        <!-- Message -->
+        <label for="message">Review Message</label><br>
+        <input type="text" name="message" required placeholder="How old is it?">
+
+        <br><br>
+
+        <!-- Description -->
+        <label for="userName">Description:</label><br>
+        <input type="text" name="desc" required placeholder="Any character traits?">
+
+        <br><br>
+
+        <button type="submit">Submit Review!</button>       
+    </form>
+</body>
+</html>

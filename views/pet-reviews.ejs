@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pet Reviews</title>
+    <link rel="icon" type="image/x-icon" href="./img/paw.png">
+</head>
+
+<style>
+    body {
+        background-image: url("./img/bg2.png");
+        background-attachment: fixed;  
+        background-size: cover;
+        color: white;
+    }
+    table {
+        border-collapse: collapse;
+    }
+    th, td {
+        padding: 10px 15px;
+        text-align: left;
+    }
+</style>
+
+<body>
+    <h1>Success Stories and Reviews!</h1>
+    <!-- Search Form -->
+    <form action="/reviews/search" method="GET">
+        <input type="text" name="query" placeholder="Search reviews..." required>
+        <button type="submit">Search</button>
+    </form>
+
+    <a href = "/add-review">Leave a Review!</a>
+    <% if (reviews.length === 0) { %>
+    <p>Be the first to leave a review!</p> <!-- Message when there is no reviews yet -->
+    
+    <% } else { %>
+        <% reviews.forEach(review => { %>
+            <h2><%= review.title %></h2>
+            <div>
+            <p><strong>Pet:</strong><%= review.petName%></p>
+            <p><strong>Rating:</strong><%= review.rating %>/5</p>
+            <p><strong>Review:</strong><%= review.message %></p>
+            <p><strong>Written by:</strong><%= review.username %></p>
+            <p><strong>Date:</strong><%= new Date(review.createdAt).toLocaleDateString()</p> //new Date(review.createdAt) cponverts the createdAt string into a JavaScript Date object.
+                                                                                            // .toLocaleDateString() formats the date in a readable format (MM/DD/YYYY)
+        <% if (currentUser && review.username === currentUser.username) { %>
+            <p>
+                <a href="/update-review?id=<%= review._id %>">Edit</a>
+            </p>
+
+            <form action = "delete-review" method = "post">
+                <input type = "hidden" name = "id" value = "<%= review.id %>">
+                <button type = "submit">Delete</button>
+            </form>
+        <% } %>
+        </div>
+        <% }) %>
+        <% }%>
+
+    
+</body>
+</html>
