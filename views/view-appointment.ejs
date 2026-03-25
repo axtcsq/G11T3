@@ -48,6 +48,7 @@
             <thead>
                 <tr>
                     <th>Pet ID</th>
+                    <th>Pet Name</th> <!-- added name column -->
                     <th>Date</th>
                     <th>Time</th>
                 </tr>
@@ -57,6 +58,7 @@
                     <% appointments.forEach(app => { %>
                         <tr>
                             <td><%= app.petId %></td>
+                            <td><%= app.name %></td>
                             <td><%= app.date %></td>
                             <td><%= app.time %></td>
                         </tr>

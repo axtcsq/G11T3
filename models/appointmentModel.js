@@ -10,13 +10,17 @@ const appointmentSchema = new mongoose.Schema({
     type: String,
     required: [true, "Pet id must exist"],
   },
+    name: {
+    type: String,
+    required: [true, "A pet must have a name"], // added pet name 
+  },
     date: { 
-        type: String,  
+    type: String,  
     required: [true, "You must select a date"],
     },
 
     time: {
-        type: String,
+    type: String,
     required: [true , "You must select a timeslot"]
     }
 });
