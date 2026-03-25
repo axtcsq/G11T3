@@ -7,7 +7,7 @@ const reviewsController = require("../controllers/reviewsController");
 
 // Defining the CRUD routes
 // Show all Reviews
-router.get("/reviews", reviewsController.showReviewsPage)
+router.get("/pet-reviews", reviewsController.showReviewsPage)
 
 // Adding Reviews
 router.get("/add-review", reviewsController.showForm)
