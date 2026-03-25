@@ -1,9 +1,9 @@
 // Required Codes
 const express = require("express");
 const mongoose = require('mongoose');
+const session = require('express-session');
 const dotenv = require('dotenv');
 const path = require("path");
-
 const server = express();
 server.use(express.urlencoded({ extended: true }));
 server.use("/", express.static(path.join(__dirname, "public")));
@@ -11,6 +11,14 @@ server.set("view engine", "ejs");
 
 // Specify the path to the environment variable file 'config.env'
 dotenv.config({ path: './config.env' });
+
+// Sessions
+const secret = process.env.SECRET;
+server.use(session({
+    secret: secret, // sign the session ID cookie. should be a long, random, and secure string, preferably stored in an environment variable
+    resave: false, // Prevents the session from being saved back to the session store if nothing has changed.
+    saveUninitialized: false // Prevents a new, empty session from being saved to the store.
+}));
 
 // Handles GET request: Redirect the GET request to a static file
 server.get("/", (req, res) => {
