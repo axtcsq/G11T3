@@ -6,7 +6,7 @@ exports.showReviewsPage = async (req, res) => {
     //gets isAdmin from the URL which we put inside from the previous /login
     const isAdmin = req.query.admin
     try{
-        const reviews = await Review.retrieveAll() // Retrieving from Retrieve model
+        let reviews = await Review.retrieveAllReviews() // Retrieving from Retrieve model
         console.log(reviews)
         res.render("pet-reviews", {isAdmin, reviews}) // Render the EJS form view and pass the posts
     } catch (error) {
