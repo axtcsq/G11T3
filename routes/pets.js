@@ -1,4 +1,5 @@
 const express = require('express');
+const { requireAdmin } = require("../middleware/auth");
 
 const petsController = require('./../controllers/petsController');
 
@@ -6,8 +7,9 @@ const router = express.Router(); // sub application
 
 // Define a GET route to DISPLAY/READ the list of pets
 router.get("/display-pet", petsController.showPets);
-// i deleted the pet list route, as it doesnt redirect to pet list, and instead renders the display pet in login IF the authentication passes
-// reply: i think no harm including the get since it applies to both account roles & otherwise the nav bar wont work; anyway i'll add back for now for testing purposes
+
+// EVERYTHING BELOW = ADMIN ONLY
+router.use(requireAdmin);
 
 // Define GET/POST route to ADD pets to database
 router.get("/add-pet", petsController.showAddForm);
