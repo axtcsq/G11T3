@@ -5,20 +5,21 @@ const Favourite = require('./../models/favouritesModel');
 // Controller function to get all the documents in the db and display it
 // READ
 exports.showPets = async (req, res) => {
-  //gets isAdmin from the URL which we put inside from the previous /login
-  const isAdmin = req.query.admin;
-  const userName = req.query.userName; // username is abit broken atm, waiting for session implementation
+  const user = req.session.user;
+  const isAdmin = user && user.type === "admin";
+  const userName = user ? user.username : null;
 
   try {
     let petList = await Pet.retrieveAll();// fetch all the list
-    // change after session is implementation
-    let userName = "sam"  
-    let favouriteList = []
+    let favouriteList = [];
     console.log(petList);
-    const favourites = await Favourite.findById(userName)
-    favourites.forEach((pet) => {
-      favouriteList.push(pet.petID)
-    })
+
+    if (userName) {
+      const favourites = await Favourite.findById(userName);
+      for (let i = 0; i < favourites.length; i++) {
+        favouriteList.push(favourites[i].petID);
+      }
+    }
     res.render("display-pet", { petList, isAdmin, userName, favouriteList }); // Render the EJS form view and pass the posts
 
   } catch (error) {

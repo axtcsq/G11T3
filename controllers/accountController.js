@@ -145,17 +145,7 @@ exports.handleLogin = async (req, res) => {
         type: user.type
     }
 
-    // Required to pass to the next page
-    let petList = await Pet.retrieveAll();// fetch all the list  
-    let favourites = await Favourite.findById(userName)
-    let favouriteList = []
-
-    for (let i = 0; i < favourites.length; i++) {
-        favouriteList.push(favourites[i].petID);
-    }
-
-    res.render("display-pet", { petList, isAdmin, userName, favouriteList }); // Render the EJS form view and pass the posts
-
+    return res.redirect("/display-pet");
 };
 
 // -------------------------------------------------------------------------------------------------------------------------------------------------
