@@ -12,7 +12,6 @@ exports.showPets = async (req, res) => {
   try {
     let petList = await Pet.retrieveAll();// fetch all the list
     let favouriteList = [];
-    console.log(petList);
 
     if (userName) {
       const favourites = await Favourite.findById(userName);

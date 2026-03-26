@@ -4,7 +4,7 @@ const Pet = require("./../models/petsModel")
 exports.addFavourite = async (req, res) => {
     const petID = req.query.petID
     // have to change when session is implemented
-    let userName = "sam"
+    const userName = req.session.user.username;
 
     let newFavourite = {
         userName: userName,
@@ -23,10 +23,10 @@ exports.addFavourite = async (req, res) => {
 exports.removeFavourite = async (req, res) => {
     const petID = req.query.petID
     // have to change when session is implemented
-    let userName = "sam"
+    const userName = req.session.user.username;
 
     try {
-        await Favourite.removeFavourite(petID)
+        await Favourite.removeFavourite(userName, petID)
         res.redirect("/display-pet")
     } catch(error) {
         console.log(error)
@@ -36,10 +36,10 @@ exports.removeFavourite = async (req, res) => {
 exports.deleteFavourite = async (req, res) => {
     const petID = req.query.petID
     // have to change when session is implemented
-    let userName = "sam"
+    const userName = req.session.user.username;
 
     try {
-        await Favourite.removeFavourite(petID)
+        await Favourite.removeFavourite(userName, petID)
         res.redirect("/view-favourites")
     } catch(error) {
         console.log(error)
@@ -49,8 +49,9 @@ exports.deleteFavourite = async (req, res) => {
 exports.showFavourites = async (req, res) => {
   try {
     // to change when session is implemented
-    const userName = "sam"
-    const isAdmin = true
+    const user = req.session.user;
+    const userName = user.username;
+    const isAdmin = user.type === "admin";
     // get all favourite records for this user
     const favourites = await Favourite.findById(userName);
 
@@ -91,8 +92,9 @@ exports.editFavourite = async (req, res) => {
   try {
     const petID = req.query.petID;
     // to change when session is implemented
-    const isAdmin = false;
-    const userName = "sam";
+    const user = req.session.user;
+    const userName = user.username;
+    const isAdmin = user.type === "admin";
 
     const favourite = await Favourite.findFavourite(userName, petID);
 
@@ -111,7 +113,7 @@ exports.updateFavourite = async (req, res) => {
   try {
     const id = req.body.id;
     // change when session is implemented
-    const userName = "sam"
+    const userName = req.session.user.username;
     let remark = req.body.remark;
     remark = remark.trim()
 
