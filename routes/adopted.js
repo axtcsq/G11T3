@@ -6,11 +6,11 @@ const adoptedController = require("../controllers/adoptedController");
 // EVERYTHING BELOW = ADMIN ONLY
 router.use(requireAdmin);
 
-router.post("/adopted-pets", adoptedController.displayAdopted);
-router.get("/adopted-list", adoptedController.displayAdoptedList)
+router.post("/adopted-pets", requireAdmin, adoptedController.displayAdopted);
+router.get("/adopted-list", requireAdmin, adoptedController.displayAdoptedList)
 
-router.get('/edit-adopted', adoptedController.showEdit)
-router.get("/update-adopted", adoptedController.getAdopted);
-router.post("/update-adopted", adoptedController.updateAdopted);
+router.get('/edit-adopted', requireAdmin, adoptedController.showEdit)
+router.get("/update-adopted", requireAdmin, adoptedController.getAdopted);
+router.post("/update-adopted", requireAdmin, adoptedController.updateAdopted);
 
 module.exports = router;
