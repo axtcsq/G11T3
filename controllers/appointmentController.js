@@ -1,9 +1,12 @@
 const appointment = require('./../models/appointmentModel');
 const Pet = require('./../models/petsModel');
 
-// controller/appointmentController.js (or similar)
-
-// controllers/appointmentController.js
+// TO BE FIXED
+// 1. Edit/update schedule function
+// 2. Display petID (short) instead of 16 digit ID 
+// 3. Display petname instead of unknown pet 
+// 4. Create session to allow each user to only view thier OWN scheduled appointments
+// 5. Improve design of "This slot has already been boooked" page and see how it actually is functioning
 
 exports.bookAppointment = async (req, res) => {
     console.log('I am in the controller');

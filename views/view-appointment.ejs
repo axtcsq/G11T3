@@ -62,6 +62,7 @@
                                 <td><%= app.date %></td>
                                 <td><%= app.time %></td>
                                 <td>
+                                <!-- One click: This stops the click for a second and asks the user "Are you sure?". if they click "No", the "baton" is dropped and nothing happens. -->
                                 <a href="/delete/<%= app._id %>" 
                                     onclick="return confirm('Are you sure you want to cancel this booking?')" 
                                     style="color: red;">
