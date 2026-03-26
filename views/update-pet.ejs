@@ -45,10 +45,12 @@
             <tr>
                 <th>Desc:</th><td><input type="text" name="desc" value="<%= result.desc %>"></td>
             </tr>
-            <input type="hidden" name="id" value="<%= result.id %>">
+                <input type="hidden" name="id" value="<%= result.id %>">
             <tr>
-                <td colspan="2"><button type="submit">Update Pet!</button></td>
+                <th>Photo:</th><td><input type="text" name="photo" value="<%= result.photo %>"></td>
             </tr>
+                <td colspan="2"><button type="submit">Update Pet!</button></td>
+        </tr>
         </table>      
     </form>
      <% } %>
