@@ -1,7 +1,5 @@
 // Load Account Model functions
 const Account = require("../models/accountModel")
-const Pet = require('./../models/petsModel');
-const Favourite = require('./../models/favouritesModel')
 
 // Import the bcrypt library
 const bcrypt = require('bcrypt');
@@ -27,20 +25,8 @@ exports.handleSignup = async (req, res) => {
     let gender = data.gender;
     let type = data.type;
 
-    // Hashes password using bcrypt
-    let hashedPassword = await bcrypt.hash(password, 10);
-
     // Initialise error list
     let errors = [];
-
-    // Create a structure that stores the new user
-    let newUser = {
-        userName: userName,
-        fullName: fullName,
-        password: hashedPassword,
-        gender: gender,
-        type: type
-    };
 
     // Validation: Handles invalid fields
     if (!userName || !fullName || !password || !password2 || !gender || !type) {
@@ -57,7 +43,19 @@ exports.handleSignup = async (req, res) => {
         return res.render("signup", { userName, fullName, gender, type, errors });
     }
 
-    // No errors
+    // RUNS WHEN NO ERRORS
+    // Hashes password using bcrypt
+    let hashedPassword = await bcrypt.hash(password, 10);
+
+    // Create a structure that stores the new user
+    let newUser = {
+        userName: userName,
+        fullName: fullName,
+        password: hashedPassword,
+        gender: gender,
+        type: type
+    };
+
     // Attempt sign up process
     try {
         let result = await Account.addUser(newUser);
@@ -78,7 +76,7 @@ exports.handleSignup = async (req, res) => {
 // Login
 // Handle Login GET request
 exports.showLogin = (req, res) => {
-    res.render("login", { userName: undefined, password: undefined, errors: [], isAdmin: null });
+    res.render("login", { userName: undefined, password: undefined, errors: [] });
 };
 
 // Handle Login POST request
@@ -91,7 +89,6 @@ exports.handleLogin = async (req, res) => {
 
     // Initialise error list
     let errors = [];
-    let isAdmin = false;
     
     // Invalid Username
     if (!userName) {
@@ -105,38 +102,30 @@ exports.handleLogin = async (req, res) => {
 
     // Displays error
     if (errors.length > 0) {
-        return res.render("login", { userName, errors, isAdmin });
+        return res.render("login", { userName, errors });
     }
 
     // Initialise variable
     let user;
 
-    // No Errors
-    if (errors.length === 0) {
-        
-        // Check if its an existing user
-        user = await Account.findByID(userName);
-        
-        // Checks users existence & credentials
-        if (!user) {
-            errors.push("Invalid username or password.");
+    // No Errors 
+    // Check if its an existing user
+    user = await Account.findByID(userName);
+    
+    // Checks users existence & credentials
+    if (!user) {
+        errors.push("Invalid username or password.");
 
-            return res.render("login", { userName, errors, isAdmin });
-        }
+        return res.render("login", { userName, errors });
+    }
 
-        // Checks if user input password's hash (it does this automatically) matches with our database registered password for this user that we hashed earlier during registration (THIS PART HERE ALSO)
-        const match = await bcrypt.compare(password, user.password);
-        console.log('Is match :' + match);
+    // Checks if user input password's hash (it does this automatically) matches with our database registered password for this user that we hashed earlier during registration (THIS PART HERE ALSO)
+    const match = await bcrypt.compare(password, user.password);
+    console.log('Is match :' + match);
 
-        if (!match) {
-            errors.push("Password mismatch");
-            return res.render("login", { userName, errors, isAdmin });
-        }
-
-        // Checks user type status
-        if (user.type === "admin") {
-            isAdmin = true;
-        }
+    if (!match) {
+        errors.push("Password mismatch");
+        return res.render("login", { userName, errors });
     }
 
     // THIS RUNS IF LOGIN CREDENTIALS MATCHES
