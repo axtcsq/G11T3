@@ -3,9 +3,6 @@ const router = express.Router();
 const { requireAdmin } = require("../middleware/auth");
 const adoptedController = require("../controllers/adoptedController");
 
-// EVERYTHING BELOW = ADMIN ONLY
-router.use(requireAdmin);
-
 router.post("/adopted-pets", requireAdmin, adoptedController.displayAdopted);
 router.get("/adopted-list", requireAdmin, adoptedController.displayAdoptedList)
 
