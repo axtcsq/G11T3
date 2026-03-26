@@ -57,3 +57,14 @@ exports.viewAppointments = async (req, res) => {
         res.status(500).send("Could not load appointments.");
     }
 };
+
+exports.deleteAppointment = async (req, res) => {
+    try {
+        const id = req.params.id; // We get the ID from the URL
+        await appointment.deleteAppointment(id);
+        res.redirect('/view-appointment');
+    } catch (err) {
+        console.error(err);
+        res.status(500).send("Error deleting appointment");
+    }
+};

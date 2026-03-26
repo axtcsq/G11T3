@@ -44,3 +44,7 @@ exports.editAppointment = function(id, name) {
     return Appointment.updateOne({petId:id}, {userName:name});
 };
 
+exports.deleteAppointment = function(id) {
+    return Appointment.findByIdAndDelete(id);
+};
+
