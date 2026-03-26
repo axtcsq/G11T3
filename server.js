@@ -5,9 +5,7 @@ const session = require('express-session');
 const dotenv = require('dotenv');
 const path = require("path");
 const server = express();
-server.use(express.urlencoded({ extended: true }));
 server.use("/", express.static(path.join(__dirname, "public")));
-server.set("view engine", "ejs");
 
 // Specify the path to the environment variable file 'config.env'
 dotenv.config({ path: './config.env' });
@@ -20,6 +18,17 @@ server.use(session({
     saveUninitialized: false // Prevents a new, empty session from being saved to the store.
 }));
 
+// Make sessions available to ALL views
+server.use((req, res, next) => {
+  res.locals.user = req.session.user;
+  next();
+});
+
+// Middleware setup
+server.set('view engine', 'ejs');
+server.use(express.urlencoded({ extended: true }));
+
+// Routes
 // Handles GET request: Redirect the GET request to a static file
 server.get("/", (req, res) => {
     res.redirect("/index.html");

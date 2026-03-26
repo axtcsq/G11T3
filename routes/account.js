@@ -28,4 +28,11 @@ router.post("/update-user", accountController.updateUser);
 router.get("/del-user", accountController.showDelUserForm);
 router.post("/del-user", accountController.deleteUser);
 
+// Define GET route to logout & destroy sessions
+router.get("/logout", (req, res) => {
+    req.session.destroy(() => {
+        res.redirect("/login");
+    });
+});
+
 module.exports = router;

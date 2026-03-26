@@ -63,64 +63,69 @@
 
 <body>
   <nav>
-  <a href="/">Logout</a> | 
+    <!-- Dynamically updates to login/logout -->
+    <% if (user) { %>
+      <a href="/logout">Logout</a> |
+    <% } else { %>
+      <a href="/login">Login</a> |
+    <% } %>
 
-  <!-- Dropdown Menu -->
-  <!-- Pet Records -->
-  <div class="dropdown">
-    <span class="dropbtn">Pet Records ▾</span>
-    <div class="dropdown-content">
-      <a href="/display-pet">View Pets</a>
-      <a href="/add-pet">Add Pet</a>
-      <a href="/edit-pet">Update Pet</a>
-      <a href="/del-pet">Delete Pet</a>
-    </div>
-  </div> |
+    <!-- Dropdown Menu -->
+    <!-- Pet Records -->
+    <div class="dropdown">
+      <span class="dropbtn">Pet Records ▾</span>
+      <div class="dropdown-content">
+        <a href="/display-pet">View Pets</a>
+        <a href="/add-pet">Add Pet</a>
+        <a href="/edit-pet">Update Pet</a>
+        <a href="/del-pet">Delete Pet</a>
+      </div>
+    </div> |
 
-  <!-- User Records -->
-  <div class="dropdown">
-    <span class="dropbtn">User Records ▾</span>
-    <div class="dropdown-content">
-      <a href="/display-user">View Users</a>
-      <a href="/add-user">Add User</a>
-      <a href="/edit-user">Update User</a>
-      <a href="/del-user">Delete User</a>
-    </div>
-  </div> |
+    <!-- User Records -->
+    <div class="dropdown">
+      <span class="dropbtn">User Records ▾</span>
+      <div class="dropdown-content">
+        <a href="/display-user">View Users</a>
+        <a href="/add-user">Add User</a>
+        <a href="/edit-user">Update User</a>
+        <a href="/del-user">Delete User</a>
+      </div>
+    </div> |
 
-  <!-- Adoption Records -->
-  <div class="dropdown">
-    <span class="dropbtn">Adoption Records ▾</span>
-    <div class="dropdown-content">
-      <a href="/adopted-list">View Adopted</a>
-      <a href="/edit-adopted">Edit Adopted</a>
-      <a href="/delete-adopted">Delete Adopted</a>
-    </div>
-  </div> |
+    <!-- Adoption Records -->
+    <div class="dropdown">
+      <span class="dropbtn">Adoption Records ▾</span>
+      <div class="dropdown-content">
+        <a href="/adopted-list">View Adopted</a>
+        <a href="/edit-adopted">Edit Adopted</a>
+        <a href="/delete-adopted">Delete Adopted</a>
+      </div>
+    </div> |
 
-  <!-- Favourites -->
-  <div class="dropdown">
-    <span class="dropbtn">Favourites ▾</span>
-    <div class="dropdown-content">
-      <a href="/view-favourites">View Favourites</a>
-    </div>
-  </div>
+    <!-- Favourites -->
+    <div class="dropdown">
+      <span class="dropbtn">Favourites ▾</span>
+      <div class="dropdown-content">
+        <a href="/view-favourites">View Favourites</a>
+      </div>
+    </div> |
 
-  <!-- Appointments --> <!-- work in progess -->
-  <div class="dropdown">
-    <span class="dropbtn">Appointments ▾</span>
-    <div class="dropdown-content">
-      <a href="/appointment">My Appointments</a>
-    </div>
-  </div>
-  
-    <!-- Review Records -->
-  <div class="dropdown">
-    <span class="dropbtn">Review Records ▾</span>
-    <div class="dropdown-content">
-      <a href="/pet-reviews">View Reviews</a>
-      <a href="/add-review">Add Review</a>
-      <a href="/edit-review">Update Review</a>
+    <!-- Appointments --> <!-- work in progess -->
+    <div class="dropdown">
+      <span class="dropbtn">Appointments ▾</span>
+      <div class="dropdown-content">
+        <a href="/appointment">My Appointments</a>
+      </div>
+    </div> |
+    
+      <!-- Review Records -->
+    <div class="dropdown">
+      <span class="dropbtn">Review Records ▾</span>
+      <div class="dropdown-content">
+        <a href="/pet-reviews">View Reviews</a>
+        <a href="/add-review">Add Review</a>
+        <a href="/edit-review">Update Review</a>
     </div>
   </div>
 </nav>

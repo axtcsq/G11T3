@@ -6,6 +6,8 @@ const Favourite = require('./../models/favouritesModel')
 // Import the bcrypt library
 const bcrypt = require('bcrypt');
 
+// -------------------------------------------------------------------------------------------------------------------------------------------------
+
 // Sign Ups
 // Handle Signup GET request: Displays form on initial load
 exports.showSignup = (req, res) => {
@@ -106,11 +108,14 @@ exports.handleLogin = async (req, res) => {
         return res.render("login", { userName, errors, isAdmin });
     }
 
+    // Initialise variable
+    let user;
+
     // No Errors
     if (errors.length === 0) {
         
         // Check if its an existing user
-        const user = await Account.findByID(userName);
+        user = await Account.findByID(userName);
         
         // Checks users existence & credentials
         if (!user) {
@@ -134,14 +139,20 @@ exports.handleLogin = async (req, res) => {
         }
     }
 
+    // THIS RUNS IF LOGIN CREDENTIALS MATCHES
+    req.session.user = {
+        username: user.userName,
+        type: user.type
+    }
+
     // Required to pass to the next page
     let petList = await Pet.retrieveAll();// fetch all the list  
     let favourites = await Favourite.findById(userName)
     let favouriteList = []
+
     for (let i = 0; i < favourites.length; i++) {
-    favouriteList.push(favourites[i].petID);
+        favouriteList.push(favourites[i].petID);
     }
-    console.log(petList);
 
     res.render("display-pet", { petList, isAdmin, userName, favouriteList }); // Render the EJS form view and pass the posts
 
