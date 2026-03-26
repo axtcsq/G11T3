@@ -253,12 +253,25 @@ exports.updateUser = async (req, res) => {
     const userName = data.userName;
     const newFullName = data.fullName;
     const newPassword = data.password;
+
+    // Handles hashed password using bcrypt
+    let hashedPassword = null;
+    if (newPassword) {
+        hashedPassword = await bcrypt.hash(newPassword, 10);
+    }
+
     const newGender = data.gender;
     const newType = data.type;
 
     // When successful
     try {
-        const result = await Account.editUser(userName, newFullName, newPassword, newGender, newType);
+        const result = await Account.editUser(
+            userName,
+            newFullName,
+            hashedPassword,
+            newGender,
+            newType
+        );
         let updatedUser = await Account.findByID(userName);
 
         if (result.modifiedCount === 0) {
