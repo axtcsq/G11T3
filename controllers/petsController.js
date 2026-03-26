@@ -58,6 +58,7 @@ exports.createPet = async (req, res) => {
   const type = (data.type || "").trim();
   const age = (data.age || "").trim();
   const desc = (data.desc || "").trim();
+  const photo = (data.photo || "").trim();
 
   // Validation: Handles invalid fields
   if ( !name || !type || !age || !desc) {
@@ -73,7 +74,8 @@ exports.createPet = async (req, res) => {
     name: name,
     type: type,
     age: age,
-    desc: desc
+    desc: desc,
+    photo: photo
   }
 
   // NOTE: HAVE YET TO IMPLEMENT DUPLICATE ADDITION LOGIC (will need to add some sort of Pet ID as unique identifier)
@@ -139,15 +141,17 @@ exports.updatePet = async (req, res) => {
   const newType = data.type;
   const newAge = data.age;
   const newDesc = data.desc;
+  const newPhoto = (data.photo.trim() != ""? data.photo:data.photo);
 
   // When successful
   try {
-    await Pet.editPet (id, newName, newType, newAge, newDesc);
+    await Pet.editPet (id, newName, newType, newAge, newDesc, newPhoto);
     let updatedPet = await Pet.findByID(id)
     // to check the output of success
     // console.log(success);
 
     res.render("update-pet", {successful: true, result: updatedPet})
+    
   // When unsuccessful
   } catch (error) {
     console.log(error);
