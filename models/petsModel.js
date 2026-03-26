@@ -22,6 +22,10 @@ const petSchema = new mongoose.Schema({
   desc: {
     type: String,
     required: [true, "A pet must have a description"],
+  },
+  photo:{
+    type: String,
+    required: [true, "A pet must have a photo attached"],
   }
 });
 
@@ -42,9 +46,9 @@ exports.findByID = function(id) {
     return Pet.findOne({ id:id });
 };
 
-// UPDATE
-exports.editPet = function(id, name, type, age, desc) {
-    return Pet.updateOne({id:id}, {name:name, type:type, age:age, desc:desc});
+// UPDATE Website
+exports.editPet = function(id, name, type, age, desc, photo) {
+    return Pet.updateOne({id:id}, {$set: {name:name, type:type, age:age, desc:desc, photo:photo}});
 };
 
 // DELETE
