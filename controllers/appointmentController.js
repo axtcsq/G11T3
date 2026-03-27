@@ -65,6 +65,43 @@ exports.viewAppointments = async (req, res) => {
     }
 };
 
+
+// UPDATE 
+
+// 1. Show the Edit Page
+exports.editAppointmentPage = async (req, res) => {
+    try {
+        const id = req.params.id;
+        const appt = await appointment.findAppointmentById(id);
+        if (!appt) return res.status(404).send("Appointment not found");
+        
+        res.render('edit-appointment', { appointment: appt });
+    } catch (err) {
+        console.error(err);
+        res.status(500).send("Error loading edit page");
+    }
+};
+
+// 2. Process the Update
+exports.updateAppointment = async (req, res) => {
+    try {
+        const id = req.params.id;
+        const updatedData = {
+            date: req.body.appointmentDate, // matches EJS name="appointmentDate"
+            time: req.body.timeSlot        // matches EJS name="timeSlot"
+        };
+
+        await appointment.updateToAppointment(id, updatedData);
+        
+        // Redirect to success page with happy animals
+        res.render('successful-appointment'); 
+    } catch (err) {
+        console.error("Update Error:", err);
+        res.render('error-appointment', { message: "Could not update the appointment." });
+    }
+};
+
+
 // DELETE 
 exports.deleteAppointment = async (req, res) => {
     try {
@@ -77,29 +114,3 @@ exports.deleteAppointment = async (req, res) => {
     }
 };
 
-// Show the Edit Page
-exports.editAppointmentPage = async (req, res) => {
-    try {
-        const id = req.params.id;
-        const appt = await appointment.findAppointmentById(id);
-        res.render('edit-appointment', { appointment: appt });
-    } catch (err) {
-        res.status(500).send("Error loading edit page");
-    }
-};
-
-// Handle the Update
-exports.updateAppointment = async (req, res) => {
-    try {
-        const id = req.params.id;
-        const updatedData = {
-            date: req.body.appointmentDate, // Matches form 'name'
-            time: req.body.timeSlot        // Matches form 'name'
-        };
-        
-        await appointment.updateAppointment(id, updatedData);
-        res.render('successful-appointment'); 
-    } catch (err) {
-        res.render('error-appointment', { message: "Something went wrong while rescheduling." });
-    }
-};

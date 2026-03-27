@@ -47,14 +47,15 @@ exports.retrieveAll = function() {
 };
 
 // UPDATE FUNCTION (EDIT)
-// To load the current data into the edit form
+// Find by ID for the Edit Page
 exports.findAppointmentById = function(id) {
     return Appointment.findById(id);
 };
 
-// To save the new date/time
-exports.updateAppointment = function(id, updateData) {
-    return Appointment.findByIdAndUpdate(id, updateData, { new: true });
+// The Update Function
+exports.updateToAppointment = function(id, updateData) {
+    // We use $set to only change the date and time
+    return Appointment.updateOne({ _id: id }, { $set: updateData });
 };
 
 // DELETE FUNCTION

@@ -11,8 +11,10 @@ router.post('/book', appointmentController.bookAppointment);
 router.get('/view-appointment', appointmentController.viewAppointments);
 
 // routes for UPDATE 
-router.get('/edit-appointment/:id' , appointmentController.editAppointmentPage);
-router.get('/update-appointment/:id' , appointmentController.updateAppointment);
+// GET shows the form
+router.get('/edit-appointment/:id', appointmentController.editAppointmentPage);
+// POST saves the data
+router.post('/update-appointment/:id', appointmentController.updateAppointment);
 
 // route for DELETE 
 // The :id is a placeholder. It tells the server: "If someone visits a URL that starts with /delete/, take whatever characters come next and call them id."

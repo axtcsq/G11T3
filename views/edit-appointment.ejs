@@ -43,29 +43,29 @@
         <%- include("common/header", {isAdmin: false}) %>
 
         <div class="container" style="color: white; padding: 40px; text-align: center;">
-            <h2>Reschedule Appointment for <span style="color: #ffcc00;"><%= appointment.name %></span></h2>
-            <p>Current Slot: <%= appointment.date %> at <%= appointment.time %></p>
+            <h2>Reschedule Appointment for <%= appointment.name %></h2>
 
-            <form action="/update-appointment/<%= appointment._id %>" method="POST" style="margin-top: 20px;">
+            <form action="/update-appointment/<%= appointment._id %>" method="POST">
                 
-                <label for="appointmentDate">Pick a New Date:</label><br>
-                <select name="appointmentDate" id="appointmentDate" style="padding: 8px; margin-bottom: 10px; background-color: white; color: black;">
+                <label>Pick a New Date:</label><br>
+                <select name="appointmentDate" style="padding: 8px; margin-bottom: 10px;">
                     <% 
                     const options = { weekday: 'long', month: 'long', day: 'numeric' };
                     for(let i = 1; i <= 7; i++) { 
                         let d = new Date();
                         d.setDate(d.getDate() + i);
-                        let dateVal = d.toISOString().split('T')[0];
+                        let dateStr = d.toISOString().split('T')[0];
                     %>
-                    <option value="<%= dateVal %>" <%= appointment.date === dateVal ? 'selected' : '' %>>
+                    <option value="<%= dateStr %>" <%= appointment.date === dateStr ? 'selected' : '' %>>
                         <%= d.toLocaleDateString(undefined, options) %>
                     </option>
                     <% } %>
                 </select>
+                
                 <br>
 
-                <label for="timeSlot">Select Time Slot (2-hour intervals):</label><br>
-                <select name="timeSlot" id="timeSlot" required style="padding: 8px; margin-bottom: 15px;">
+                <label>Select Time Slot:</label><br>
+                <select name="timeSlot" required style="padding: 8px; margin-bottom: 15px;">
                     <option value="10:00-12:00" <%= appointment.time === '10:00-12:00' ? 'selected' : '' %>>10:00 AM - 12:00 PM</option>
                     <option value="12:00-14:00" <%= appointment.time === '12:00-14:00' ? 'selected' : '' %>>12:00 PM - 02:00 PM</option>
                     <option value="14:00-16:00" <%= appointment.time === '14:00-16:00' ? 'selected' : '' %>>02:00 PM - 04:00 PM</option>
@@ -73,14 +73,9 @@
                 </select>
                 
                 <br>
-
-                <button type="submit" style="background-color: #28a745; color: white; border: none; padding: 12px 25px; cursor: pointer; border-radius: 4px; font-weight: bold;">
-                    Update Appointment
+                <button type="submit" style="background-color: #28a745; color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer;">
+                    Confirm Reschedule
                 </button>
-                
-                <div style="margin-top: 20px;">
-                    <a href="/view-appointment" style="color: #bbb; text-decoration: none;">Cancel and Go Back</a>
-                </div>
             </form>
         </div>
     </body>
