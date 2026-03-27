@@ -9,6 +9,8 @@ router.post("/adopted-pets", adoptedController.displayAdopted);
 router.get('/edit-adopted', requireAdmin, adoptedController.showEdit)
 router.get("/update-adopted", requireAdmin, adoptedController.getAdopted);
 router.post("/update-adopted", requireAdmin, adoptedController.updateAdopted);
-router.get('/del-adopted', requireAdmin, adoptedController.delAdopted)
+router.get('/del-adopted', requireAdmin, adoptedController.showDelForm)
+router.post('/del-adopted', requireAdmin, adoptedController.delAdopted)
+
 
 module.exports = router;

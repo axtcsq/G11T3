@@ -5,10 +5,11 @@ exports.displayAdopted = async (req, res) => {
   const isAdmin = req.body.admin
   const id  = req.body.selectPet
   const userName = req.body.userName
+  console.log(req.session.user.username)
   
   let newAdopted = 
   { 
-  userName: "sam",
+  userName: req.session.user.username,
   petId: id,
   }
 
@@ -95,13 +96,33 @@ exports.updateAdopted = async (req, res) => {
   }
 };
 
+exports.showDelForm = async (req, res) => {
+  let result = "";
+  let msg = "";
+
+  let adoptedList = await adopted.retrieveAll()
+  res.render("del-adopted", {adoptedList, result, msg}); // Render the EJS form view and pass the posts
+}
+
 exports.delAdopted = async (req, res) => {
-  try {
-      let adoptedList = await adopted.retrieveAll();// fetch all the list    
-      res.render("del-adopted", { adoptedList }); // Render the EJS form view and pass the posts
-    
-    } catch (error) {
-      console.error(error);
-      res.send("Error reading database"); // Send error message if fetching fails
+  const recordID = req.body.recordID
+  let adoptedList = await adopted.retrieveAll()
+  console.log(recordID)
+  try{
+      let result = await adopted.delAdopted(recordID);
+  
+      if (result.deletedCount === 0){
+        return res.render("del-adopted", { adoptedList, result: "fail", msg: "Adopted not found" });
+      }
+  
+      res.render("del-adopted", { adoptedList, result, msg:"Adopted deleted successfully"});
     }
+  
+    catch(err){
+        let result = "fail";
+        let msg = "Error deleting record";
+        console.log(err)
+  
+        res.render("del-adopted", {adoptedList, result, msg})};
+  
 }

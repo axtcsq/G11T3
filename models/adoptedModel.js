@@ -40,3 +40,7 @@ exports.editAdopted = function(id, name, status) {
     return adopted.updateOne({petId:id}, {userName:name, status: status});
 };
 
+exports.delAdopted = function(id) {
+  return adopted.deleteOne({_id: id})
+}
+
