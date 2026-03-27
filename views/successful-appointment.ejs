@@ -1,66 +1,104 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>My Appointments</title>
-        <link rel="icon" type="image/x-icon" href="/img/paw.png">
-        
-        <style>
-            body {
-                /* Fix: Changed ./img to /img and added a dark fallback color */
-                background: #2c3e50 url("/img/bg2.png") no-repeat center center fixed; 
-                background-size: cover;
-                color: white;
-                font-family: Arial, sans-serif;
-            }
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Appointment Successful</title>
+    <link rel="icon" type="image/x-icon" href="/img/paw.png">
 
-            table {
-                border-collapse: collapse;
-                width: 80%;
-                margin-top: 20px;
-                background-color: rgba(0, 0, 0, 0.6); /* Makes table readable against image */
-            }
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 
-            th, td {
-                border: 1px solid white;
-                padding: 12px;
-                text-align: left;
-            }
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
 
-            th {
-                background-color: rgba(255, 255, 255, 0.1);
-            }
+        body {
+            min-height: 100vh;
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url("/img/bg2.png");
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 20px;
+        }
 
-            .container {
-                padding: 20px;
-            }
-        </style>
-    </head>
-    
-    <body>
-        <%- include("common/header", {isAdmin: false}) %>
+        .card {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(12px);
+            border-radius: 16px;
+            padding: 40px 25px;
+            width: 100%;
+            max-width: 500px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+            margin: 60px auto;
+            text-align: center;
+        }
 
-        <div class="container" style="text-align: center; padding: 60px 20px; color: white;">
+        img {
+            max-width: 220px;
+            margin-bottom: 20px;
+        }
 
-            <img src="/img/happy-animals.png" alt="Happy dog and cat celebrating" style="max-width: 300px; margin-bottom: 20px;">
+        h1 {
+            color: #90ee90;
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+        }
 
-            <h1 style="color: #28a745; font-size: 3rem; margin-bottom: 10px;">Success! 🐾</h1>
-            
-            <p style="font-size: 1.2rem; margin-bottom: 30px;">
-                Your appointment has been booked. We can't wait to see you!
-            </p>
-            
-            <div style="margin-top: 30px;">
-                <a href="/view-appointment" 
-                style="background-color: #ffcc00; color: black; padding: 12px 25px; text-decoration: none; border-radius: 5px; font-weight: bold; font-size: 1rem;">
-                View My Appointments
-                </a>
-            </div>
-            
-            <p style="margin-top: 30px;">
-                <a href="/" style="color: #bbb; text-decoration: none;">Return to Home</a>
-            </p>
-        </div>
-    </body>
+        p {
+            font-size: 1rem;
+            opacity: 0.9;
+            margin-bottom: 20px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 10px 18px;
+            border-radius: 20px;
+            background: linear-gradient(135deg, #ff9800, #ffb74d);
+            color: white !important;
+            text-decoration: none;
+            font-weight: 600;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            margin: 5px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(255,152,0,0.4);
+        }
+
+        .link {
+            display: block;
+            margin-top: 10px;
+            font-size: 0.9rem;
+            color: #bbb;
+            text-decoration: none;
+        }
+
+        .link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+    <%- include("common/header", {isAdmin: false}) %>
+
+    <div class="card">
+        <img src="/img/happy-animals.png" alt="Happy pets">
+
+        <h1>Success! 🐾</h1>
+
+        <p>Your appointment has been booked successfully. We can't wait to see you!</p>
+
+        <a href="/view-appointment" class="btn">View My Appointments</a>
+
+        <a href="/" class="link">Return to Home</a>
+    </div>
+</body>
 </html>

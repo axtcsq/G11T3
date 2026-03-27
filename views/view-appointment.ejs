@@ -7,33 +7,96 @@
     <link rel="icon" type="image/x-icon" href="/img/paw.png">
     
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
         body {
-            /* Fix: Changed ./img to /img and added a dark fallback color */
-            background: #2c3e50 url("/img/bg2.png") no-repeat center center fixed; 
+            min-height: 100vh;
+            background-image: url("./img/bg2.png");
             background-size: cover;
+            background-position: center;
             color: white;
-            font-family: Arial, sans-serif;
-        }
-
-        table {
-            border-collapse: collapse;
-            width: 80%;
-            margin-top: 20px;
-            background-color: rgba(0, 0, 0, 0.6); /* Makes table readable against image */
-        }
-
-        th, td {
-            border: 1px solid white;
-            padding: 12px;
-            text-align: left;
-        }
-
-        th {
-            background-color: rgba(255, 255, 255, 0.1);
+            padding: 20px;
         }
 
         .container {
             padding: 20px;
+        }
+
+        h1 {
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            overflow: hidden;
+            margin-top: 10px;
+        }
+
+        th, td {
+            padding: 12px 14px;
+            text-align: left;
+        }
+
+        th {
+            background: rgba(255, 183, 0, 0.15);
+            font-weight: 500;
+        }
+
+        tr {
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        tr:hover {
+            background: rgba(255,255,255,0.05);
+        }
+
+        .action-btn {
+            padding: 5px 10px;
+            border-radius: 20px;
+            background: rgba(255, 183, 77, 0.2);
+            border: 1px solid rgba(255, 183, 77, 0.6);
+            color: #ffcc80;
+            text-decoration: none;
+            font-size: 0.75rem;
+            margin-right: 5px;
+            transition: all 0.2s ease;
+        }
+
+        .action-btn:hover {
+            background: rgba(255, 183, 77, 0.35);
+            color: #fff;
+        }
+
+        .action-btn.danger {
+            border-color: rgba(255, 77, 77, 0.6);
+            background: rgba(255, 77, 77, 0.2);
+            color: #ff9a9a;
+        }
+
+        .action-btn.danger:hover {
+            background: rgba(255, 77, 77, 0.35);
+            color: #fff;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 15px;
+            color: #ffcc80;
+            text-decoration: none;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
@@ -66,16 +129,15 @@
                                 <td><%= app.time %></td>
                                 <!-- reschedule button -->
                                 <td>
-                                    <a href="/edit-appointment/<%= app._id %>" style="color: #ffcc00;">Reschedule</a>
-                                </td>
-                                <!-- One click: This stops the click for a second and asks the user "Are you sure?". if they click "No", the "baton" is dropped and nothing happens. -->
-                                <!-- Cancel button -->
-                                <td>
-                                <a href="/delete-appointment/<%= app._id %>" 
-                                    onclick="return confirm('Are you sure you want to cancel this booking?')" 
-                                    style="color: red;">
-                                    Cancel
-                                </a>
+                                    <!-- One click: This stops the click for a second and asks the user "Are you sure?". if they click "No", the "baton" is dropped and nothing happens. -->
+                                    <a href="/edit-appointment/<%= app._id %>" class="action-btn">Reschedule</a>
+
+                                    <!-- Cancel button -->
+                                    <a href="/delete-appointment/<%= app._id %>" 
+                                        onclick="return confirm('Are you sure you want to cancel this booking?')" 
+                                        class="action-btn danger">
+                                        Cancel
+                                    </a>
                                 </td>
                             </tr>
                     <% }) %>
@@ -88,7 +150,7 @@
         </table>
 
         <br>
-        <a href="/" style="color: #ffcc00;">Go Back Home</a>
+        <a href="/" class="back-link action-btn">Go Back Home</a>
     </div>
 </body>
 </html>
