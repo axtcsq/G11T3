@@ -94,3 +94,14 @@ exports.updateAdopted = async (req, res) => {
     console.log(error);
   }
 };
+
+exports.delAdopted = async (req, res) => {
+  try {
+      let adoptedList = await adopted.retrieveAll();// fetch all the list    
+      res.render("del-adopted", { adoptedList }); // Render the EJS form view and pass the posts
+    
+    } catch (error) {
+      console.error(error);
+      res.send("Error reading database"); // Send error message if fetching fails
+    }
+}
