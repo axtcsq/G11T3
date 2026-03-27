@@ -14,12 +14,43 @@
         background-size: cover;
         color: white;
     }
-    table {
+
+    .review-table {
+        width: 70%;
+        margin-bottom: 30px;
         border-collapse: collapse;
+        background: rgba(0, 0, 0, 0.45);
     }
-    th, td {
-        padding: 10px 15px;
+
+    .review-table th,
+    .review-table td {
+        padding: 12px 16px;
         text-align: left;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .review-table th {
+        width: 180px;
+    }
+
+    .review-header {
+        margin-top: 30px;
+        margin-bottom: 10px;
+    }
+
+    .review-actions {
+        width: 70%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 30px;
+        margin-top: 10px;
+        margin-bottom: 25px;
+    }
+
+    .review-actions form {
+        margin: 0;
+        display: inline;
     }
 </style>
 
@@ -33,23 +64,34 @@
         <br><br>
         <a href="/add-review" style = "color:goldenrod">Write One Today!</a>
     <% } else { %>
-        <% reviews.forEach(review => { %>
-            <h2><%= review.title %></h2>
-            <p><strong>Pet:</strong> <%= review.petName %></p>
-            <p><strong>Rating:</strong> <%= review.rating %>/5</p>
-            <p><strong>Review:</strong> <%= review.message %></p>
-            <p><strong>Date:</strong> <%= new Date(review.createdAt).toLocaleDateString() %></p>
-
-            <p>
-                <a href="/update-review?id=<%= review._id %>" style = "color:hotpink">Edit</a>
-            </p>
-
-            <form action="/delete-review" method="post">
-                <input type="hidden" name="id" value="<%= review._id %>">
-                <button type="submit">Delete</button>
-            </form>
-
-            <hr>
+        <% reviews.forEach((review, index) => { %>
+            
+            <h2 class="review-header">Review <%= index + 1 %>: <%= review.title %></h2>
+            <table class="review-table">
+                <tr>
+                    <th>Pet</th>
+                    <td><%= review.petName %></td>
+                </tr>
+                <tr>
+                    <th>Rating</th>
+                    <td><%= review.rating %>/5</td>
+                </tr>
+                <tr>
+                    <th>Review</th>
+                    <td><%= review.message %></td>
+                </tr>
+                <tr>
+                    <th>Date</th>
+                    <td><%= new Date(review.createdAt).toLocaleDateString() %></td>
+                </tr>
+            </table>
+            <div class="review-actions">
+                <a href="/update-review?id=<%= review._id %>" style="color:hotpink">Edit</a>
+                <form action="/delete-review" method="post">
+                    <input type="hidden" name="id" value="<%= review._id %>">
+                    <button type="submit">Delete</button>
+                </form>
+            </div>
         <% }) %>
     <% } %>
 

@@ -9,17 +9,48 @@
 
 <style>
     body {
-        background-image: url("./img/bg2.png");
-        background-attachment: fixed;  
+        background-image: url("/img/bg2.png");
+        background-attachment: fixed;
         background-size: cover;
         color: white;
     }
-    table {
+
+    .review-table {
+        width: 70%;
+        margin-bottom: 20px;
         border-collapse: collapse;
+        background: rgba(0, 0, 0, 0.45);
     }
-    th, td {
-        padding: 10px 15px;
+
+    .review-table th,
+    .review-table td {
+        padding: 12px 16px;
         text-align: left;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .review-table th {
+        width: 180px;
+    }
+
+    .review-header {
+        margin-top: 30px;
+        margin-bottom: 10px;
+    }
+
+    .review-actions {
+        width: 70%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 30px;
+        margin-top: 10px;
+        margin-bottom: 25px;
+    }
+
+    .review-actions form {
+        margin: 0;
+        display: inline;
     }
 </style>
 
@@ -33,35 +64,48 @@
     </form>
 
     <br>
-    <a href = "/add-review" style = "color:goldenrod">Leave a Review!</a>
+    <a href="/add-review" style="color:goldenrod">Leave a Review!</a>
     <% if (reviews.length === 0) { %>
-    <p>Be the first to leave a review!</p> <!-- Message when there is no reviews yet -->
-    
+        <p>Be the first to leave a review!</p>
     <% } else { %>
-        <% reviews.forEach(review => { %>
-            <h2><%= review.title %></h2>
-            <div>
-            <p><strong>Pet:</strong><%= review.petName%></p>
-            <p><strong>Rating:</strong><%= review.rating %>/5</p>
-            <p><strong>Review:</strong><%= review.message %></p>
-            <p><strong>Written by:</strong><%= review.username %></p>
-            <!-- new Date(review.createdAt) cponverts the createdAt string into a JavaScript Date object. -->
-            <!-- .toLocaleDateString() formats the date in a readable format (MM/DD/YYYY) -->
-            <p><strong>Date:</strong><%= new Date(review.createdAt).toLocaleDateString() %></p>
-                                                                                            
-        <% if (typeof currentUser !== 'undefined' && currentUser && review.username === currentUser.username) { %>
-            <p>
-                <a href="/update-review?id=<%= review._id %>" style = "color:hotpink">Edit</a>
-            </p>
+        <% reviews.forEach((review, index) => { %>
+            <h2 class="review-header">Review <%= index + 1 %>: <%= review.title %></h2>
 
-            <form action="/delete-review" method="post">
-                <input type="hidden" name="id" value="<%= review._id %>">
-                <button type = "submit">Delete</button>
-            </form>
-        <% } %>
-        </div>
+            <table class="review-table">
+                <tr>
+                    <th>Pet</th>
+                    <td><%= review.petName %></td>
+                </tr>
+                <tr>
+                    <th>Rating</th>
+                    <td><%= review.rating %>/5</td>
+                </tr>
+                <tr>
+                    <th>Review</th>
+                    <td><%= review.message %></td>
+                </tr>
+                <tr>
+                    <th>Written by</th>
+                    <td><%= review.username %></td>
+                </tr>
+                <tr>
+                    <th>Date</th>
+                    <td><%= new Date(review.createdAt).toLocaleDateString() %></td>
+                </tr>
+            </table>
+
+            <% if (typeof currentUser !== 'undefined' && currentUser && review.username === currentUser.username) { %>
+                <div class="review-actions">
+                    <a href="/update-review?id=<%= review._id %>" style="color:hotpink">Edit</a>
+
+                    <form action="/delete-review" method="post">
+                        <input type="hidden" name="id" value="<%= review._id %>">
+                        <button type="submit">Delete</button>
+                    </form>
+                </div>
+            <% } %>
         <% }) %>
-        <% }%>
+    <% } %>
 
     
 </body>
