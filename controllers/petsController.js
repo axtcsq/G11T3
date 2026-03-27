@@ -19,7 +19,7 @@ exports.showPets = async (req, res) => {
         favouriteList.push(favourites[i].petID);
       }
     }
-    res.render("display-pet", { petList, isAdmin, userName, favouriteList }); // Render the EJS form view and pass the posts
+    res.render("display-pet", { petList, isAdmin, userName, favouriteList, error: ""}); // Render the EJS form view and pass the posts
 
   } catch (error) {
     console.error(error);

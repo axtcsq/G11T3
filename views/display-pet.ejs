@@ -107,9 +107,10 @@
 
       <br>
 
-      <% if (typeof error !== 'undefined') { %>
-        <p style="color: red;"><%= error %></p>
-      <% } %>
+        <% if (error) { %>
+          <p style="color: red;"><%= error %></p>
+        <% } %>
+  
 
       <br>
 
@@ -163,9 +164,10 @@
           <% }); %>
       </table>
       <input type="hidden" name="admin" value="<% isAdmin %>">
+      <input type="hidden" name="source" value="pets">
+      <input type="hidden" name="userName" value="<%= userName %>"
+      <br><br>
       
-      
-      <br>
       <button>Adopt!</button>
 
     </form>

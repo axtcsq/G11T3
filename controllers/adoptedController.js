@@ -1,16 +1,65 @@
 const adopted = require('./../models/adoptedModel');
 const Pet = require('./../models/petsModel');
+const Favourite = require('./../models/favouritesModel')
 
 exports.displayAdopted = async (req, res) => {
   const isAdmin = req.body.admin
   const id  = req.body.selectPet
   const userName = req.body.userName
+  // to check where the post req is coming from (display-pets or favourites)
+  const source = req.body.source
   console.log(req.session.user.username)
 
   if (!id) {
+    if (source === "favourites") {
+      const favourites = await Favourite.findById(userName);
       const petList = await Pet.retrieveAll();
-      return res.render ('display-pet', {petList, isAdmin, id, userName:userName, favouriteList:[], error: "Please select 1 pet to adopt"})
+
+      let favouriteList = [];
+
+      for (let i = 0; i < favourites.length; i++) {
+        for (let j = 0; j < petList.length; j++) {
+          if (favourites[i].petID === petList[j].id) {
+            favouriteList.push({
+              petID: petList[j].id,
+              type: petList[j].type,
+              name: petList[j].name,
+              age: petList[j].age,
+              desc: petList[j].desc,
+              photo: petList[j].photo,
+              remark: favourites[i].remark,
+              priority: favourites[i].priority,
+              dateAdded: favourites[i].dateAdded
+            });
+          }
+        }
+      }
+
+      return res.render("view-favourites", {
+        favouriteList,
+        userName,
+        isAdmin,
+        error: "Please select 1 pet to adopt"
+      });
+    } else {
+      let petList = await Pet.retrieveAll();// fetch all the list
+      let favouriteList = [];
+
+      if (userName) {
+        const favourites = await Favourite.findById(userName);
+        for (let i = 0; i < favourites.length; i++) {
+        favouriteList.push(favourites[i].petID);
+        }
+      }
+      return res.render("display-pet", { 
+        petList, 
+        isAdmin, 
+        userName, 
+        favouriteList, 
+        error: "Please select 1 pet to adopt" 
+      });
     }
+  }
 
   let newAdopted = 
   { 

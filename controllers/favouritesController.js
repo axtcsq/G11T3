@@ -83,7 +83,8 @@ exports.showFavourites = async (req, res) => {
     res.render("view-favourites", {
       favouriteList,
       userName,
-      isAdmin
+      isAdmin,
+      error: ""
     });
 
   } catch (error) {
