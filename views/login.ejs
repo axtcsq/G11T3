@@ -5,48 +5,141 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
     <link rel="icon" type="image/x-icon" href="./img/paw.png">
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <!-- CSS for beautifying the page -->
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-image: url("./img/bg2.png");
+            background-size: cover;
+            background-position: center;
+            color: #fff;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(12px);
+            border-radius: 16px;
+            padding: 40px 30px;
+            width: 320px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .welcome {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        ul {
+            margin-bottom: 15px;
+            padding-left: 20px;
+            font-size: 0.85rem;
+        }
+
+        label {
+            font-size: 0.85rem;
+            opacity: 0.85;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            margin-bottom: 15px;
+            border: none;
+            border-radius: 8px;
+            background: rgba(255,255,255,0.15);
+            color: white;
+            outline: none;
+        }
+
+        input::placeholder {
+            color: rgba(255,255,255,0.6);
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 8px;
+            background: linear-gradient(135deg, #ff9800, #ffb74d);
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(255,152,0,0.4);
+        }
+
+        .signup {
+            text-align: center;
+            margin-top: 15px;
+            font-size: 0.85rem;
+        }
+
+        .signup a {
+            color: #ffcc80;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .signup a:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 
-<style>
-    body {
-        background-image: url("./img/bg2.png");
-        background-attachment: fixed;  
-        background-size: cover;
-        color: white;
-    }
-</style>
-
 <body>
-    <h1>Login</h1>
+    <div class="card">
+        <h1>Login</h1>
+        <p class="welcome">Welcome! 😄</p>
 
-    <!-- Display errors -->
-    <ul style="color: red">
-        <% errors.forEach(error => { %>
-            <li><%= error %></li>
-        <% }) %>
-    </ul>
+        <!-- Display errors -->
+        <ul style="color: #ff6b6b">
+            <% errors.forEach(error => { %>
+                <li><%= error %></li>
+            <% }) %>
+        </ul>
 
-    <p>Welcome! 😄</p>
+        <form action="/login" method="post">
+            <!-- Username -->
+            <label for="userName">Username</label>
+            <input type="text" name="userName" value="<%= userName %>" required>
 
-    <form action="/login" method="post">
-        <!-- Username -->
-        <label for="userName">Username:</label><br>
-        <input type="text" name="userName" value="<%= userName %>" required>
+            <!-- Password -->
+            <label for="password">Password</label>
+            <input type="password" name="password" required>
 
-        <br><br>
-        
-        <!-- Password -->
-        <label for="password">Password:</label><br>
-        <input type="password" name="password" required>
+            <button type="submit">Login</button>
+        </form>
 
-        <br><br>
-
-        <button type="submit" style="background-color: orange;">Login</button>
-
-        <br><br>
-
-        <em><p>Not an existing user? <a href="/signup" style="color: white;"> Sign up </a>instead</p></em>
-    </form>
-        
+        <div class="signup">
+            <p>Not an existing user? <a href="/signup">Sign up</a></p>
+        </div>
+    </div>
 </body>
 </html>
