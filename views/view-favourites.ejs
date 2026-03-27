@@ -4,24 +4,121 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Favourites</title>
-    <link rel="icon" type="image/x-icon" href="./img/paw.png">
-</head>
 
-<style>
-    body {
-        background-image: url("./img/bg2.png");
-        background-attachment: fixed;  
-        background-size: cover;
-        color: white;
+    <link rel="icon" type="image/x-icon" href="./img/paw.png">
+    
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <!-- CSS to beautify page -->
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background-image: url("./img/bg2.png");
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 20px;
+        }
+
+        h2 {
+            margin: 20px 0 10px;
+            font-weight: 600;
+        }
+
+        p {
+            margin-bottom: 10px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        th, td {
+            padding: 12px 14px;
+            text-align: left;
+        }
+
+        th {
+            background: rgba(255, 183, 0, 0.15);
+            font-weight: 500;
+        }
+
+        tr {
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        tr:hover {
+            background: rgba(255,255,255,0.05);
+        }
+
+        a {
+            color: #ffcc80;
+            text-decoration: none;
+            font-size: 0.85rem;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        button {
+            margin-top: 10px;
+            padding: 10px 14px;
+            border: none;
+            border-radius: 8px;
+            background: linear-gradient(135deg, #ff9800, #ffb74d);
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(255,152,0,0.4);
+        }
+    .action-btn {
+        padding: 5px 10px;
+        border-radius: 20px;
+        background: rgba(255, 183, 77, 0.2);
+        border: 1px solid rgba(255, 183, 77, 0.6);
+        color: #ffcc80;
+        text-decoration: none;
+        font-size: 0.75rem;
+        margin-right: 5px;
+        transition: all 0.2s ease;
     }
-    table {
-        border-collapse: collapse;
+
+    .action-btn:hover {
+        background: rgba(255, 183, 77, 0.35);
+        color: #fff;
     }
-    th, td {
-        padding: 10px 15px;
-        text-align: left;
+
+    .action-btn.danger {
+        border-color: rgba(255, 77, 77, 0.6);
+        background: rgba(255, 77, 77, 0.2);
+        color: #ff9a9a;
     }
-</style>
+
+    .action-btn.danger:hover {
+        background: rgba(255, 77, 77, 0.35);
+        color: #fff;
+    }
+    </style>
+</head>
 
 <body>
 
@@ -46,18 +143,18 @@
 
       <table border="1">
         <tr>
-          <th style="background-color: rgb(88, 87, 86);">No.</th>
-          <th style="background-color: rgb(88, 87, 86);">Record ID</th>
-          <th style="background-color: rgb(88, 87, 86);">Breed</th>
-          <th style="background-color: rgb(88, 87, 86);">Name</th>
-          <th style="background-color: rgb(88, 87, 86);">Age (years)</th>
-          <th style="background-color: rgb(88, 87, 86);">Description</th>
-          <th style="background-color: rgb(88, 87, 86);">Photo</th>
-          <th style="background-color: rgb(88, 87, 86);">Remark</th>
-          <th style="background-color: rgb(88, 87, 86);">Priority</th>
-          <th style="background-color: rgb(88, 87, 86);">Date Added</th>
-          <th style="background-color: rgb(88, 87, 86);">Actions</th>
-          <th style="background-color: rgb(88, 87, 86);">Adopt?</th>
+          <th>No.</th>
+          <th>Record ID</th>
+          <th>Breed</th>
+          <th>Name</th>
+          <th>Age (years)</th>
+          <th>Description</th>
+          <th>Photo</th>
+          <th>Remark</th>
+          <th>Priority</th>
+          <th>Date Added</th>
+          <th>Actions</th>
+          <th>Adopt?</th>
         </tr>
 
         <% let i = 1; %>
@@ -76,8 +173,9 @@
             <td><%= fav.priority %></td>
             <td><%= (fav.dateAdded).toLocaleString() %></td>
             <td>
-              <a href="/edit-favourite?petID=<%= fav.petID %>">Edit favourite</a> |
-              <a href="/delete-favourite?petID=<%= fav.petID %>">Remove favourite</a>
+              <a href="/edit-favourite?petID=<%= fav.petID %>" class="action-btn">Edit</a>
+              <br><br>
+              <a href="/delete-favourite?petID=<%= fav.petID %>" class="action-btn danger">Remove</a>
             </td>
 
             <td>
