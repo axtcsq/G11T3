@@ -1,23 +1,66 @@
-<%- include("common/header", {isAdmin: false}) %>
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>My Appointments</title>
+        <link rel="icon" type="image/x-icon" href="/img/paw.png">
+        
+        <style>
+            body {
+                /* Fix: Changed ./img to /img and added a dark fallback color */
+                background: #2c3e50 url("/img/bg2.png") no-repeat center center fixed; 
+                background-size: cover;
+                color: white;
+                font-family: Arial, sans-serif;
+            }
 
-<div class="container" style="text-align: center; padding: 60px 20px; color: white;">
-    
-    <img src="/img/sad-dog.png" alt="Sad crying dog" style="max-width: 250px; margin-bottom: 20px;">
+            table {
+                border-collapse: collapse;
+                width: 80%;
+                margin-top: 20px;
+                background-color: rgba(0, 0, 0, 0.6); /* Makes table readable against image */
+            }
 
-    <h1 style="color: #ff4d4d; font-size: 2.5rem; margin-bottom: 10px;">Oh No! A Conflict!</h1>
-    
-    <p style="font-size: 1.2rem; margin-bottom: 30px;">
-        <%= message %>
-    </p>
+            th, td {
+                border: 1px solid white;
+                padding: 12px;
+                text-align: left;
+            }
 
-    <div style="margin-top: 40px;">
-        <button onclick="window.history.back()" 
-                style="background-color: #ffcc00; color: black; border: none; padding: 12px 25px; cursor: pointer; border-radius: 5px; font-weight: bold; font-size: 1rem;">
-           Try Another Time
-        </button>
-    </div>
+            th {
+                background-color: rgba(255, 255, 255, 0.1);
+            }
 
-    <p style="margin-top: 30px;">
-        <a href="/" style="color: #bbb; text-decoration: none;">Return to Home</a>
-    </p>
-</div>
+            .container {
+                padding: 20px;
+            }
+        </style>
+    </head>
+
+    <body>
+        <%- include("common/header", {isAdmin: false}) %>
+
+        <div class="container" style="text-align: center; padding: 60px 20px; color: white;">
+            
+            <img src="/img/sad-dog.png" alt="Sad crying dog" style="max-width: 250px; margin-bottom: 20px;">
+
+            <h1 style="color: #ff4d4d; font-size: 2.5rem; margin-bottom: 10px;">Oh No! A Conflict!</h1>
+            
+            <p style="font-size: 1.2rem; margin-bottom: 30px;">
+                <%= message %>
+            </p>
+
+            <div style="margin-top: 40px;">
+                <button onclick="window.history.back()" 
+                        style="background-color: #ffcc00; color: black; border: none; padding: 12px 25px; cursor: pointer; border-radius: 5px; font-weight: bold; font-size: 1rem;">
+                Try Another Time
+                </button>
+            </div>
+
+            <p style="margin-top: 30px;">
+                <a href="/" style="color: #bbb; text-decoration: none;">Return to Home</a>
+            </p>
+        </div>
+    </body>
+</htmll>

@@ -1,23 +1,66 @@
-<%- include("common/header", {isAdmin: false}) %>
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>My Appointments</title>
+        <link rel="icon" type="image/x-icon" href="/img/paw.png">
+        
+        <style>
+            body {
+                /* Fix: Changed ./img to /img and added a dark fallback color */
+                background: #2c3e50 url("/img/bg2.png") no-repeat center center fixed; 
+                background-size: cover;
+                color: white;
+                font-family: Arial, sans-serif;
+            }
 
-<div class="container" style="text-align: center; padding: 60px 20px; color: white;">
+            table {
+                border-collapse: collapse;
+                width: 80%;
+                margin-top: 20px;
+                background-color: rgba(0, 0, 0, 0.6); /* Makes table readable against image */
+            }
 
-    <img src="/img/happy-animals.png" alt="Happy dog and cat celebrating" style="max-width: 300px; margin-bottom: 20px;">
+            th, td {
+                border: 1px solid white;
+                padding: 12px;
+                text-align: left;
+            }
 
-    <h1 style="color: #28a745; font-size: 3rem; margin-bottom: 10px;">Success! 🐾</h1>
+            th {
+                background-color: rgba(255, 255, 255, 0.1);
+            }
+
+            .container {
+                padding: 20px;
+            }
+        </style>
+    </head>
     
-    <p style="font-size: 1.2rem; margin-bottom: 30px;">
-        Your appointment has been booked. We can't wait to see you!
-    </p>
-    
-    <div style="margin-top: 30px;">
-        <a href="/view-appointment" 
-           style="background-color: #ffcc00; color: black; padding: 12px 25px; text-decoration: none; border-radius: 5px; font-weight: bold; font-size: 1rem;">
-           View My Appointments
-        </a>
-    </div>
-    
-    <p style="margin-top: 30px;">
-        <a href="/" style="color: #bbb; text-decoration: none;">Return to Home</a>
-    </p>
-</div>
+    <body>
+        <%- include("common/header", {isAdmin: false}) %>
+
+        <div class="container" style="text-align: center; padding: 60px 20px; color: white;">
+
+            <img src="/img/happy-animals.png" alt="Happy dog and cat celebrating" style="max-width: 300px; margin-bottom: 20px;">
+
+            <h1 style="color: #28a745; font-size: 3rem; margin-bottom: 10px;">Success! 🐾</h1>
+            
+            <p style="font-size: 1.2rem; margin-bottom: 30px;">
+                Your appointment has been booked. We can't wait to see you!
+            </p>
+            
+            <div style="margin-top: 30px;">
+                <a href="/view-appointment" 
+                style="background-color: #ffcc00; color: black; padding: 12px 25px; text-decoration: none; border-radius: 5px; font-weight: bold; font-size: 1rem;">
+                View My Appointments
+                </a>
+            </div>
+            
+            <p style="margin-top: 30px;">
+                <a href="/" style="color: #bbb; text-decoration: none;">Return to Home</a>
+            </p>
+        </div>
+    </body>
+</html>

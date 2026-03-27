@@ -27,27 +27,37 @@ const appointmentSchema = new mongoose.Schema({
 
 const Appointment = mongoose.model("Appointment", appointmentSchema, "appointments");
 
-exports.retrieveAll = function() {
-    // This filters the database for only this user's appointments
-    return Appointment.find(); 
-};
-
+// CREATE APPOINTMENT 
 exports.addAppointment = function(newAppointment) {
     return Appointment.create(newAppointment);
+};
+
+exports.checkConflict = function(petId, date, time) {
+    return Appointment.findOne({ petId, date, time });
 };
 
 exports.findById = function(id) {
     return Appointment.findOne({ petId:id });
 };
 
-exports.editAppointment = function(id, name) {
-    return Appointment.updateOne({petId:id}, {userName:name});
+// READ APPOINTMENT (VIEW)
+exports.retrieveAll = function() {
+    // This filters the database for only this user's appointments
+    return Appointment.find(); 
 };
 
+// UPDATE FUNCTION (EDIT)
+// To load the current data into the edit form
+exports.findAppointmentById = function(id) {
+    return Appointment.findById(id);
+};
+
+// To save the new date/time
+exports.updateAppointment = function(id, updateData) {
+    return Appointment.findByIdAndUpdate(id, updateData, { new: true });
+};
+
+// DELETE FUNCTION
 exports.deleteAppointment = function(id) {
     return Appointment.findByIdAndDelete(id);
-};
-
-exports.checkConflict = function(petId, date, time) {
-    return Appointment.findOne({ petId, date, time });
 };

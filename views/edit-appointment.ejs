@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>My Appointments</title>
+        <link rel="icon" type="image/x-icon" href="/img/paw.png">
+        
+        <style>
+            body {
+                /* Fix: Changed ./img to /img and added a dark fallback color */
+                background: #2c3e50 url("/img/bg2.png") no-repeat center center fixed; 
+                background-size: cover;
+                color: white;
+                font-family: Arial, sans-serif;
+            }
+
+            table {
+                border-collapse: collapse;
+                width: 80%;
+                margin-top: 20px;
+                background-color: rgba(0, 0, 0, 0.6); /* Makes table readable against image */
+            }
+
+            th, td {
+                border: 1px solid white;
+                padding: 12px;
+                text-align: left;
+            }
+
+            th {
+                background-color: rgba(255, 255, 255, 0.1);
+            }
+
+            .container {
+                padding: 20px;
+            }
+        </style>
+    </head>
+
+
+    <body>
+        <%- include("common/header", {isAdmin: false}) %>
+
+        <div class="container" style="color: white; padding: 40px; text-align: center;">
+            <h2>Reschedule Appointment for <span style="color: #ffcc00;"><%= appointment.name %></span></h2>
+            <p>Current Slot: <%= appointment.date %> at <%= appointment.time %></p>
+
+            <form action="/update-appointment/<%= appointment._id %>" method="POST" style="margin-top: 20px;">
+                
+                <label for="appointmentDate">Pick a New Date:</label><br>
+                <select name="appointmentDate" id="appointmentDate" style="padding: 8px; margin-bottom: 10px; background-color: white; color: black;">
+                    <% 
+                    const options = { weekday: 'long', month: 'long', day: 'numeric' };
+                    for(let i = 1; i <= 7; i++) { 
+                        let d = new Date();
+                        d.setDate(d.getDate() + i);
+                        let dateVal = d.toISOString().split('T')[0];
+                    %>
+                    <option value="<%= dateVal %>" <%= appointment.date === dateVal ? 'selected' : '' %>>
+                        <%= d.toLocaleDateString(undefined, options) %>
+                    </option>
+                    <% } %>
+                </select>
+                <br>
+
+                <label for="timeSlot">Select Time Slot (2-hour intervals):</label><br>
+                <select name="timeSlot" id="timeSlot" required style="padding: 8px; margin-bottom: 15px;">
+                    <option value="10:00-12:00" <%= appointment.time === '10:00-12:00' ? 'selected' : '' %>>10:00 AM - 12:00 PM</option>
+                    <option value="12:00-14:00" <%= appointment.time === '12:00-14:00' ? 'selected' : '' %>>12:00 PM - 02:00 PM</option>
+                    <option value="14:00-16:00" <%= appointment.time === '14:00-16:00' ? 'selected' : '' %>>02:00 PM - 04:00 PM</option>
+                    <option value="16:00-18:00" <%= appointment.time === '16:00-18:00' ? 'selected' : '' %>>04:00 PM - 06:00 PM</option>
+                </select>
+                
+                <br>
+
+                <button type="submit" style="background-color: #28a745; color: white; border: none; padding: 12px 25px; cursor: pointer; border-radius: 4px; font-weight: bold;">
+                    Update Appointment
+                </button>
+                
+                <div style="margin-top: 20px;">
+                    <a href="/view-appointment" style="color: #bbb; text-decoration: none;">Cancel and Go Back</a>
+                </div>
+            </form>
+        </div>
+    </body>
+</html>

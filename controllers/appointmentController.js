@@ -9,6 +9,7 @@ const Pet = require('./../models/petsModel');
 // 5. Improve design of "This slot has already been boooked" page and see how it actually is functioning
 // 6. admin should be able to see all appointments (and username of person ?)
 
+// Creates appointment 
 exports.bookAppointment = async (req, res) => {
     try {
         const petId = req.body.petId;
@@ -19,7 +20,7 @@ exports.bookAppointment = async (req, res) => {
         // 1. Fetch the actual Pet details using the petId from the form
         // We look in the Pet collection to find the name (e.g., "Ronaldo")
         const actualPet = await Pet.findByID(petId); 
-        // trying to get pet name as well but still got issues
+       
         // 2. Check if the pet exists; if not, provide a fallback name
         const petName = actualPet ? actualPet.name : "Unknown Pet"; // !!! not sure what this does , why pet is unknown pet ?
 
@@ -30,8 +31,7 @@ exports.bookAppointment = async (req, res) => {
         return res.render('error-appointment', { 
             message: "Sorry! This pet already has an appointment for that date and time slot." 
         });
-        // Optimization: Eventually, you'll want to res.render('display-pet', { error: '...' })
-}
+        };
 
         // 4. Save the appointment with the REAL pet name we just found
         await appointment.addAppointment({
@@ -49,22 +49,23 @@ exports.bookAppointment = async (req, res) => {
     }
 };
 
+// Render View appointment
 exports.viewAppointments = async (req, res) => {
     try {
-    
         const allAppointments = await appointment.retrieveAll();
 
-        res.render('view-appointment', {
-            appointments: allAppointments,
-            isAdmin: false
-        });
         // This renders the EJS file and passes the data to it
+        res.render('view-appointment', {
+            appointments: allAppointments
+        });
+       
     } catch (err) {
         console.error(err);
         res.status(500).send("Could not load appointments.");
     }
 };
 
+// DELETE 
 exports.deleteAppointment = async (req, res) => {
     try {
         const id = req.params.id; // We get the ID from the URL
@@ -73,5 +74,32 @@ exports.deleteAppointment = async (req, res) => {
     } catch (err) {
         console.error(err);
         res.status(500).send("Error deleting appointment");
+    }
+};
+
+// Show the Edit Page
+exports.editAppointmentPage = async (req, res) => {
+    try {
+        const id = req.params.id;
+        const appt = await appointment.findAppointmentById(id);
+        res.render('edit-appointment', { appointment: appt });
+    } catch (err) {
+        res.status(500).send("Error loading edit page");
+    }
+};
+
+// Handle the Update
+exports.updateAppointment = async (req, res) => {
+    try {
+        const id = req.params.id;
+        const updatedData = {
+            date: req.body.appointmentDate, // Matches form 'name'
+            time: req.body.timeSlot        // Matches form 'name'
+        };
+        
+        await appointment.updateAppointment(id, updatedData);
+        res.render('successful-appointment'); 
+    } catch (err) {
+        res.render('error-appointment', { message: "Something went wrong while rescheduling." });
     }
 };
