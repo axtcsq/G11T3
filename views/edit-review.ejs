@@ -9,39 +9,66 @@
 
 <style>
     body {
-        background-image: url("./img/bg2.png");
-        background-attachment: fixed;  
+        background-image: url("/img/bg2.png");
+        background-attachment: fixed;
         background-size: cover;
         color: white;
+        margin: 0;
+        padding: 40px 0;
     }
+
+    h1 {
+        text-align: center;
+        margin-bottom: 30px;
+    }
+
     form {
-        width: 50%;
+        width: 60%;
+        max-width: 700px;
         margin: 0 auto;
-        background: rgba(0, 0, 0, 0.6);
-        padding: 20px;
-        border-radius: 8px;
+        background: rgba(10, 10, 10, 0.75);
+        padding: 30px;
+        border-radius: 16px;
     }
-    input, textarea {
+
+    label {
+        display: block;
+        margin-bottom: 8px;
+        font-size: 20px;
+    }
+
+    input, textarea, select {
         width: 100%;
-        padding: 10px;
-        margin: 10px 0;
-        border-radius: 5px;
-        border: 1px solid #ccc;
+        padding: 12px;
+        margin-bottom: 24px;
+        border-radius: 10px;
+        border: none;
+        box-sizing: border-box;
+        font-size: 18px;
     }
+
+    textarea {
+        min-height: 120px;
+        resize: vertical;
+    }
+
     button {
-        padding: 10px 15px;
+        padding: 12px 24px;
         background-color: #4CAF50;
         border: none;
         color: white;
-        border-radius: 5px;
+        border-radius: 10px;
         cursor: pointer;
+        font-size: 18px;
     }
+
     button:hover {
         background-color: #45a049;
     }
 </style>
 
 <body>
+    <%- include("common/header") %>
     <h1>Edit Your Review</h1>
     <!-- Display error message if validation failed -->
     <% if (result === "fail") { %>
@@ -52,19 +79,27 @@
         <!-- Form to edit the review -->
     <form action="/update-review/<%= review._id %>" method="POST">
         <!-- Pet Name -->
-        <label for="petName">Pet Name</label>
+        <label for="petName">Pet Name:</label>
         <input type="text" name="petName" value="<%= review.petName %>" required>
 
         <!-- Title -->
-        <label for="title">Review Title</label>
+        <label for="title">Review Title:</label>
         <input type="text" name="title" value="<%= review.title %>" required>
 
         <!-- Rating -->
-        <label for="rating">Rating (1-5)</label>
-        <input type="number" name="rating" min="1" max="5" value="<%= review.rating %>" required>
+        <label for="rating">Rating:</label><br>
+        <select name="rating" required>
+            <option value="">Please Insert a Rating</option>
+            <option value="1" <%= review.rating == 1 ? "selected" : "" %>>1</option>
+            <option value="2" <%= review.rating == 2 ? "selected" : "" %>>2</option>
+            <option value="3" <%= review.rating == 3 ? "selected" : "" %>>3</option>
+            <option value="4" <%= review.rating == 4 ? "selected" : "" %>>4</option>
+            <option value="5" <%= review.rating == 5 ? "selected" : "" %>>5</option>
+        </select>
+        <br><br>
 
         <!-- Message -->
-        <label for="message">Review Message</label>
+        <label for="message">Review Message:</label>
         <textarea name="message" required><%= review.message %></textarea>
 
         <!-- Submit Button -->

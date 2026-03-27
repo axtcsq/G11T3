@@ -185,3 +185,23 @@ exports.searchReviews = async (req, res) => {
         res.send("Error searching reviews");
     }
 };
+
+// Edit Only My Reviews
+exports.showMyReviews = async (req, res) => {
+    if (!req.session || !req.session.user || !req.session.user.username) {
+        return res.redirect("/login");
+    }
+
+    try {
+        const username = req.session.user.username;
+        const reviews = await Review.findReviewsByUsername(username);
+
+        res.render("my-reviews", {
+            reviews,
+            currentUser: req.session.user || null
+        });
+    } catch (error) {
+        console.log(error);
+        res.send("Error fetching your reviews");
+    }
+};

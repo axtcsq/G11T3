@@ -40,6 +40,12 @@ exports.addReview = function(newReview) {
 exports.retrieveAllReviews = function() {
     return Review.find(); // Retrieves all reviews from the database
 };
+exports.findReviewByID = function(id) {
+    return Review.findOne({ _id: id });
+};
+exports.findReviewsByUsername = function(username) {
+    return Review.find({ username: username });
+};
 
 // SEARCH
 exports.searchReviews = function(query){ // query is the text string that the user inputs
@@ -54,10 +60,10 @@ exports.searchReviews = function(query){ // query is the text string that the us
 }
 
 // UPDATE
-exports.updateReview = function(id, title, message, rating) {
+exports.updateReview = function(id, title, message, rating, petName) {
     return Review.updateOne(
     { _id: id }, // Finds the review by ID
-    { title: title, message: message, rating: rating } // Updates the review fields
+    { title: title, message: message, rating: rating, petName: petName} // Updates the review fields
     );
 };
 

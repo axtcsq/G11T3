@@ -9,6 +9,9 @@ const reviewsController = require("../controllers/reviewsController");
 // Show all Reviews
 router.get("/pet-reviews", reviewsController.showReviewsPage)
 
+// Shows only My Reviews
+router.get("/my-reviews", reviewsController.showMyReviews);
+
 // Adding Reviews
 router.get("/add-review", reviewsController.showForm)
 router.post("/add-review", reviewsController.createReviews)
@@ -17,7 +20,7 @@ router.post("/add-review", reviewsController.createReviews)
 router.get("/update-review", reviewsController.getReview)
 
 // Updating a Review
-router.post("/update-review", reviewsController.updateReview)
+router.post("/update-review/:id", reviewsController.updateReview)
 
 // Delete Review
 router.post("/delete-review", reviewsController.deleteReview)

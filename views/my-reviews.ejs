@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pet Reviews</title>
+    <link rel="icon" type="image/x-icon" href="./img/paw.png">
+</head>
+
+<style>
+    body {
+        background-image: url("./img/bg2.png");
+        background-attachment: fixed;  
+        background-size: cover;
+        color: white;
+    }
+    table {
+        border-collapse: collapse;
+    }
+    th, td {
+        padding: 10px 15px;
+        text-align: left;
+    }
+</style>
+
+<body>
+    <%- include("common/header") %>
+    <h1>My Reviews</h1>
+
+    <% if (!reviews || reviews.length === 0) { %>
+        <p>You haven't written any reviews yet.</p>
+        <img src = "/img/crying-kitten.png" alt = "Crying kitten" width = "200">
+        <br><br>
+        <a href="/add-review" style = "color:goldenrod">Write One Today!</a>
+    <% } else { %>
+        <% reviews.forEach(review => { %>
+            <h2><%= review.title %></h2>
+            <p><strong>Pet:</strong> <%= review.petName %></p>
+            <p><strong>Rating:</strong> <%= review.rating %>/5</p>
+            <p><strong>Review:</strong> <%= review.message %></p>
+            <p><strong>Date:</strong> <%= new Date(review.createdAt).toLocaleDateString() %></p>
+
+            <p>
+                <a href="/update-review?id=<%= review._id %>" style = "color:hotpink">Edit</a>
+            </p>
+
+            <form action="/delete-review" method="post">
+                <input type="hidden" name="id" value="<%= review._id %>">
+                <button type="submit">Delete</button>
+            </form>
+
+            <hr>
+        <% }) %>
+    <% } %>
+
+    
+</body>
+</html>

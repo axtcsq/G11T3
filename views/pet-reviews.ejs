@@ -24,6 +24,7 @@
 </style>
 
 <body>
+    <%- include("common/header") %>
     <h1>Success Stories and Reviews!</h1>
     <!-- Search Form -->
     <form action="/reviews/search" method="GET">
@@ -31,7 +32,8 @@
         <button type="submit">Search</button>
     </form>
 
-    <a href = "/add-review">Leave a Review!</a>
+    <br>
+    <a href = "/add-review" style = "color:goldenrod">Leave a Review!</a>
     <% if (reviews.length === 0) { %>
     <p>Be the first to leave a review!</p> <!-- Message when there is no reviews yet -->
     
@@ -49,7 +51,7 @@
                                                                                             
         <% if (typeof currentUser !== 'undefined' && currentUser && review.username === currentUser.username) { %>
             <p>
-                <a href="/update-review?id=<%= review._id %>">Edit</a>
+                <a href="/update-review?id=<%= review._id %>" style = "color:hotpink">Edit</a>
             </p>
 
             <form action="/delete-review" method="post">
