@@ -8,7 +8,11 @@ exports.showReviewsPage = async (req, res) => {
     try{
         let reviews = await Review.retrieveAllReviews() // Retrieving from Retrieve model
         console.log(reviews)
-        res.render("pet-reviews", {isAdmin, reviews}) // Render the EJS form view and pass the posts
+        res.render("pet-reviews", {
+            isAdmin,
+            reviews,
+            currentUser: req.session.user || null
+        }) // Render the EJS form view and pass the posts
     } catch (error) {
         console.log(error);
         res.send("Error fetching reviews!"); // Send error message if fetching fails
@@ -41,6 +45,13 @@ exports.createReviews = async (req, res) => {
         return res.render("add-review", { result, msg });
     }
 
+    // Make sure a logged-in user exists in session before creating a review
+    if (!req.session || !req.session.user || !req.session.user.username) {
+        let result = "fail";
+        let msg = "Please log in before submitting a review.";
+        return res.render("add-review", { result, msg });
+    }
+    
     // Rating should be between 1 and 5
     if (trimmedRating < 1 || trimmedRating > 5) {
         let result = "fail";
@@ -50,19 +61,16 @@ exports.createReviews = async (req, res) => {
     
     try {
         // Create a new review document
-        const newReview = new Review({
+        await Review.addReview({
             username: req.session.user.username,
             petName: trimmedPetName,
             rating: trimmedRating,
             title: trimmedTitle,
             message: trimmedMessage
-        });
-
-        // Save the review to the database
-        await newReview.save();
+        }); 
 
         // Redirect to the reviews page after successful creation
-        res.redirect("/reviews");
+        res.redirect("/pet-reviews");
     } catch (error) {
         console.log(error);
         res.send("Error creating review");
@@ -71,18 +79,20 @@ exports.createReviews = async (req, res) => {
 
 // Show the edit form for one review
 exports.getReview = async (req, res) => {
-    const { id } = req.params; // Get the review ID from the URL parameters
+    const id = req.query.id || req.params.id; // Works with /update-review?id=... and /update-review/:id
 
     try {
-        // Find the review by ID
-        const review = await Review.findById(id);
+        const review = await Review.findReviewByID(id);
 
         if (!review) {
             return res.status(404).send("Review not found");
         }
 
-        // Render the edit page with the current review data
-        res.render("edit-review", { review });
+        res.render("edit-review", {
+            review,
+            result: "",
+            msg: ""
+        });
     } catch (error) {
         console.log(error);
         res.send("Error fetching review for editing");
@@ -91,7 +101,7 @@ exports.getReview = async (req, res) => {
 
 // Updating One Review
 exports.updateReview = async (req, res) => {
-    const { id } = req.params; // Get the review ID from the URL
+    const id = req.body.id || req.params.id || req.query.id; // Get the review ID from form body, params, or query
     const { petName, title, rating, message } = req.body; // Get the updated data from the form
     
     // Trim spaces from the data to avoid issues with accidental spaces
@@ -120,10 +130,12 @@ exports.updateReview = async (req, res) => {
 
     try {
         // Find the review by ID and update it with the new data
-        const updatedReview = await Review.findByIdAndUpdate(
+        const updatedReview = await Review.updateReview(
             id,
-            { petName, title, rating, message },
-            { new: true } // Returns the updated document
+            trimmedTitle,
+            trimmedMessage,
+            trimmedRating,
+            trimmedPetName
         );
 
         if (!updatedReview) {
@@ -131,7 +143,7 @@ exports.updateReview = async (req, res) => {
         }
 
         // Redirect to the reviews page after updating the review
-        res.redirect("/reviews");
+        res.redirect("/pet-reviews");
     } catch (error) {
         console.log(error);
         res.send("Error updating review");
@@ -140,11 +152,11 @@ exports.updateReview = async (req, res) => {
 
 // Delete One review
 exports.deleteReview = async (req, res) => {
-    const { id } = req.params;
+    const id = req.body.id || req.params.id || req.query.id;
     try {
-        const deletedReview = await Review.findByIdAndDelete(id);
+        const deletedReview = await Review.deleteReview(id);
         if (!deletedReview) return res.status(404).send("Review not found");
-        res.redirect("/reviews");
+        res.redirect("/pet-reviews");
     } catch (error) {
         console.log(error);
         res.send("Error deleting review");
@@ -156,7 +168,7 @@ exports.searchReviews = async (req, res) => {
     const query = req.query.query; // Get the search term from the query string
 
     if (!query) {
-        return res.redirect("/reviews"); // If no search term is provided, redirect to all reviews
+        return res.redirect("/pet-reviews"); // If no search term is provided, redirect to all reviews
     }
 
     try {
@@ -164,7 +176,10 @@ exports.searchReviews = async (req, res) => {
         const reviews = await Review.searchReviews(query);
 
         // Render the reviews page with the search results
-        res.render("pet-reviews", { reviews });
+        res.render("pet-reviews", {
+            reviews,
+            currentUser: req.session.user || null
+        });
     } catch (error) {
         console.log(error);
         res.send("Error searching reviews");

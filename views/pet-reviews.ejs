@@ -47,13 +47,13 @@
             <!-- .toLocaleDateString() formats the date in a readable format (MM/DD/YYYY) -->
             <p><strong>Date:</strong><%= new Date(review.createdAt).toLocaleDateString() %></p>
                                                                                             
-        <% if (currentUser && review.username === currentUser.username) { %>
+        <% if (typeof currentUser !== 'undefined' && currentUser && review.username === currentUser.username) { %>
             <p>
                 <a href="/update-review?id=<%= review._id %>">Edit</a>
             </p>
 
-            <form action = "delete-review" method = "post">
-                <input type = "hidden" name = "id" value = "<%= review.id %>">
+            <form action="/delete-review" method="post">
+                <input type="hidden" name="id" value="<%= review._id %>">
                 <button type = "submit">Delete</button>
             </form>
         <% } %>
