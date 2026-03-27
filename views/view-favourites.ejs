@@ -54,6 +54,8 @@
           <th style="background-color: rgb(88, 87, 86);">Description</th>
           <th style="background-color: rgb(88, 87, 86);">Photo</th>
           <th style="background-color: rgb(88, 87, 86);">Remark</th>
+          <th style="background-color: rgb(88, 87, 86);">Priority</th>
+          <th style="background-color: rgb(88, 87, 86);">Date Added</th>
           <th style="background-color: rgb(88, 87, 86);">Actions</th>
           <th style="background-color: rgb(88, 87, 86);">Adopt?</th>
         </tr>
@@ -71,9 +73,10 @@
             <td><%= fav.desc %></td>
             <td><img src ="/pet-img/<%= fav.photo %>" width="100"> </td>
             <td><%= fav.remark || "No remarks yet." %></td>
-
+            <td><%= fav.priority %></td>
+            <td><%= (fav.dateAdded).toLocaleString() %></td>
             <td>
-              <a href="/edit-favourite?petID=<%= fav.petID %>">Edit remark</a> |
+              <a href="/edit-favourite?petID=<%= fav.petID %>">Edit favourite</a> |
               <a href="/delete-favourite?petID=<%= fav.petID %>">Remove favourite</a>
             </td>
 

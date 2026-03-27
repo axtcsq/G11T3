@@ -38,7 +38,14 @@
     <textarea name="remark" rows="4" cols="50"><%= favourite.remark %></textarea>
 
     <br><br>
-    <button type="submit">Update Remark</button>
+    <label>Priority:</label>
+    <select name="priority">
+        <option value="High" <%= favourite.priority === "High" ? "selected" : "" %>>High</option>
+        <option value="Medium" <%= favourite.priority === "Medium" ? "selected" : "" %>>Medium</option>
+        <option value="Low" <%= favourite.priority === "Low" ? "selected" : "" %>>Low</option>
+    </select>
+    <br><br>
+    <button type="submit">Update Favourite</button>
   </form>
 
 </body>

@@ -11,6 +11,14 @@ const favouritesSchema = new mongoose.Schema({
     },
     remark: {
         type: String
+    },
+    priority: {
+        type: String,
+        default: "Medium"
+    },
+    dateAdded: {
+        type: Date,
+        default: Date.now
     }
 })
 
@@ -28,14 +36,14 @@ exports.findFavourite = function(userName, petID) {
     return Favourite.findOne({ userName: userName, petID: petID })
 }
 
-exports.addFavourite = function(newFav) {
+exports.additionalFavourite = function(newFav) {
     return Favourite.create(newFav)
 }
 
-exports.editFavourite = function(userName, petID, remark) {
-    return Favourite.updateOne({userName: userName, petID: petID}, {remark: remark})
+exports.editFavourite = function(userName, petID, remark, priority) {
+    return Favourite.updateOne({userName: userName, petID: petID}, {remark: remark, priority: priority})
 }
 
-exports.removeFavourite = function(removeFav) {
-    return Favourite.deleteOne({ petID: removeFav })
+exports.removeFavourite = function(userName, petID) {
+    return Favourite.deleteOne({userName: userName, petID: petID })
 }

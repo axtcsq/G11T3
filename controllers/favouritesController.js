@@ -9,11 +9,12 @@ exports.addFavourite = async (req, res) => {
     let newFavourite = {
         userName: userName,
         petID: petID,
-        remarks: ""
+        remarks: "",
+        priority: "Medium"
     }
 
     try {
-        await Favourite.addFavourite(newFavourite)
+        await Favourite.additionalFavourite(newFavourite)
         res.redirect("/display-pet")
     } catch(error) {
         console.log(error)
@@ -71,7 +72,9 @@ exports.showFavourites = async (req, res) => {
             age: petList[j].age,
             desc: petList[j].desc,
             photo: petList[j].photo,
-            remark: favourites[i].remark
+            remark: favourites[i].remark,
+            priority: favourites[i].priority,
+            dateAdded: favourites[i].dateAdded
           });
         }
       }
@@ -102,7 +105,7 @@ exports.editFavourite = async (req, res) => {
     res.render("edit-favourite", {
       favourite,
       userName,
-      isAdmin
+      isAdmin,
     });
   } catch (error) {
     console.log(error);
@@ -116,12 +119,14 @@ exports.updateFavourite = async (req, res) => {
     // change when session is implemented
     const userName = req.session.user.username;
     let remark = req.body.remark;
+    let priority = req.body.priority
     remark = remark.trim()
 
     await Favourite.editFavourite(
       userName,
       id,
-      remark
+      remark,
+      priority
     );
 
     res.redirect("/view-favourites");
