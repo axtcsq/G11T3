@@ -70,6 +70,7 @@ exports.showFavourites = async (req, res) => {
             name: petList[j].name,
             age: petList[j].age,
             desc: petList[j].desc,
+            photo: petList[j].photo,
             remark: favourites[i].remark
           });
         }
