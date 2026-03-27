@@ -27,6 +27,10 @@
 
   <%- include("common/header", {isAdmin: isAdmin}) %>
 
+  <% if (typeof error !== 'undefined') { %>
+    <p style="color: red;"><%= error %></p>
+  <% } %>
+  
   <!-- EJS conditional block: Check if there are any pet list -->
   <% if (petList.length === 0) { %>
     <p>No pets yet.</p> <!-- Message when there is no pets -->

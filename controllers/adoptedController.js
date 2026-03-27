@@ -6,7 +6,12 @@ exports.displayAdopted = async (req, res) => {
   const id  = req.body.selectPet
   const userName = req.body.userName
   console.log(req.session.user.username)
-  
+
+  if (!id) {
+      const petList = await Pet.retrieveAll();
+      return res.render ('display-pet', {petList, isAdmin, id, userName:userName, favouriteList:[], error: "Please select 1 pet to adopt"})
+    }
+
   let newAdopted = 
   { 
   userName: req.session.user.username,
