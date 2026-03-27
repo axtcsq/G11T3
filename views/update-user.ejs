@@ -108,13 +108,13 @@
 <body>
     <%- include("common/header") %>
 
-    <% if (successful) { %>
-        <p class="msg success">User updated successfully!</p>
-    <% } %>
-
     <% if (result) { %>
     <div class="card">
         <h3>Update User: <%= result.userName %></h3>
+
+        <% if (successful) { %>
+            <p class="msg success">User updated successfully!</p>
+        <% } %>
 
         <form action="/update-user" method="POST">
             <!-- Username (readonly) -->

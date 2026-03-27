@@ -5,74 +5,145 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add Pet Record</title>
     <link rel="icon" type="image/x-icon" href="./img/paw.png">
-</head>
 
-<style>
-    body {
-        background-image: url("./img/bg2.png");
-        background-attachment: fixed;  
-        background-size: cover;
-        color: white;
-    }
-</style>
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background-image: url("./img/bg2.png");
+            background-size: cover;
+            background-position: center;
+            color: #fff;
+            padding: 20px;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(12px);
+            border-radius: 16px;
+            padding: 30px 25px;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+            margin: 40px auto;
+        }
+
+        h3 {
+            text-align: center;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        label {
+            font-size: 0.85rem;
+            opacity: 0.85;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            margin-bottom: 15px;
+            border: none;
+            border-radius: 8px;
+            background: rgba(255,255,255,0.15);
+            color: white;
+            outline: none;
+        }
+
+        input::placeholder {
+            color: rgba(255,255,255,0.6);
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 8px;
+            background: linear-gradient(135deg, #ff9800, #ffb74d);
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(255,152,0,0.4);
+        }
+
+        .msg {
+            text-align: center;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+
+        .error {
+            color: #ff6b6b;
+        }
+
+        .success {
+            color: #90ee90;
+        }
+    </style>
+</head>
 
 <body>
     <%- include("common/header") %>
 
-    <h3>Add Pet Record</h3>
-    
-    <!-- Displays error message -->
-    <% if (!result || result==="fail") { %>
-        <p style="color: red;"><%= msg %></p>
-    <% } %>
-
-    <!-- Displays success message -->
-    <% if (result && result !== "fail") { %>
-        <p style="color: lightgreen;">Pet added successfully!</p>
-    <% } %>
-    
-    <form action="/add-pet" method="POST">
-        <!-- ID -->
-        <label for="userName">ID:</label><br>
-        <input type="text" name="id" value="<%= newId %>" readonly >
-
-        <br><br>
+    <div class="card">
+        <h3>Add Pet Record</h3>
         
-        <!-- Name -->
-        <label for="userName">Name:</label><br>
-        <input type="text" name="name" required placeholder="Pet's name?">
+        <!-- Displays error message -->
+        <% if (!result || result==="fail") { %>
+            <p class="msg error"><%= msg %></p>
+        <% } %>
 
-        <br><br>
+        <!-- Displays success message -->
+        <% if (result && result !== "fail") { %>
+            <p class="msg success">Pet added successfully!</p>
+        <% } %>
+        
+        <form action="/add-pet" method="POST">
+            <!-- ID -->
+            <label>ID</label>
+            <input type="text" name="id" value="<%= newId %>" readonly>
 
-        <!-- Type -->
-        <label for="userName">Type:</label><br>
-        <select id="type" name="type"> 
-            <option value="" disabled selected> -- Please choose an option --</option>
-            <option value="Cat">Cat</option>
-            <option value="'Dog">Dog</option>
-        </select>
+            <!-- Name -->
+            <label>Name</label>
+            <input type="text" name="name" required placeholder="Pet's name?">
 
-        <br><br>
+            <!-- Type -->
+            <label>Type</label>
+            <select id="type" name="type" required>
+                <option value="" disabled selected>-- Please choose an option --</option>
+                <option value="Cat">Cat</option>
+                <option value="Dog">Dog</option>
+            </select>
 
-        <!-- Age -->
-        <label for="userName">Age:</label><br>
-        <input type="text" name="age" required placeholder="How old is it?">
+            <!-- Age -->
+            <label>Age</label>
+            <input type="text" name="age" required placeholder="How old is it?">
 
-        <br><br>
+            <!-- Description -->
+            <label>Description</label>
+            <input type="text" name="desc" required placeholder="Any character traits?">
 
-        <!-- Description -->
-        <label for="userName">Description:</label><br>
-        <input type="text" name="desc" required placeholder="Any character traits?">
+            <!-- Photo -->
+            <label>Photo Filename</label>
+            <input type="text" name="photo" placeholder="Picture of the Pet">
 
-        <br><br>
-
-        <!-- Photo -->
-        <label for="photo">Photo Filename:</label>
-        <input type="text" id="photo" name="photo" placeholder="Picture of the Pet">
-
-        <br><br>
-
-        <button type="submit">Add Pet!</button>       
-    </form>
+            <button type="submit">Add Pet</button>
+        </form>
+    </div>
 </body>
 </html>

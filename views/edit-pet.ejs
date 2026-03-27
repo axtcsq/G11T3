@@ -3,49 +3,104 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Update Pet Records</title>
+    <title>Edit Pet Record</title>
     <link rel="icon" type="image/x-icon" href="./img/paw.png">
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <!-- CSS to beautify page -->
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background-image: url("./img/bg2.png");
+            background-size: cover;
+            background-position: center;
+            color: #fff;
+            padding: 20px;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(12px);
+            border-radius: 16px;
+            padding: 30px 25px;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+            margin: 40px auto;
+        }
+
+        h3 {
+            text-align: center;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        label {
+            font-size: 0.85rem;
+            opacity: 0.85;
+        }
+
+        select {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            margin-bottom: 15px;
+            border: none;
+            border-radius: 8px;
+            background: rgba(255,255,255,0.15);
+            color: white;
+            outline: none;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 8px;
+            background: linear-gradient(135deg, #ff9800, #ffb74d);
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(255,152,0,0.4);
+        }
+    </style>
 </head>
 
-<style>
-    body {
-        background-image: url("./img/bg2.png");
-        background-attachment: fixed;  
-        background-size: cover;
-        color: white;
-    }
-    table {
-        border-collapse: collapse;
-    }
-    th, td {
-        padding: 10px 15px;
-        text-align: left;
-    }
-</style>
 <body>
-     
-   <%- include("common/header") %>
+    <%- include("common/header") %>
 
-    <h3>Edit Pet Record</h3>
-    
-    <form action="/update-pet" method="GET">
-    
-        <label>Select Pet:</label><br>
+    <div class="card">
+        <h3>Edit Pet Record</h3>
+        
+        <form action="/update-pet" method="GET">
+            <label>Select Pet</label>
 
-        <select name="id" required>
-          <option value="">-- Choose a pet --</option>
+            <select name="id" required>
+                <option value="">-- Choose a pet --</option>
 
-          <% petList.forEach(pet => { %>
-            <option value="<%= pet.id %>">
-              <%= pet.name %> (ID: <%= pet.id %>)
-            </option>
-          <% }); %>
+                <% petList.forEach(pet => { %>
+                    <option value="<%= pet.id %>">
+                        <%= pet.name %> (ID: <%= pet.id %>)
+                    </option>
+                <% }); %>
+            </select>
 
-        </select>
-
-        <br><br>
-
-        <button type="submit">Edit Pet!</button>       
-    </form>
+            <button type="submit">Edit Pet</button>
+        </form>
+    </div>
 </body>
 </html>

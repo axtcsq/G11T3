@@ -5,23 +5,90 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pet Records</title>
     <link rel="icon" type="image/x-icon" href="./img/paw.png">
-</head>
 
-<style>
-    body {
-        background-image: url("./img/bg2.png");
-        background-attachment: fixed;  
-        background-size: cover;
-        color: white;
-    }
-    table {
-        border-collapse: collapse;
-    }
-    th, td {
-        padding: 10px 15px;
-        text-align: left;
-    }
-</style>
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <!-- CSS to beautify page -->
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background-image: url("./img/bg2.png");
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 20px;
+        }
+
+        h2 {
+            margin: 20px 0 10px;
+            font-weight: 600;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        th, td {
+            padding: 12px 14px;
+            text-align: left;
+        }
+
+        th {
+            background: rgba(255,255,255,0.15);
+            font-weight: 500;
+        }
+
+        tr {
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        tr:hover {
+            background: rgba(255,255,255,0.05);
+        }
+
+        button {
+            margin-top: 10px;
+            padding: 10px 14px;
+            border: none;
+            border-radius: 8px;
+            background: linear-gradient(135deg, #ff9800, #ffb74d);
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(255,152,0,0.4);
+        }
+
+        .highlight {
+            background: rgba(255, 183, 77, 0.35);
+            font-weight: 600;
+        }
+
+        hr {
+            margin: 20px 0;
+            border: none;
+            height: 1px;
+            background: rgba(255,255,255,0.2);
+        }
+    </style>
+</head>
 
 <body>
 
@@ -42,17 +109,19 @@
     <form action="/adopted-pets" method="post">
       <p>Hey <%= userName %>! Thank you for considering to adopt our pets. Here are the pets that are adoptable currently <mark>(you can only choose one)</mark>:</p>
 
+      <br>
+
       <table border="1">
           <tr>
-            <th style="background-color: rgb(88, 87, 86);">No.</th>  
-            <th style="background-color: rgb(88, 87, 86);">Record ID</th>
-            <th style="background-color: rgb(88, 87, 86);">Breed</th>
-            <th style="background-color: rgb(88, 87, 86);">Name</th>
-            <th style="background-color: rgb(88, 87, 86);">Age (years)</th>
-            <th style="background-color: rgb(88, 87, 86);">Description</th>
-            <th style="background-color: rgb(88, 87, 86);">Photo</th>
-            <th style="background-color: rgb(88, 87, 86);">Favourites</th>
-            <th style="background-color: rgb(88, 87, 86);">Adopt?</th>
+            <th>No.</th>  
+            <th>Record ID</th>
+            <th>Breed</th>
+            <th>Name</th>
+            <th>Age (years)</th>
+            <th>Description</th>
+            <th>Photo</th>
+            <th>Favourites</th>
+            <th>Adopt?</th>
           </tr>
 
           <!-- For counter -->
@@ -105,8 +174,8 @@
     <h2>Summary</h2>
     <table border="1">
       <tr>
-        <th style="background-color: rgb(88, 87, 86);">Total Type</th>
-        <th style="background-color: rgb(88, 87, 86);">Count</th>
+        <th>Total Type</th>
+        <th>Count</th>
       </tr>
 
       <tr>
@@ -119,9 +188,9 @@
         <td><%= catCount %></td>
       </tr>
 
-      <tr>
-        <th style="background-color: rgb(144, 128, 108);">Pets</th>
-        <td style="background-color: rgb(144, 128, 108);"><%= i - 1 %></td>
+      <tr class="highlight">
+        <th>Pets</th>
+        <td><%= i - 1 %></td>
       </tr>
     </table>
     
