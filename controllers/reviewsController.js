@@ -25,16 +25,15 @@ exports.showForm = (req, res) => {
 
 //  Create a new Review
 exports.createReviews = async (req, res) => {
-    const { username, petName, rating, title, message } = req.body; // Get data from the form
+    const { petName, rating, title, message } = req.body; // Get data from the form
     // Trim spaces from each input (prevents issues from accidental spaces)
-    const trimmedUsername = (username || "").trim();
     const trimmedPetName = (petName || "").trim();
     const trimmedTitle = (title || "").trim();
     const trimmedMessage = (message || "").trim();
     const trimmedRating = rating ? parseInt(rating) : null;
 
     // Validation: Checks if any field is empty or invalid
-    if (!trimmedUsername || !trimmedPetName || !trimmedTitle || !trimmedMessage || !trimmedRating) {
+    if (!trimmedPetName || !trimmedTitle || !trimmedMessage || !trimmedRating) {
         let result = "fail";
         let msg = "All fields are required, and rating should be a number between 1 and 5.";
 
@@ -52,11 +51,11 @@ exports.createReviews = async (req, res) => {
     try {
         // Create a new review document
         const newReview = new Review({
-            username,
-            petName,
-            rating,
-            title,
-            message
+            username: req.session.user.username,
+            petName: trimmedPetName,
+            rating: trimmedRating,
+            title: trimmedTitle,
+            message: trimmedMessage
         });
 
         // Save the review to the database

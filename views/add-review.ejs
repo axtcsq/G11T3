@@ -42,6 +42,7 @@
         <!-- Rating -->
         <label for="rating">Rating:</label><br>
         <select name="rating" required>
+            <option value="">Please Insert a Rating</option>
             <option value="1">1</option>
             <option value="2">2</option>
             <option value="3">3</option>
@@ -52,7 +53,7 @@
 
         <!-- Message -->
         <label for="message">Review Message</label><br>
-        <input type="text" name="message" required placeholder="Type Your Review Here!">
+        <textarea id="message" name="message" rows = "4" cols="30" required placeholder="Type Your Review Here!"></textarea>
 
         <br><br>
 
