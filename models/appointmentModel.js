@@ -48,3 +48,6 @@ exports.deleteAppointment = function(id) {
     return Appointment.findByIdAndDelete(id);
 };
 
+exports.checkConflict = function(petId, date, time) {
+    return Appointment.findOne({ petId, date, time });
+};

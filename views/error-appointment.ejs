@@ -1,0 +1,23 @@
+<%- include("common/header", {isAdmin: false}) %>
+
+<div class="container" style="text-align: center; padding: 60px 20px; color: white;">
+    
+    <img src="/img/sad-dog.png" alt="Sad crying dog" style="max-width: 250px; margin-bottom: 20px;">
+
+    <h1 style="color: #ff4d4d; font-size: 2.5rem; margin-bottom: 10px;">Oh No! A Conflict!</h1>
+    
+    <p style="font-size: 1.2rem; margin-bottom: 30px;">
+        <%= message %>
+    </p>
+
+    <div style="margin-top: 40px;">
+        <button onclick="window.history.back()" 
+                style="background-color: #ffcc00; color: black; border: none; padding: 12px 25px; cursor: pointer; border-radius: 5px; font-weight: bold; font-size: 1rem;">
+           Try Another Time
+        </button>
+    </div>
+
+    <p style="margin-top: 30px;">
+        <a href="/" style="color: #bbb; text-decoration: none;">Return to Home</a>
+    </p>
+</div>
