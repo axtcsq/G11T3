@@ -3,65 +3,128 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Update Pet Records</title>
+    <title>Update Adopted Record</title>
     <link rel="icon" type="image/x-icon" href="./img/paw.png">
-</head>
 
-<style>
-    body {
-        background-image: url("./img/bg2.png");
-        background-attachment: fixed;  
-        background-size: cover;
-        color: white;
-    }
-    table {
-        border-collapse: collapse;
-    }
-    th, td {
-        padding: 10px 15px;
-        text-align: left;
-    }
-</style>
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <!-- CSS to beautify page -->
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background-image: url("./img/bg2.png");
+            background-size: cover;
+            background-position: center;
+            color: #fff;
+            padding: 20px;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(12px);
+            border-radius: 16px;
+            padding: 30px 25px;
+            width: 100%;
+            max-width: 420px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+            margin: 40px auto;
+        }
+
+        h3 {
+            text-align: center;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        label {
+            font-size: 0.85rem;
+            opacity: 0.85;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            margin-bottom: 15px;
+            border: none;
+            border-radius: 8px;
+            background: rgba(255,255,255,0.15);
+            color: white;
+            outline: none;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 8px;
+            background: linear-gradient(135deg, #ff9800, #ffb74d);
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(255,152,0,0.4);
+        }
+
+        .msg {
+            text-align: center;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+
+        .success {
+            color: #90ee90;
+        }
+    </style>
+</head>
 
 <body>
     <%- include("common/header") %>
 
     <% if (result) { %>
-    <h3>Update Pet Records for <%= result.name %>:</h3>
+    <div class="card">
+        <h3>Update Adoption for <%= result.userName %></h3>
 
-    <form action="/update-adopted" method="POST">
-        <table border="1">
-            <tr>
-                <th>Username :</th>
-                <td><input type="text" name="name" value="<%= result.userName %>"></td>
-            </tr>
-            <tr>
-                <th>Pet ID</th>
-                <td><input type="text" name="id" value="<%= result.petId %>"></td>
-            </tr>
-            <tr>
-                <th>Status</th>
-                <td>
-                    <select name="status">
-                    <option value="<%= result.status %>"><%= result.status %> </option>
-                    <option value="Approved">Approved</option>
-                    <option value="rejected">Rejected</option>
-                    </select>
-                </td>
-            </tr>
+        <% if (successful) { %>
+            <p class="msg success">Adoption Record updated successfully!</p>
+        <% } %>
+
+        <form action="/update-adopted" method="POST">
+            <!-- Username -->
+            <label>Username</label>
+            <input type="text" name="name" value="<%= result.userName %>">
+
+            <!-- Pet ID -->
+            <label>Pet ID</label>
+            <input type="text" name="id" value="<%= result.petId %>">
+
+            <!-- Status -->
+            <label>Status</label>
+            <select name="status">
+                <option value="<%= result.status %>"><%= result.status %></option>
+                <option value="Approved" <%= result.status === "Approved" ? "selected" : "" %>>Approved</option>
+                <option value="Rejected" <%= result.status === "Rejected" ? "selected" : "" %>>Rejected</option>
+            </select>
+
+            <!-- Hidden ID -->
             <input type="hidden" name="id" value="<%= result.petId %>">
-            <tr>
-                <td colspan="2"><button type="submit">Update Adopted!</button></td>
-            </tr>
-        </table>      
-    </form>
-     <% } %>
 
-    <% if (successful) { %>
-        <p style="color: lightgreen;">Adoption Record updated successfully!</p>
+            <button type="submit">Update Adopted</button>
+        </form>
+    </div>
     <% } %>
-
-<br><br>
 
 </body>
 </html>
