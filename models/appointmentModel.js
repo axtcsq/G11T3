@@ -58,6 +58,11 @@ exports.updateToAppointment = function(id, updateData) {
     return Appointment.updateOne({ _id: id }, { $set: updateData });
 };
 
+// for the conflict catcher to work
+exports.findOne = function(query) {
+    return Appointment.findOne(query);
+};
+
 // DELETE FUNCTION
 exports.deleteAppointment = function(id) {
     return Appointment.findByIdAndDelete(id);

@@ -1,5 +1,6 @@
 const appointment = require('./../models/appointmentModel');
 const Pet = require('./../models/petsModel');
+const mongoose = require('mongoose'); // Add this at the very top of your controller
 
 // TO BE FIXED
 // 1. Edit/update schedule function
@@ -86,20 +87,39 @@ exports.editAppointmentPage = async (req, res) => {
 exports.updateAppointment = async (req, res) => {
     try {
         const id = req.params.id;
-        const updatedData = {
-            date: req.body.appointmentDate, // matches EJS name="appointmentDate"
-            time: req.body.timeSlot        // matches EJS name="timeSlot"
-        };
+        const newDate = req.body.appointmentDate;
+        const newTime = req.body.timeSlot;
 
+        // 1. Convert the ID string to a MongoDB ObjectId
+        const objectId = new mongoose.Types.ObjectId(id);
+
+        // 2. The Conflict Check
+        // Search for a match that IS NOT the current ID
+        const conflict = await appointment.findOne({
+            _id: { $ne: objectId }, 
+            date: newDate,
+            time: newTime
+        });
+
+        if (conflict) {
+            // This will only trigger now if a DIFFERENT appointment exists there
+            return res.render('error-appointment', { 
+                message: "Sorry! That time slot is already taken by another booking." 
+            });
+        }
+
+        // 3. If no conflict, save the changes
+        const updatedData = { date: newDate, time: newTime };
         await appointment.updateToAppointment(id, updatedData);
         
-        // Redirect to success page with happy animals
         res.render('successful-appointment'); 
+
     } catch (err) {
-        console.error("Update Error:", err);
-        res.render('error-appointment', { message: "Could not update the appointment." });
+        console.error("Reschedule Error:", err);
+        res.render('error-appointment', { message: "Error during rescheduling." });
     }
 };
+
 
 
 // DELETE 
@@ -113,4 +133,5 @@ exports.deleteAppointment = async (req, res) => {
         res.status(500).send("Error deleting appointment");
     }
 };
+
 
