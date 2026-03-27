@@ -96,7 +96,7 @@
 
             <% if (typeof currentUser !== 'undefined' && currentUser && review.username === currentUser.username) { %>
                 <div class="review-actions">
-                    <a href="/update-review?id=<%= review._id %>" style="color:hotpink">Edit</a>
+                    <a href="/update-review?id=<%= review._id %>">Edit Review</a>
 
                     <form action="/delete-review" method="post">
                         <input type="hidden" name="id" value="<%= review._id %>">
