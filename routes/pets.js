@@ -1,12 +1,12 @@
 const express = require('express');
-const { requireAdmin } = require("../middleware/auth");
+const { requireLogin, requireAdmin } = require("../middleware/auth");
 
 const petsController = require('./../controllers/petsController');
 
 const router = express.Router(); // sub application
 
 // Define a GET route to DISPLAY/READ the list of pets
-router.get("/display-pet", petsController.showPets);
+router.get("/display-pet", requireLogin, petsController.showPets);
 
 // Define GET/POST route to ADD pets to database
 router.get("/add-pet", requireAdmin, petsController.showAddForm);
