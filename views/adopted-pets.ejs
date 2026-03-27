@@ -5,92 +5,177 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Adopted Pet Summary</title>
     <link rel="icon" type="image/x-icon" href="./img/paw.png">
-</head>
 
-<style>
-    body {
-        background-image: url("./img/bg2.png");
-        background-attachment: fixed;  
-        background-size: cover;
-        color: white;
-    }
-    table {
-        border-collapse: collapse;
-    }
-    th, td {
-        padding: 10px 15px;
-        text-align: left;
-    }
-</style>
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url("./img/bg2.png");
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 20px;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(12px);
+            border-radius: 16px;
+            padding: 30px 25px;
+            width: 100%;
+            max-width: 600px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+            margin: 40px auto;
+        }
+
+        h3 {
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        p {
+            margin-bottom: 15px;
+            opacity: 0.9;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            overflow: hidden;
+            margin-top: 10px;
+        }
+
+        th, td {
+            padding: 12px 14px;
+            text-align: left;
+        }
+
+        th {
+            background: rgba(255,255,255,0.15);
+            font-weight: 500;
+        }
+
+        tr {
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .status {
+            color: #90ee90;
+            font-weight: 600;
+        }
+
+        label {
+            font-size: 0.85rem;
+            opacity: 0.85;
+        }
+
+        select {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            margin-bottom: 15px;
+            border: none;
+            border-radius: 8px;
+            background: rgba(255,255,255,0.15);
+            color: white;
+            outline: none;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 8px;
+            background: linear-gradient(135deg, #ff9800, #ffb74d);
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(255,152,0,0.4);
+        }
+
+        .success-text {
+            color: #90ee90;
+        }
+    </style>
+</head>
 
 <body>
     <%- include("common/header", {isAdmin: isAdmin}) %>
     
-    <h3>Adopted Pet Summary</h3>
-    
-    <% if (pet) { %>
-        <table border="1" style="width: 80%; margin-top: 20px; border-collapse: collapse; text-align: left;">
-            <thead>
-                <tr style="background-color: rgba(255,255,255,0.1);">
-                    <th>Record ID</th>
-                    <th>Adoption Status</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td><%= pet.id %></td>
-                    <td style="color: #4CAF50; font-weight: bold;">Pending ...</td>
-                </tr>
-            </tbody>
-        </table>
+    <div class="card">
+        <h3>Adopted Pet Summary</h3>
         
-        <p style="margin-top: 20px; color: lightgreen;">
-            Congratulations <%= pet.userName %>! Your request to adopt pet record ID <%= pet.petId %> has been noted. We will keep in touch!
-        </p>
+        <% if (pet) { %>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Record ID</th>
+                        <th>Adoption Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><%= pet.id %></td>
+                        <td class="status">Pending ...</td>
+                    </tr>
+                </tbody>
+            </table>
 
-        <br>
-
-        <h3>
-            Please make an appointment below:
-        </h3>
-        <!-- added this chunk to display an appointment slot booker (Work in progress)-->
-       <form action="/book" method="POST">
-            <input type="hidden" name="petId" value="<%= pet.petId %>">
-            <input type="hidden" name="userName" value="<%= pet.userName %>">
-            
-            <!-- date  -->
-            <label for="appointmentDate">Pick a Date:</label><br>
-            <select name="appointmentDate" id="appointmentDate" style="padding: 8px; margin-bottom: 10px; background-color: white; color: black;">
-                <% 
-                const options = { weekday: 'long', month: 'long', day: 'numeric' };
-                for(let i = 1; i <= 7; i++) { 
-                    let d = new Date();
-                    d.setDate(d.getDate() + i);
-                %>
-                <option value="<%= d.toISOString().split('T')[0] %>">
-                    <%= d.toLocaleDateString(undefined, options) %>
-                </option>
-                <% } %>
-            </select>
             <br>
-
-            <!-- Time -->
-            <label for="timeSlot">Select Time Slot (2-hour intervals):</label><br>
-            <select name="timeSlot" id="timeSlot" required style="padding: 8px; margin-bottom: 15px;">
-                <option value="10:00-12:00">10:00 AM - 12:00 PM</option>
-                <option value="12:00-14:00">12:00 PM - 02:00 PM</option>
-                <option value="14:00-16:00">02:00 PM - 04:00 PM</option>
-                <option value="16:00-18:00">04:00 PM - 06:00 PM</option>
-            </select>
             
-            <br>
+            <p class="success-text">
+                Congratulations <%= pet.userName %>! Your request to adopt pet record ID <%= pet.petId %> has been noted. We will keep in touch!
+            </p>
 
-            <button type="submit" style="background-color: #28a745; color: white; border: none; padding: 10px; cursor: pointer; border-radius: 4px;">
-                Confirm Appointment
-            </button>
-    </form>
-    <% } else { %>
-        <p>No pet selection found. Please go back and select a pet.</p>
-    <% } %></p>
+            <h3>Please make an appointment below:</h3>
+
+            <form action="/book" method="POST">
+                <input type="hidden" name="petId" value="<%= pet.petId %>">
+                <input type="hidden" name="userName" value="<%= pet.userName %>">
+                
+                <label>Pick a Date</label>
+                <select name="appointmentDate" id="appointmentDate">
+                    <% 
+                    const options = { weekday: 'long', month: 'long', day: 'numeric' };
+                    for(let i = 1; i <= 7; i++) { 
+                        let d = new Date();
+                        d.setDate(d.getDate() + i);
+                    %>
+                    <option value="<%= d.toISOString().split('T')[0] %>">
+                        <%= d.toLocaleDateString(undefined, options) %>
+                    </option>
+                    <% } %>
+                </select>
+
+                <label>Select Time Slot</label>
+                <select name="timeSlot" id="timeSlot" required>
+                    <option value="10:00-12:00">10:00 AM - 12:00 PM</option>
+                    <option value="12:00-14:00">12:00 PM - 02:00 PM</option>
+                    <option value="14:00-16:00">02:00 PM - 04:00 PM</option>
+                    <option value="16:00-18:00">04:00 PM - 06:00 PM</option>
+                </select>
+                
+                <button type="submit">Confirm Appointment</button>
+            </form>
+        <% } else { %>
+            <p>No pet selection found. Please go back and select a pet.</p>
+        <% } %>
+    </div>
 </body>
 </html>
