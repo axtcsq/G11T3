@@ -4,68 +4,100 @@
 <head>
   <meta charset="UTF-8">
   <title>Pet</title>
+  
+  <style>
+      /* Unvisited link */
+      a:link {
+          color: white;
+      }
+
+      /* Visited link */
+      a:visited {
+          color: goldenrod;
+      }
+
+      /* Mouse over link */
+      a:hover {
+          color: cyan;
+      }
+      /* Dropdown container */
+      .dropdown {
+          display: inline-block;
+          position: relative;
+      }
+
+      /* Button */
+      .dropbtn {
+          cursor: pointer;
+          color: white;
+      }
+
+      /* Dropdown menu */
+      .dropdown-content {
+          display: none;
+          position: absolute;
+          background-color: #333;
+          min-width: 150px;
+          z-index: 1;
+      }
+
+      /* Links inside dropdown */
+      .dropdown-content a {
+          display: block;
+          padding: 8px 12px;
+          text-decoration: none;
+          color: white;
+      }
+
+      /* Hover effect */
+      .dropdown-content a:hover {
+          background-color: #555;
+      }
+
+      /* Show dropdown on hover */
+      .dropdown:hover .dropdown-content {
+          display: block;
+      }
+      /* Force navbar to always align left and span full width */
+      body {
+          width: 100%;
+      }
+
+      nav {
+          width: 100%;
+          display: flex;
+          justify-content: flex-start; /* force left alignment */
+          align-items: center;
+          gap: 10px;
+      }
+
+      /* Prevent parent flex containers from centering navbar */
+      nav {
+          align-self: stretch;
+      }
+
+      .logout-btn {
+          padding: 6px 12px;
+          border-radius: 20px;
+          background: rgba(255, 183, 77, 0.2);
+          border: 1px solid rgba(255, 183, 77, 0.6);
+          color: #ffcc80;
+          text-decoration: none;
+          transition: all 0.2s ease;
+      }
+
+      .logout-btn:hover {
+          background: rgba(255, 183, 77, 0.35);
+          color: #fff;
+      }
+  </style>
 </head>
-
-<style>
-    /* Unvisited link */
-    a:link {
-        color: white;
-    }
-
-    /* Visited link */
-    a:visited {
-        color: goldenrod;
-    }
-
-    /* Mouse over link */
-    a:hover {
-        color: cyan;
-    }
-    /* Dropdown container */
-    .dropdown {
-        display: inline-block;
-        position: relative;
-    }
-
-    /* Button */
-    .dropbtn {
-        cursor: pointer;
-        color: white;
-    }
-
-    /* Dropdown menu */
-    .dropdown-content {
-        display: none;
-        position: absolute;
-        background-color: #333;
-        min-width: 150px;
-        z-index: 1;
-    }
-
-    /* Links inside dropdown */
-    .dropdown-content a {
-        display: block;
-        padding: 8px 12px;
-        text-decoration: none;
-        color: white;
-    }
-
-    /* Hover effect */
-    .dropdown-content a:hover {
-        background-color: #555;
-    }
-
-    /* Show dropdown on hover */
-    .dropdown:hover .dropdown-content {
-        display: block;
-    }
-</style>
 
 <body>
   <nav>
     <!-- Dynamically updates to login/logout -->
     <% if (user) { %>
-      <a href="/logout">Logout</a> |
+      <a href="/logout" class="logout-btn">Logout</a> |
     <% } else { %>
       <a href="/login">Login</a> |
     <% } %>

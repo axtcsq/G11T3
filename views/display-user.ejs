@@ -5,23 +5,68 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Records</title>
     <link rel="icon" type="image/x-icon" href="./img/paw.png">
-</head>
 
-<style>
-    body {
-        background-image: url("./img/bg2.png");
-        background-attachment: fixed;  
-        background-size: cover;
-        color: white;
-    }
-    table {
-        border-collapse: collapse;
-    }
-    th, td {
-        padding: 10px 15px;
-        text-align: left;
-    }
-</style>
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <!-- CSS to beautify page -->
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background-image: url("./img/bg2.png");
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 20px;
+        }
+
+        h2 {
+            margin: 20px 0 10px;
+            font-weight: 600;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        th, td {
+            padding: 12px 14px;
+            text-align: left;
+        }
+
+        th {
+            background: rgba(255, 183, 0, 0.15);
+            font-weight: 500;
+        }
+
+        tr {
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        tr:hover {
+            background: rgba(255,255,255,0.05);
+        }
+
+        hr {
+            margin: 20px 0;
+            border: none;
+            height: 1px;
+            background: rgba(255,255,255,0.2);
+        }
+    </style>
+</head>
 
 <body>
 
@@ -37,11 +82,11 @@
 
     <table border="1">
         <tr>
-          <th style="background-color: rgb(88, 87, 86);">No.</th>  
-          <th style="background-color: rgb(88, 87, 86);">User ID</th>
-          <th style="background-color: rgb(88, 87, 86);">Name</th>
-          <th style="background-color: rgb(88, 87, 86);">Gender</th>
-          <th style="background-color: rgb(88, 87, 86);">Type</th>
+          <th>No.</th>  
+          <th>User ID</th>
+          <th>Name</th>
+          <th>Gender</th>
+          <th>Type</th>
         </tr>
 
         <!-- For counter -->
@@ -74,23 +119,23 @@
     <h2>Summary</h2>
     <table border="1">
       <tr>
-        <th style="background-color: rgb(88, 87, 86);">Type</th>
-        <th style="background-color: rgb(88, 87, 86);">Count</th>
+        <th>Type</th>
+        <th>Count</th>
       </tr>
 
       <tr>
-        <th>Admins</th>
+        <td>Admins</td>
         <td><%= adminCount %></td>
       </tr>
 
       <tr>
-        <th>Users</th>
+        <td>Users</td>
         <td><%= userCount %></td>
       </tr>
 
       <tr>
-        <th style="background-color: rgb(144, 128, 108);">Total</th>
-        <td style="background-color: rgb(144, 128, 108);"><%= i - 1 %></td>
+        <td>Total</td>
+        <td><%= i - 1 %></td>
       </tr>
     </table>
     
