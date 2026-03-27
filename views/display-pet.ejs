@@ -93,10 +93,6 @@
 <body>
 
   <%- include("common/header", {isAdmin: isAdmin}) %>
-
-  <% if (typeof error !== 'undefined') { %>
-    <p style="color: red;"><%= error %></p>
-  <% } %>
   
   <!-- EJS conditional block: Check if there are any pet list -->
   <% if (petList.length === 0) { %>
@@ -108,6 +104,12 @@
 
     <form action="/adopted-pets" method="post">
       <p>Hey <%= userName %>! Thank you for considering to adopt our pets. Here are the pets that are adoptable currently <mark>(you can only choose one)</mark>:</p>
+
+      <br>
+
+      <% if (typeof error !== 'undefined') { %>
+        <p style="color: red;"><%= error %></p>
+      <% } %>
 
       <br>
 
