@@ -3,70 +3,148 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pet Reviews</title>
+    <title>My Reviews</title>
     <link rel="icon" type="image/x-icon" href="./img/paw.png">
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url("./img/bg2.png");
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 20px;
+        }
+
+        h1 {
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .empty {
+            margin-top: 10px;
+            text-align: center;
+        }
+
+        .empty img {
+            margin-top: 10px;
+        }
+
+        .link-btn {
+            display: inline-block;
+            margin-top: 10px;
+            color: #ffcc80;
+            text-decoration: none;
+        }
+
+        .link-btn:hover {
+            text-decoration: underline;
+        }
+
+        .review-table {
+            width: 100%;
+            margin-bottom: 20px;
+            border-collapse: collapse;
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .review-table th,
+        .review-table td {
+            padding: 12px 14px;
+            text-align: left;
+        }
+
+        .review-table th {
+            width: 180px;
+            background: rgba(255,255,255,0.15);
+            font-weight: 500;
+        }
+
+        .review-table tr {
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .review-header {
+            margin-top: 25px;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .review-actions {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .review-actions form {
+            margin: 0;
+            display: inline-block;
+        }
+
+        .action-btn {
+            display: inline-block;
+            margin: 10px auto;
+            padding: 5px 10px;
+            border-radius: 20px;
+            background: rgba(255, 183, 77, 0.2);
+            border: 1px solid rgba(255, 183, 77, 0.6);
+            color: #ffcc80;
+            text-decoration: none;
+            font-size: 0.75rem;
+            transition: all 0.2s ease;
+        }
+
+        .action-btn:hover {
+            background: rgba(255, 183, 77, 0.35);
+            color: #fff;
+        }
+
+        .action-btn.danger {
+            border-color: rgba(255, 77, 77, 0.6);
+            background: rgba(255, 77, 77, 0.2);
+            color: #ff9a9a;
+        }
+
+        .action-btn.danger:hover {
+            background: rgba(255, 77, 77, 0.35);
+            color: #fff;
+        }
+    </style>
 </head>
-
-<style>
-    body {
-        background-image: url("./img/bg2.png");
-        background-attachment: fixed;  
-        background-size: cover;
-        color: white;
-    }
-
-    .review-table {
-        width: 70%;
-        margin-bottom: 30px;
-        border-collapse: collapse;
-        background: rgba(0, 0, 0, 0.45);
-    }
-
-    .review-table th,
-    .review-table td {
-        padding: 12px 16px;
-        text-align: left;
-        border: 1px solid rgba(255, 255, 255, 0.2);
-    }
-
-    .review-table th {
-        width: 180px;
-    }
-
-    .review-header {
-        margin-top: 30px;
-        margin-bottom: 10px;
-    }
-
-    .review-actions {
-        width: 70%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        gap: 30px;
-        margin-top: 10px;
-        margin-bottom: 25px;
-    }
-
-    .review-actions form {
-        margin: 0;
-        display: inline;
-    }
-</style>
 
 <body>
     <%- include("common/header") %>
-    <h1>My Reviews</h1>
+
+    <br>
+
+    <h2>My Reviews</h2>
 
     <% if (!reviews || reviews.length === 0) { %>
-        <p>You haven't written any reviews yet.</p>
-        <img src = "/img/crying-kitten.png" alt = "Crying kitten" width = "200">
-        <br><br>
-        <a href="/add-review" style = "color:goldenrod">Write One Today!</a>
+        <div class="empty">
+            <p>You haven't written any reviews yet.</p>
+            <img src="/img/crying-kitten.png" alt="Crying kitten" width="200">
+            <br>
+            <a href="/add-review" class="action-btn">Write One Today!</a>
+        </div>
     <% } else { %>
         <% reviews.forEach((review, index) => { %>
             
             <h2 class="review-header">Review <%= index + 1 %>: <%= review.title %></h2>
+
             <table class="review-table">
                 <tr>
                     <th>Pet</th>
@@ -85,16 +163,16 @@
                     <td><%= new Date(review.createdAt).toLocaleDateString() %></td>
                 </tr>
             </table>
+
             <div class="review-actions">
-                <a href="/update-review?id=<%= review._id %>" style="color:hotpink">Edit</a>
+                <a href="/update-review?id=<%= review._id %>" class="action-btn">Edit</a>
+
                 <form action="/delete-review" method="post">
                     <input type="hidden" name="id" value="<%= review._id %>">
-                    <button type="submit">Delete</button>
+                    <button type="submit" class="action-btn danger">Delete</button>
                 </form>
             </div>
         <% }) %>
     <% } %>
-
-    
 </body>
 </html>

@@ -4,59 +4,157 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pet Reviews</title>
+</head>
     <link rel="icon" type="image/x-icon" href="./img/paw.png">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
 </head>
 
 <style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Inter', sans-serif;
+    }
+
     body {
-        background-image: url("/img/bg2.png");
-        background-attachment: fixed;
+        min-height: 100vh;
+        background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url("/img/bg2.png");
         background-size: cover;
+        background-position: center;
         color: white;
+        padding: 20px;
+    }
+
+    h1 {
+        margin-bottom: 15px;
+        font-weight: 600;
+    }
+
+    form {
+        margin-bottom: 15px;
+    }
+
+    input {
+        padding: 8px 10px;
+        border-radius: 8px;
+        border: none;
+        background: rgba(255,255,255,0.15);
+        color: white;
+        margin-right: 5px;
+    }
+
+    button {
+        padding: 8px 12px;
+        border-radius: 8px;
+        border: none;
+        background: linear-gradient(135deg, #ff9800, #ffb74d);
+        color: white;
+        font-weight: 600;
+        cursor: pointer;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(255,152,0,0.4);
     }
 
     .review-table {
-        width: 70%;
+        width: 100%;
         margin-bottom: 20px;
         border-collapse: collapse;
-        background: rgba(0, 0, 0, 0.45);
+        background: rgba(255, 255, 255, 0.08);
+        backdrop-filter: blur(10px);
+        border-radius: 12px;
+        overflow: hidden;
     }
 
     .review-table th,
     .review-table td {
-        padding: 12px 16px;
+        padding: 12px 14px;
         text-align: left;
-        border: 1px solid rgba(255, 255, 255, 0.2);
     }
 
     .review-table th {
         width: 180px;
+        background: rgba(255,255,255,0.15);
+        font-weight: 500;
+    }
+
+    .review-table tr {
+        border-bottom: 1px solid rgba(255,255,255,0.1);
     }
 
     .review-header {
-        margin-top: 30px;
+        margin-top: 25px;
         margin-bottom: 10px;
+        font-weight: 600;
     }
 
     .review-actions {
-        width: 70%;
         display: flex;
-        justify-content: center;
-        align-items: center;
-        gap: 30px;
+        gap: 10px;
         margin-top: 10px;
         margin-bottom: 25px;
+        align-items: center;
     }
 
     .review-actions form {
         margin: 0;
-        display: inline;
+        display: inline-block;
+    }
+
+    .action-btn {
+        display: inline-block;
+        padding: 5px 10px;
+        border-radius: 20px;
+        background: rgba(255, 183, 77, 0.2);
+        border: 1px solid rgba(255, 183, 77, 0.6);
+        color: #ffcc80;
+        text-decoration: none;
+        font-size: 0.75rem;
+        transition: all 0.2s ease;
+    }
+
+    .action-btn:hover {
+        background: rgba(255, 183, 77, 0.35);
+        color: #fff;
+    }
+
+    .action-btn.danger {
+        border-color: rgba(255, 77, 77, 0.6);
+        background: rgba(255, 77, 77, 0.2);
+        color: #ff9a9a;
+    }
+
+    .action-btn.danger:hover {
+        background: rgba(255, 77, 77, 0.35);
+        color: #fff;
+    }
+
+    .link-btn {
+        display: inline-block;
+        margin-bottom: 10px;
+        color: #ffcc80;
+        text-decoration: none;
+    }
+
+    .link-btn:hover {
+        text-decoration: underline;
     }
 </style>
 
 <body>
     <%- include("common/header") %>
-    <h1>Success Stories and Reviews!</h1>
+
+    <br>
+
+    <h2>Success Stories and Reviews!</h2>
+
+    <br>
+
     <!-- Search Form -->
     <form action="/reviews/search" method="GET">
         <input type="text" name="query" placeholder="Search reviews..." required>
@@ -64,7 +162,7 @@
     </form>
 
     <br>
-    <a href="/add-review" style="color:goldenrod">Leave a Review!</a>
+    <a href="/add-review" class="link-btn">Leave a Review!</a>
     <% if (reviews.length === 0) { %>
         <p>Be the first to leave a review!</p>
     <% } else { %>
@@ -96,11 +194,11 @@
 
             <% if (typeof currentUser !== 'undefined' && currentUser && review.username === currentUser.username) { %>
                 <div class="review-actions">
-                    <a href="/update-review?id=<%= review._id %>">Edit Review</a>
+                    <a href="/update-review?id=<%= review._id %>" class="action-btn">Edit</a>
 
                     <form action="/delete-review" method="post">
                         <input type="hidden" name="id" value="<%= review._id %>">
-                        <button type="submit">Delete</button>
+                        <button type="submit" class="action-btn danger">Delete</button>
                     </form>
                 </div>
             <% } %>

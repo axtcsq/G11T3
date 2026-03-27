@@ -5,64 +5,158 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add Review</title>
     <link rel="icon" type="image/x-icon" href="./img/paw.png">
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url("./img/bg2.png");
+            background-size: cover;
+            background-position: center;
+            color: #fff;
+            padding: 20px;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(12px);
+            border-radius: 16px;
+            padding: 30px 25px;
+            width: 100%;
+            max-width: 420px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+            margin: 40px auto;
+        }
+
+        h3 {
+            text-align: center;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        label {
+            font-size: 0.85rem;
+            opacity: 0.85;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            margin-bottom: 15px;
+            border: none;
+            border-radius: 8px;
+            background: rgba(255,255,255,0.15);
+            color: white;
+            outline: none;
+        }
+
+        input::placeholder, textarea::placeholder {
+            color: rgba(255,255,255,0.6);
+        }
+
+        textarea {
+            resize: none;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 8px;
+            background: linear-gradient(135deg, #ff9800, #ffb74d);
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(255,152,0,0.4);
+        }
+
+        .msg {
+            text-align: center;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+
+        .error {
+            color: #ff6b6b;
+        }
+
+        .success {
+            color: #90ee90;
+        }
+
+        .link-btn {
+            display: block;
+            text-align: center;
+            margin-top: 10px;
+            color: #ffcc80;
+            text-decoration: none;
+        }
+
+        .link-btn:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
-<style>
-    body {
-        background-image: url("./img/bg2.png");
-        background-attachment: fixed;  
-        background-size: cover;
-        color: white;
-    }
-</style>
+
 <body>
     <%- include("common/header") %>
-    <h3>Drop Us a Review Now!!</h3>
+
+    <div class="card">
+        <h3>Drop Us a Review Now!!</h3>
+
         <!-- Displays error message -->
-    <% if (!result || result==="fail") { %>
-        <p style="color: red;"><%= msg %></p>
-    <% } %>
+        <% if (!result || result === "fail") { %>
+            <p class="msg error"><%= msg %></p>
+        <% } %>
 
-    <!-- Displays success message -->
-    <% if (result && result !== "fail") { %>
-        <p style="color: lightgreen;">Pet added successfully!</p>
-    <% } %>
-    
-    <form action="/add-review" method="POST">
-        <!-- Pet's name -->
-        <label for="petName">Pet's Name:</label><br>
-        <input type="text" name="petName" required placeholder="Pet's Name?">
-
-        <br><br>
+        <!-- Displays success message -->
+        <% if (result && result !== "fail") { %>
+            <p class="msg success">Review submitted successfully!</p>
+        <% } %>
         
-        <!-- Review Title -->
-        <label for="title">Title:</label><br>
-        <input type="text" name="title" required placeholder="Give your review a title!">
+        <form action="/add-review" method="POST">
+            <!-- Pet's name -->
+            <label>Pet's Name</label>
+            <input type="text" name="petName" required placeholder="Pet's Name?">
 
-        <br><br>
+            <!-- Review Title -->
+            <label>Title</label>
+            <input type="text" name="title" required placeholder="Give your review a title!">
 
-        <!-- Rating -->
-        <label for="rating">Rating:</label><br>
-        <select name="rating" required>
-            <option value="">Please Insert a Rating</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-        </select>
-        <br><br>
+            <!-- Rating -->
+            <label>Rating</label>
+            <select name="rating" required>
+                <option value="">Please Insert a Rating</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+            </select>
 
-        <!-- Message -->
-        <label for="message">Review Message</label><br>
-        <textarea id="message" name="message" rows = "4" cols="30" required placeholder="Type Your Review Here!"></textarea>
+            <!-- Message -->
+            <label>Review Message</label>
+            <textarea name="message" rows="4" required placeholder="Type Your Review Here!"></textarea>
 
-        <br><br>
+            <button type="submit">Submit Review</button>
+        </form>
 
-        <button type="submit">Submit Review!</button>   
-        
-        <br><br>
-
-        <a href="/pet-reviews" style = "color:goldenrod">Back to Reviews Page</a>
-    </form>
+        <a href="/pet-reviews" class="link-btn">Back to Reviews Page</a>
+    </div>
 </body>
 </html>
