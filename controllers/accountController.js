@@ -254,10 +254,16 @@ exports.updateUser = async (req, res) => {
     const newFullName = data.fullName;
     const newPassword = data.password;
 
-    // Handles hashed password using bcrypt
-    let hashedPassword = null;
-    if (newPassword) {
+    // Handles hashed password using bcrypt ONLY if user entered a new password
+    let hashedPassword;
+
+    // Runs if password is not blank
+    if (newPassword && newPassword.trim() !== "") {
         hashedPassword = await bcrypt.hash(newPassword, 10);
+    } else {
+        // Keeps existing password if no new password provided
+        const existingUser = await Account.findByID(userName);
+        hashedPassword = existingUser.password;
     }
 
     const newGender = data.gender;
