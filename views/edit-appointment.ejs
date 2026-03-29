@@ -101,26 +101,31 @@
         <form action="/update-appointment/<%= appointment._id %>" method="POST">
             
             <label>Pick a New Date</label>
-            <select name="appointmentDate">
-                <% 
-                const options = { weekday: 'long', month: 'long', day: 'numeric' };
-                for(let i = 1; i <= 7; i++) { 
+            <select name="appointmentDate" id = "appointmentDate">
+               <% 
+                const options = { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' };
+                for(let i = 1; i <= 7; i++) {
                     let d = new Date();
                     d.setDate(d.getDate() + i);
-                    let dateStr = d.toISOString().split('T')[0];
+                    
+                    // Force the date to stay in local format YYYY-MM-DD
+                    let year = d.getFullYear();
+                    let month = String(d.getMonth() + 1).padStart(2, '0');
+                    let day = String(d.getDate()).padStart(2, '0');
+                    let dateStr = `${year}-${month}-${day}`;
                 %>
-                <option value="<%= dateStr %>" <%= appointment.date === dateStr ? 'selected' : '' %>>
-                    <%= d.toLocaleDateString(undefined, options) %>
-                </option>
+                    <option value="<%= dateStr %>" <%= appointment.date === dateStr ? 'selected' : '' %>>
+                        <%= d.toLocaleDateString(undefined, options) %>
+                    </option>
                 <% } %>
             </select>
             
             <label>Select Time Slot</label>
             <select name="timeSlot" required>
-                <option value="10:00-12:00" <%= appointment.time === '10:00-12:00' ? 'selected' : '' %>>10:00 AM - 12:00 PM</option>
-                <option value="12:00-14:00" <%= appointment.time === '12:00-14:00' ? 'selected' : '' %>>12:00 PM - 02:00 PM</option>
-                <option value="14:00-16:00" <%= appointment.time === '14:00-16:00' ? 'selected' : '' %>>02:00 PM - 04:00 PM</option>
-                <option value="16:00-18:00" <%= appointment.time === '16:00-18:00' ? 'selected' : '' %>>04:00 PM - 06:00 PM</option>
+                <option value="10:00 AM -12:00 PM"<%= appointment.time === "10:00 AM -12:00 PM" ? 'selected' : '' %>>10:00 AM - 12:00 PM</option>
+                <option value="12:00 PM -2:00 PM" <%= appointment.time === "12:00 PM -2:00 PM" ? 'selected' : '' %>>12:00 PM - 2:00 PM</option>
+                <option value="2:00 PM - 4:00 PM"<%= appointment.time === "2:00 PM - 4:00 PM" ? 'selected' : '' %>>2:00 PM - 4:00 PM</option>
+                <option value="4:00 PM - 6:00 PM" <%= appointment.time === "4:00 PM - 6:00 PM"? 'selected' : '' %>>4:00 PM - 6:00 PM</option>
             </select>
             
             <button type="submit">Confirm Reschedule</button>

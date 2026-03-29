@@ -10,7 +10,7 @@ const mongoose = require('mongoose'); // Add this at the very top of your contro
 // 5. Improve design of "This slot has already been boooked" page and see how it actually is functioning
 // 6. admin should be able to see all appointments (and username of person ?)
 
-// Creates appointment 
+// CREATE 
 exports.bookAppointment = async (req, res) => {
     try {
         const petId = req.body.petId;
@@ -50,18 +50,39 @@ exports.bookAppointment = async (req, res) => {
     }
 };
 
-// Render View appointment
+// READ - view appointments based on user session
+// it now checks for the user logged in and filters for the appointments belonging to that user only by implementing sessions
 exports.viewAppointments = async (req, res) => {
     try {
-        const allAppointments = await appointment.retrieveAll();
+        // 1. Get the user from the session
+        const currentUser = req.session.user;
 
-        // This renders the EJS file and passes the data to it
+        // 2. Safety check: Redirect if no session exists
+        if (!currentUser) {
+            return res.redirect('/login');
+        }
+
+        // 3. Define the filter
+        // If the user is an 'admin', we use an empty filter {} to see everything.
+        // Otherwise, we filter by the specific userName.
+        let filter = { userName: currentUser.username }; // currentUser = { username: 'yw', type: 'user' } when the filter expects a string
+                                                // hence we do {usernAME : CURRENTuser.username} to access the username = 'yw'
+        
+        if (req.session.role === 'admin') {
+            filter = {}; 
+        }
+
+        // 4. Fetch from database using the filter
+        const allAppointments = await appointment.retrieveAll(filter);
+
+        // 5. Render the page with the filtered data
         res.render('view-appointment', {
-            appointments: allAppointments
+            appointments: allAppointments,
+            user: currentUser
         });
-       
+
     } catch (err) {
-        console.error(err);
+        console.error("Error loading appointments:", err);
         res.status(500).send("Could not load appointments.");
     }
 };
@@ -93,10 +114,14 @@ exports.updateAppointment = async (req, res) => {
         // 1. Convert the ID string to a MongoDB ObjectId
         const objectId = new mongoose.Types.ObjectId(id);
 
-        // 2. The Conflict Check
-        // Search for a match that IS NOT the current ID
+        // Fetch the existing appointment to get the petId
+        const currentAppt = await appointment.findAppointmentById(id);
+        if (!currentAppt) return res.status(404).send("Appointment not found");
+
+        // 2. Fix the typo in the conflict check (Line 103)
         const conflict = await appointment.findOne({
-            _id: { $ne: objectId }, 
+            _id: { $ne: objectId },
+            petId: currentAppt.petId, // Use capital 'I' as defined in your schema
             date: newDate,
             time: newTime
         });

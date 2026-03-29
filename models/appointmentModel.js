@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 // Create a new appointment schema
-const appointmentSchema = new mongoose.Schema({
+const appointmentSchema = new mongoose.Schema({ 
     userName: {
     type: String,
     required: [true, "User must exist"],
@@ -41,9 +41,8 @@ exports.findById = function(id) {
 };
 
 // READ APPOINTMENT (VIEW)
-exports.retrieveAll = function() {
-    // This filters the database for only this user's appointments
-    return Appointment.find(); 
+exports.retrieveAll = async (filter = {}) => {
+    return await Appointment.find(filter); 
 };
 
 // UPDATE FUNCTION (EDIT)

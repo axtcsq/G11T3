@@ -161,24 +161,33 @@
                 
                 <label>Pick a Date</label>
                 <select name="appointmentDate" id="appointmentDate">
-                    <% 
-                    const options = { weekday: 'long', month: 'long', day: 'numeric' };
-                    for(let i = 1; i <= 7; i++) { 
-                        let d = new Date();
-                        d.setDate(d.getDate() + i);
-                    %>
-                    <option value="<%= d.toISOString().split('T')[0] %>">
-                        <%= d.toLocaleDateString(undefined, options) %>
-                    </option>
-                    <% } %>
+                    
+                    <% const options = { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' };
+                        for(let i = 1; i <= 7; i++) {
+                            let d = new Date();
+                            d.setDate(d.getDate() + i);
+                            
+                            // Manual local formatting to prevent UTC date shifting
+                            let year = d.getFullYear();
+                            let month = String(d.getMonth() + 1).padStart(2, '0');
+                            let day = String(d.getDate()).padStart(2, '0');
+                            let dateStr = `${year}-${month}-${day}`;
+                        %>
+                            <option value="<%= dateStr %>">
+                                <%= d.toLocaleDateString(undefined, options) %>
+                            </option>
+                        <% } %>
+
+                </select>
+                    
                 </select>
 
                 <label>Select Time Slot</label>
                 <select name="timeSlot" id="timeSlot" required>
-                    <option value="10:00-12:00">10:00 AM - 12:00 PM</option>
-                    <option value="12:00-14:00">12:00 PM - 02:00 PM</option>
-                    <option value="14:00-16:00">02:00 PM - 04:00 PM</option>
-                    <option value="16:00-18:00">04:00 PM - 06:00 PM</option>
+                    <option value="10:00 AM -12:00 PM">10:00 AM - 12:00 PM</option>
+                    <option value="12:00 PM -2:00 PM">12:00 PM - 2:00 PM</option>
+                    <option value="2:00 PM - 4:00 PM">2:00 PM - 4:00 PM</option>
+                    <option value="4:00 PM - 6:00 PM">4:00 PM - 6:00 PM</option>
                 </select>
                 
                 <button type="submit">Confirm Appointment</button>
