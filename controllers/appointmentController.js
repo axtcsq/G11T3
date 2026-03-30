@@ -68,9 +68,10 @@ exports.viewAppointments = async (req, res) => {
         let filter = { userName: currentUser.username }; // currentUser = { username: 'yw', type: 'user' } when the filter expects a string
                                                 // hence we do {usernAME : CURRENTuser.username} to access the username = 'yw'
         
-        if (req.session.role === 'admin') {
+        if (req.session.user.type === 'admin') {
             filter = {}; 
         }
+        console.log(req.session.user.type)
 
         // 4. Fetch from database using the filter
         const allAppointments = await appointment.retrieveAll(filter);
