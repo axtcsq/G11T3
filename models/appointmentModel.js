@@ -45,10 +45,6 @@ exports.retrieveAll = async (filter = {}) => {
     return await Appointment.find(filter); 
 };
 
-exports.findByDate = function(date) {
-    return Appointment.find({ date: date });
-};
-
 // UPDATE FUNCTION (EDIT)
 // Find by ID for the Edit Page
 exports.findAppointmentById = function(id) {

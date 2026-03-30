@@ -148,15 +148,50 @@
             </table>
 
             <br>
+            
             <p class="success-text">
                 Congratulations <%= pet.userName %>! Your request to adopt pet record ID <%= pet.petId %> has been noted. We will keep in touch!
             </p>
-            <div class="booking-section">
-                <p>Congratulations! Your request for <%= pet.petName %> has been noted.</p>
-                <a href="/book-appointment?petId=<%= pet.petId %>&petName=<%= pet.petName %>" class="btn-primary">
-                    Schedule your Appointment
-                </a>
-            </div>
+
+            <h3>Please make an appointment below:</h3>
+
+            <form action="/book" method="POST">
+                <input type="hidden" name="petId" value="<%= pet.petId %>">
+                <input type="hidden" name="userName" value="<%= pet.userName %>">
+                
+                <label>Pick a Date</label>
+                <select name="appointmentDate" id="appointmentDate">
+                    
+                    <% const options = { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' };
+                        for(let i = 1; i <= 7; i++) {
+                            let d = new Date();
+                            d.setDate(d.getDate() + i);
+                            
+                            // Manual local formatting to prevent UTC date shifting
+                            let year = d.getFullYear();
+                            let month = String(d.getMonth() + 1).padStart(2, '0');
+                            let day = String(d.getDate()).padStart(2, '0');
+                            let dateStr = `${year}-${month}-${day}`;
+                        %>
+                            <option value="<%= dateStr %>">
+                                <%= d.toLocaleDateString(undefined, options) %>
+                            </option>
+                        <% } %>
+
+                </select>
+                    
+                </select>
+
+                <label>Select Time Slot</label>
+                <select name="timeSlot" id="timeSlot" required>
+                    <option value="10:00 AM -12:00 PM">10:00 AM - 12:00 PM</option>
+                    <option value="12:00 PM -2:00 PM">12:00 PM - 2:00 PM</option>
+                    <option value="2:00 PM - 4:00 PM">2:00 PM - 4:00 PM</option>
+                    <option value="4:00 PM - 6:00 PM">4:00 PM - 6:00 PM</option>
+                </select>
+                
+                <button type="submit">Confirm Appointment</button>
+            </form>
         <% } else { %>
             <p>No pet selection found. Please go back and select a pet.</p>
         <% } %>

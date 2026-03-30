@@ -10,8 +10,7 @@ const appointmentController = require("../controllers/appointmentController");
 router.post('/book', requireLogin, appointmentController.bookAppointment);
 
 // route for READ
-router.get('/book', requireLogin, appointmentController.renderBookingCalendar);
-router.get('/view-appointment', requireLogin, appointmentController.renderAppointmentPage);
+router.get('/view-appointment', requireLogin, appointmentController.viewAppointments);
 
 // routes for UPDATE 
 // GET shows the form
