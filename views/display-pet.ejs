@@ -107,7 +107,7 @@
     
     <h2>Pet Records</h2>
 
-    <form action="/adopted-pets" method="post">
+    <form action="/adopted-pets" method="post" enctype="multipart/form-data">
       <p>Hey <%= userName %>! Thank you for considering to adopt our pets. Here are the pets that are adoptable currently <strong class="warning">[ you can only select one ]</strong>:</p>
 
       <br>
@@ -147,7 +147,7 @@
               <td><%= pet.name %></td>
               <td><%= pet.age %></td>
               <td><%= pet.desc %></td>
-              <td><img src ="/pet-img/<%=pet.photo %>" width="100"> </td>
+              <td><img src="/uploads/<%= pet.photo %>" width="100"></td>
               <td>
                 <% if (favouriteList.includes(pet.id)) { %>
                   <a href="/remove-favourite?petID=<%=pet.id%>">❤️ Remove</a>

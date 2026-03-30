@@ -124,7 +124,7 @@
             <p class="msg success">Pet added successfully!</p>
         <% } %>
         
-        <form action="/add-pet" method="POST">
+        <form action="/add-pet" method="POST" enctype="multipart/form-data">
             <!-- ID -->
             <label>ID</label>
             <input type="text" name="id" value="<%= newId %>" readonly>
@@ -151,7 +151,7 @@
 
             <!-- Photo -->
             <label>Photo Filename</label>
-            <input type="text" name="photo" placeholder="Picture of the Pet">
+            <input type="file" name="photo" accept="image/*" required>
 
             <button type="submit">Add Pet</button>
         </form>

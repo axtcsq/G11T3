@@ -58,14 +58,17 @@ exports.createPet = async (req, res) => {
   const type = (data.type || "").trim();
   const age = (data.age || "").trim();
   const desc = (data.desc || "").trim();
-  const photo = (data.photo || "").trim();
+  const photo = req.file ? req.file.filename : "";
+
+  console.log("req.body:", req.body);
+  console.log("req.file:", req.file);
 
   // Validation: Handles invalid fields
-  if ( !name || !type || !age || !desc) {
-    let result = null;
-    let msg = "All fields are required";
+  if ( !name || !type || !age || !desc || !photo) {
+    let result = "fail";
+    let msg = "All fields are required, including a photo";
 
-    return res.render("add-pet", { newId, result: "fail", msg });
+    return res.render("add-pet", { newId, result, msg });
   }
 
   // Create a structure that stores the new pet
@@ -96,7 +99,7 @@ exports.createPet = async (req, res) => {
 
       res.render("add-pet", {newId: newId, result, msg});
   }
-}
+};
 
 // -----------------------------------------------------------------------------------------------------------------------
 // UPDATE
@@ -132,24 +135,28 @@ exports.getPet = async (req, res) => {
 };
 
 exports.updatePet = async (req, res) => {
+  try{
+  
   // Retrieve form data
   const data = req.body;
-
   const id = data.id; // in the hidden field
-
+  
+  const existingPet = await Pet.findByID(id);
+    if (!existingPet) {
+      return res.send("Pet not found");
+    }
+  
   const newName = data.name;
   const newType = data.type;
   const newAge = data.age;
   const newDesc = data.desc;
-  const newPhoto = (data.photo.trim() != ""? data.photo:data.photo);
+
+  const newPhoto = req.file ? req.file.filename : existingPet.photo;
 
   // When successful
-  try {
+ 
     await Pet.editPet (id, newName, newType, newAge, newDesc, newPhoto);
-    let updatedPet = await Pet.findByID(id)
-    // to check the output of success
-    // console.log(success);
-
+    const updatedPet = await Pet.findByID(id);
     res.render("update-pet", {successful: true, result: updatedPet})
     
   // When unsuccessful
@@ -167,27 +174,69 @@ exports.showDelForm = async (req, res) => {
 
   let petLists = await Pet.retrieveAll()
   res.render("del-pet", {petLists, result, msg}); // Render the EJS form view and pass the posts
-}
+};
+
+const fs = require("fs");
+const path = require("path");
 
 exports.deletePet = async (req, res) => {
   const data = req.body;
   const recordID = data.recordID;
 
-  let petLists = await Pet.retrieveAll() // fetch all the list    
+  let petLists = await Pet.retrieveAll();
 
-  try{
-    let result = await Pet.delPet(recordID);
+  try {
+    // 1) find pet first
+    const pet = await Pet.findByID(recordID);
 
-    if (result.deletedCount === 0){
-      return res.render("del-pet", { petLists, result: "fail", msg: "Pet not found" });
+    if (!pet) {
+      return res.render("del-pet", {
+        petLists,
+        result: "fail",
+        msg: "Pet not found"
+      });
     }
 
-    res.render("del-pet", { petLists, result, msg:"Pet deleted successfully"});
+    // 2) delete image file if it exists
+    if (pet.photo) {
+      const imagePath = path.join(
+        __dirname,
+        "../public/uploads",
+        pet.photo
+      );
+
+      if (fs.existsSync(imagePath)) {
+        fs.unlinkSync(imagePath);
+      }
+    }
+
+    // 3) delete pet record from database
+    const result = await Pet.delPet(recordID);
+
+    if (result.deletedCount === 0) {
+      return res.render("del-pet", {
+        petLists,
+        result: "fail",
+        msg: "Pet not found"
+      });
+    }
+
+    // 4) refresh pet list after delete
+    petLists = await Pet.retrieveAll();
+
+    res.render("del-pet", {
+      petLists,
+      result,
+      msg: "Pet deleted successfully"
+    });
+
+  } catch (err) {
+    console.error(err);
+
+    res.render("del-pet", {
+      petLists,
+      result: "fail",
+      msg: "Error deleting pet"
+    });
   }
-
-  catch(err){
-      let result = "fail";
-      let msg = "Error deleting pet";
-
-      res.render("del-pet", {petLists, result, msg})};
-}
+};

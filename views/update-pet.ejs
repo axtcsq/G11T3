@@ -116,7 +116,7 @@
     <div class="card">
         <h3>Update Pet: <%= result.name %></h3>
 
-        <form action="/update-pet" method="POST">
+        <form action="/update-pet" method="POST" enctype="multipart/form-data">
             <!-- Name -->
             <label>Name</label>
             <input type="text" name="name" value="<%= result.name %>">
@@ -137,8 +137,12 @@
             <input type="hidden" name="id" value="<%= result.id %>">
 
             <!-- Photo -->
-            <label>Photo</label>
-            <input type="text" name="photo" value="<%= result.photo %>">
+            <label>Current Photo</label>
+            <img src="/uploads/<%= result.photo %>" width="150">
+            </br>
+            </br>
+            <label>Upload New Photo</label>
+            <input type="file" name="photo" accept="image/*">
 
             <button type="submit">Update Pet</button>
         </form>
