@@ -1,4 +1,5 @@
 const appointment = require('./../models/appointmentModel');
+const adopted = require('./../models/adoptedModel');
 const Pet = require('./../models/petsModel');
 const mongoose = require('mongoose'); // Add this at the very top of your controller
 
@@ -35,6 +36,10 @@ exports.bookAppointment = async (req, res) => {
         };
 
         // 4. Save the appointment with the REAL pet name we just found
+        await adopted.addAdopted({ 
+            userName: req.session.user.username,
+            petId: petId,
+          })
         await appointment.addAppointment({
             petId: petId,
             date: appointmentDate,
