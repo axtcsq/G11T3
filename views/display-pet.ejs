@@ -41,6 +41,11 @@
             overflow: hidden;
         }
 
+        .warning {
+            color: #ffee00;
+            font-weight: 600;
+        }
+
         th, td {
             padding: 12px 14px;
             text-align: left;
@@ -103,7 +108,7 @@
     <h2>Pet Records</h2>
 
     <form action="/adopted-pets" method="post">
-      <p>Hey <%= userName %>! Thank you for considering to adopt our pets. Here are the pets that are adoptable currently <mark>(you can only choose one)</mark>:</p>
+      <p>Hey <%= userName %>! Thank you for considering to adopt our pets. Here are the pets that are adoptable currently <strong class="warning">[ you can only select one ]</strong>:</p>
 
       <br>
 
