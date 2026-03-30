@@ -73,8 +73,8 @@ exports.viewAppointments = async (req, res) => {
         let filter = { userName: currentUser.username }; // currentUser = { username: 'yw', type: 'user' } when the filter expects a string
                                                 // hence we do {usernAME : CURRENTuser.username} to access the username = 'yw'
         
-        if (req.session.user.type === 'admin') {
-            filter = {}; 
+        if (req.session.user.type === 'admin') { // checks usertype to see if admin OR user
+            filter = {};                         // if admin, then remove filter 
         }
         console.log(req.session.user.type)
 
