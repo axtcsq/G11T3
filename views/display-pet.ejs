@@ -107,7 +107,7 @@
     
     <h2>Pet Records</h2>
 
-    <form action="/adopted-pets" method="post" enctype="multipart/form-data">
+    <form action="/adopted-pets" method="post">
       <p>Hey <%= userName %>! Thank you for considering to adopt our pets. Here are the pets that are adoptable currently <strong class="warning">[ you can only select one ]</strong>:</p>
 
       <br>
@@ -170,7 +170,7 @@
       </table>
       <input type="hidden" name="admin" value="<% isAdmin %>">
       <input type="hidden" name="source" value="pets">
-      <input type="hidden" name="userName" value="<%= userName %>"
+      <input type="hidden" name="userName" value="<%= userName %>">
       <br><br>
       
       <button>Adopt!</button>
