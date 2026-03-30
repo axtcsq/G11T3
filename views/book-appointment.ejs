@@ -1,0 +1,30 @@
+<div class="booking-container">
+    <header>
+        <h1>Adoption Viewing</h1>
+        <p>1 hour session for <%= petName %></p>
+    </header>
+
+    <div class="calendar-grid">
+        <% days.forEach(day => { %>
+            <div class="day-column">
+                <div class="date-header">
+                    <strong><%= day.displayDate.split(',')[0] %></strong><br>
+                    <span><%= day.displayDate.split(',')[1] %></span>
+                </div>
+
+                <% if (day.slots.length > 0) { %>
+                    <% day.slots.forEach(slot => { %>
+                        <form action="/appointments/add" method="POST">
+                            <input type="hidden" name="petId" value="<%= petId %>">
+                            <input type="hidden" name="date" value="<%= day.dateStr %>">
+                            <input type="hidden" name="timeSlot" value="<%= slot %>">
+                            <button type="submit" class="slot-btn"><%= slot %></button>
+                        </form>
+                    <% }) %>
+                <% } else { %>
+                    <div class="fully-booked">No Slots</div>
+                <% } %>
+            </div>
+        <% }) %>
+    </div>
+</div>

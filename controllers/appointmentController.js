@@ -1,5 +1,4 @@
 const appointment = require('./../models/appointmentModel');
-const adopted = require('./../models/adoptedModel');
 const Pet = require('./../models/petsModel');
 const mongoose = require('mongoose'); // Add this at the very top of your controller
 
@@ -36,10 +35,6 @@ exports.bookAppointment = async (req, res) => {
         };
 
         // 4. Save the appointment with the REAL pet name we just found
-        await adopted.addAdopted({ 
-            userName: req.session.user.username,
-            petId: petId,
-          })
         await appointment.addAppointment({
             petId: petId,
             date: appointmentDate,
@@ -57,43 +52,41 @@ exports.bookAppointment = async (req, res) => {
 
 // READ - view appointments based on user session
 // it now checks for the user logged in and filters for the appointments belonging to that user only by implementing sessions
-exports.viewAppointments = async (req, res) => {
+// Function for the NEW booking page
+exports.renderBookingCalendar = async (req, res) => {
     try {
-        // 1. Get the user from the session
-        const currentUser = req.session.user;
-
-        // 2. Safety check: Redirect if no session exists
-        if (!currentUser) {
-            return res.redirect('/login');
-        }
-
-        // 3. Define the filter
-        // If the user is an 'admin', we use an empty filter {} to see everything.
-        // Otherwise, we filter by the specific userName.
-        let filter = { userName: currentUser.username }; // currentUser = { username: 'yw', type: 'user' } when the filter expects a string
-                                                // hence we do {usernAME : CURRENTuser.username} to access the username = 'yw'
+        const { petId, petName } = req.query; // Get data from the URL link
         
-        if (req.session.user.type === 'admin') { // checks usertype to see if admin OR user
-            filter = {};                         // if admin, then remove filter 
+        // 1. Fetch all existing bookings to check for overlaps
+        const existingAppointments = await Appointment.find();
+
+        // 2. Define the master slots (matching your SPCA screenshot)
+        const masterSlots = ["11:00 AM", "1:00 PM", "2:00 PM", "3:00 PM"];
+
+        // 3. Generate 7 days of availability
+        const days = [];
+        for (let i = 1; i <= 7; i++) {
+            let d = new Date();
+            d.setDate(d.getDate() + i);
+            const dateStr = d.toISOString().split('T')[0];
+            
+            // FILTER: Only keep slots NOT found in the database for this date
+            const availableSlots = masterSlots.filter(slot => {
+                return !existingAppointments.some(appt => appt.date === dateStr && appt.timeSlot === slot);
+            });
+
+            days.push({
+                dateStr,
+                displayDate: d.toLocaleDateString(undefined, { weekday: 'long', month: 'short', day: 'numeric' }),
+                slots: availableSlots
+            });
         }
-        console.log(req.session.user.type)
 
-        // 4. Fetch from database using the filter
-        const allAppointments = await appointment.retrieveAll(filter);
-
-        // 5. Render the page with the filtered data
-        res.render('view-appointment', {
-            appointments: allAppointments,
-            user: currentUser
-        });
-
+        res.render('book-appointment', { petId, petName, days });
     } catch (err) {
-        console.error("Error loading appointments:", err);
-        res.status(500).send("Could not load appointments.");
+        res.status(500).send("Error loading calendar");
     }
 };
-
-
 // UPDATE 
 
 // 1. Show the Edit Page
