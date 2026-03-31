@@ -6,10 +6,8 @@
     <title>Pet Records</title>
     <link rel="icon" type="image/x-icon" href="./img/paw.png">
 
-    <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 
-    <!-- CSS to beautify page -->
     <style>
         * {
             margin: 0;
@@ -32,6 +30,7 @@
             font-weight: 600;
         }
 
+        /* Table styles kept for the Summary section at the bottom */
         table {
             width: 100%;
             border-collapse: collapse;
@@ -39,11 +38,6 @@
             backdrop-filter: blur(10px);
             border-radius: 12px;
             overflow: hidden;
-        }
-
-        .warning {
-            color: #ffee00;
-            font-weight: 600;
         }
 
         th, td {
@@ -60,12 +54,12 @@
             border-bottom: 1px solid rgba(255,255,255,0.1);
         }
 
-        tr:hover {
-            background: rgba(255,255,255,0.05);
+        .warning {
+            color: #ffee00;
+            font-weight: 600;
         }
 
         button {
-            margin-top: 10px;
             padding: 10px 14px;
             border: none;
             border-radius: 8px;
@@ -92,6 +86,85 @@
             height: 1px;
             background: rgba(255,255,255,0.2);
         }
+
+        /* --- NEW GRID & CARD STYLES --- */
+        .pet-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr); /* 2 cards per row */
+            gap: 25px;
+            margin-top: 20px;
+        }
+
+        .pet-card {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.2s ease;
+        }
+
+        .pet-card:hover {
+            background: rgba(255,255,255,0.12);
+        }
+
+        .pet-photo {
+            width: 100%;
+            height: 250px; /* Keeps images uniform */
+            object-fit: cover;
+        }
+
+        .pet-info {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1; /* Pushes the buttons to the bottom evenly */
+        }
+
+        .pet-info h3 {
+            margin-bottom: 12px;
+            color: #ffb74d;
+            font-size: 1.4rem;
+        }
+
+        .pet-details {
+            margin-bottom: 10px;
+            font-size: 0.95rem;
+            color: #e0e0e0;
+        }
+
+        .pet-desc {
+            margin-top: 10px;
+            margin-bottom: 20px;
+            font-style: italic;
+            color: #ccc;
+            line-height: 1.4;
+        }
+
+        .pet-actions {
+            margin-top: auto; /* Aligns buttons to the bottom of the card */
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding-top: 15px;
+        }
+
+        .fav-link {
+            text-decoration: none;
+            color: white;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 8px 12px;
+            border-radius: 8px;
+            transition: background 0.2s;
+            font-size: 0.9rem;
+        }
+
+        .fav-link:hover {
+            background: rgba(0, 0, 0, 0.5);
+        }
     </style>
 </head>
 
@@ -99,9 +172,8 @@
 
   <%- include("common/header", {isAdmin: isAdmin}) %>
   
-  <!-- EJS conditional block: Check if there are any pet list -->
   <% if (petList.length === 0) { %>
-    <p>No pets yet.</p> <!-- Message when there is no pets -->
+    <p>No pets yet.</p> 
     
   <% } else { %>
     
@@ -115,67 +187,51 @@
         <% if (error) { %>
           <p style="color: red;"><%= error %></p>
         <% } %>
-  
 
-      <br>
-
-      <table border="1">
-          <tr>
-            <th>No.</th>  
-            <th>Pet Number</th>
-            <th>Breed</th>
-            <th>Name</th>
-            <th>Age (years)</th>
-            <th>Description</th>
-            <th>Photo</th>
-            <th>Favourites</th>
-            <th>Adopt?</th>
-          </tr>
-
-          <!-- For counter -->
+      <div class="pet-grid">
           <% let i = 1; %>
           <% let dogCount = 0; %>
           <% let catCount = 0; %>
 
-          <!-- EJS loop to render each pet -->
           <% petList.forEach(pet => { %>
-        
-            <tr>
-              <td><%= i %>.</td>
-              <td><%= pet.id %></td>
-              <td><%= pet.type %></td>
-              <td><%= pet.name %></td>
-              <td><%= pet.age %></td>
-              <td><%= pet.desc %></td>
-              <td><img src="/uploads/<%= pet.photo %>" width="100"></td>
-              <td>
-                <% if (favouriteList.includes(pet.id)) { %>
-                  <a href="/remove-favourite?petID=<%=pet.id%>">❤️ Remove</a>
-                <% } else { %>
-                  <a href="/add-favourite?petID=<%=pet.id%>">🤍 Add</a>
-                <% } %>
-              </td>
-              <td>
-                <!-- Smth smth add validation only can choose 1 pet to adopt & retain selection value -->
-                <button type="submit" name="selectPet" value="<%= pet.id %>" style="margin-top: 0; padding: 6px 12px; font-size: 0.9em;">
-                      Adopt!
-                </button>
-              </td>
-            </tr>
+            
+            <div class="pet-card">
+              <img src="/uploads/<%= pet.photo %>" alt="<%= pet.name %>" class="pet-photo">
+              
+              <div class="pet-info">
+                <h3><%= i %>. <%= pet.name %></h3>
+                <div class="pet-details">
+                  <strong>Pet No:</strong> <%= pet.id %> | 
+                  <strong>Breed:</strong> <%= pet.type %> | 
+                  <strong>Age:</strong> <%= pet.age %> years
+                </div>
+                
+                <p class="pet-desc">"<%= pet.desc %>"</p>
+                
+                <div class="pet-actions">
+                  <% if (favouriteList.includes(pet.id)) { %>
+                    <a href="/remove-favourite?petID=<%=pet.id%>" class="fav-link">❤️ Remove</a>
+                  <% } else { %>
+                    <a href="/add-favourite?petID=<%=pet.id%>" class="fav-link">🤍 Add Fav</a>
+                  <% } %>
+                  
+                  <button type="submit" name="selectPet" value="<%= pet.id %>">
+                      Adopt Me!
+                  </button>
+                </div>
+              </div>
+            </div>
 
-            <!-- Counter for dog, cat & no. -->
             <% if (pet.type.toLowerCase() === "dog") { dogCount++; } %>
             <% if (pet.type.toLowerCase() === "cat") { catCount++; } %>
             <% i++; %>
 
           <% }); %>
-      </table>
-      <input type="hidden" name="admin" value="<% isAdmin %>">
+      </div>
+
+      <input type="hidden" name="admin" value="<%= isAdmin %>">
       <input type="hidden" name="source" value="pets">
       <input type="hidden" name="userName" value="<%= userName %>">
-      <br><br>
-      
-
 
     </form>
 
@@ -188,17 +244,14 @@
         <th>Total Type</th>
         <th>Count</th>
       </tr>
-
       <tr>
         <td>Dogs</td>
         <td><%= dogCount %></td>
       </tr>
-
       <tr>
         <td>Cats</td>
         <td><%= catCount %></td>
       </tr>
-
       <tr class="highlight">
         <td>Pets</td>
         <td><%= i - 1 %></td>
