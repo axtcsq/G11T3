@@ -8,7 +8,13 @@ exports.displayAdopted = async (req, res) => {
   const userName = req.body.userName
   // to check where the post req is coming from (display-pets or favourites)
   const source = req.body.source
-  console.log(req.session.user.username)
+  console.log(id)
+if (req.session?.user?.username) {
+  console.log(req.session.user.username);
+} else {
+  console.warn("⚠️ No username found in session.");
+}
+
 
   if (!id) {
     if (source === "favourites") {
@@ -61,20 +67,17 @@ exports.displayAdopted = async (req, res) => {
     }
   }
 
-  let newAdopted = 
-  { 
-  userName: req.session.user.username,
-  petId: id,
-  }
 
   try {
 
     // 2. FETCH the pet we just added to show it on the summary page
       // Assuming your adopted model has a way to get all adopted pets
-      let adoptedList = await adopted.retrieveAll(); 
+      let lastPet = await Pet.findByID(id)
+      console.log(lastPet)
       
       // Grab the most recent one (the one we just added)
-      const lastPet = adoptedList[adoptedList.length - 1];
+      
+      
 
       // 3. PASS 'pet' to the EJS
       res.render("adopted-pets", {

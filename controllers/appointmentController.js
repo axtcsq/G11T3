@@ -17,7 +17,9 @@ exports.bookAppointment = async (req, res) => {
         const petId = req.body.petId;
         const appointmentDate = req.body.appointmentDate;
         const timeSlot = req.body.timeSlot;
-        const userName = req.body.userName
+        const userName = req.session.user.username
+        console.log(petId)
+        console.log(userName)
 
         // 1. Fetch the actual Pet details using the petId from the form
         // We look in the Pet collection to find the name (e.g., "Ronaldo")
