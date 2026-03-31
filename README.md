@@ -46,7 +46,6 @@ dynamically with authentication and security features. This project also utilise
     * Reviews
 * Security
     * Sessions
-    * Route Protection
-    * Bcrypt Password Hashing
+    * Route protection
+    * Bcrypt password hashing
 * Image upload
-    
