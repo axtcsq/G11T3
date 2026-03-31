@@ -8,10 +8,20 @@ exports.showPets = async (req, res) => {
   const user = req.session.user;
   const isAdmin = user && user.type === "admin";
   const userName = user ? user.username : null;
+  const filterType = req.query.filterType
 
   try {
     let petList = await Pet.retrieveAll();// fetch all the list
     let favouriteList = [];
+
+    //first render doesnt have filterType, and thus this wouldnt run, full pet list shows
+    //after selecting filter, filter the petList to show the specified pet type
+    if (filterType && filterType !== 'all'){
+        petList = petList.filter(pet => pet.type.toLowerCase() === filterType)
+    }
+    
+
+
 
     if (userName) {
       const favourites = await Favourite.findById(userName);
