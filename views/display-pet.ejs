@@ -173,9 +173,11 @@
   <%- include("common/header", {isAdmin: isAdmin}) %>
   
   <% if (petList.length === 0) { %>
+    <br>
     <p>No pets yet.</p> 
     
   <% } else { %>
+    <br>
   <!-- this gives the get response, filterType, and pets controller will then filter the type using the filtertype -->
   <form action="/display-pet" method="get" style="margin-bottom: 20px; background: rgba(255,255,255,0.1); padding: 15px; border-radius: 10px;">
     <label>Filter by animal: </label>
