@@ -104,7 +104,7 @@
 
                 <% adoptedList.forEach(adopted => { %>
                     <option value="<%= adopted.petId %>">
-                        <%= adopted.userName %> (ID: <%= adopted.petId %>)
+                        Application ID: <%= adopted._id %> | (USER: adopted.username, ID: <%= adopted.petId %>)
                     </option>
                 <% }); %>
             </select>
