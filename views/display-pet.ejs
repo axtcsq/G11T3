@@ -122,7 +122,7 @@
       <table border="1">
           <tr>
             <th>No.</th>  
-            <th>Record ID</th>
+            <th>Pet Number</th>
             <th>Breed</th>
             <th>Name</th>
             <th>Age (years)</th>
@@ -157,7 +157,9 @@
               </td>
               <td>
                 <!-- Smth smth add validation only can choose 1 pet to adopt & retain selection value -->
-                <input type="radio" name="selectPet" value="<%= pet.id %>">
+                <button type="submit" name="selectPet" value="<%= pet.id %>" style="margin-top: 0; padding: 6px 12px; font-size: 0.9em;">
+                      Adopt!
+                </button>
               </td>
             </tr>
 
@@ -173,7 +175,7 @@
       <input type="hidden" name="userName" value="<%= userName %>">
       <br><br>
       
-      <button>Adopt!</button>
+
 
     </form>
 
