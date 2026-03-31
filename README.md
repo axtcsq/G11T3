@@ -19,7 +19,7 @@ dynamically with authentication and security features. This project also utilise
 ### a. How to set up our application based on the submitted file(s)
 * Ensure that the necessary dependencies have been installed onto your computer
 
-    ```npm i express ejs mongoose dotenv```
+    ```npm i```
 
 ### b. How to run our application
 * If it has already been installed, please input this command into VS Code's terminal to get the application started & you should see our index.html being loaded
@@ -28,20 +28,25 @@ dynamically with authentication and security features. This project also utilise
 
 * We recommend using [Google Chrome](https://www.google.com/intl/en_sg/chrome/) browser as that is what we have tested & validated on
 
-### c. Username/password details used
+### c. Username/password details used (stored in MongoDB)
 * Generic User:
+    * Username: larry
+    * Password: 456
+* Admin
     * Username: sam
     * Password: 123
-* Admin
-    * Username: admin
-    * Password: 123
 
-## Features
-* Account 
-    * Login
-    * Signup
+## Features Implemented
 * CRUD
-    * Create pet record
-    * Read pet record
-    * Delete pet record (to be implemented)
-* More to come ...
+    * User records
+    * Pet records
+    * Adoption records
+    * Favourites
+    * Appointments
+    * Reviews
+* Security
+    * Sessions
+    * Route Protection
+    * Bcrypt Password Hashing
+* Image upload
+    
