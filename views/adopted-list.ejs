@@ -69,6 +69,7 @@
   
     <table border="1">
         <tr>
+            <th>Application ID</th>
             <th>Name</th>
             <th>Pet Number</th>
             <th>Application Time</th>
@@ -77,6 +78,7 @@
 
         <% adoptedList.forEach(adopted => { %>
             <tr>
+                <td><%= adopted._id %></td>
                 <td><%= adopted.userName %></td>
                 <td><%= adopted.petId %></td>
                 <td><%= (adopted.adoptedAt).toLocaleString() %></td>
