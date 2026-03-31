@@ -71,8 +71,7 @@ exports.displayAdopted = async (req, res) => {
 
     // 1. perform the database actions 
     // Add adopted
-    await adopted.addAdopted(newAdopted);
-    
+
     // 2. FETCH the pet we just added to show it on the summary page
       // Assuming your adopted model has a way to get all adopted pets
       let adoptedList = await adopted.retrieveAll(); 
