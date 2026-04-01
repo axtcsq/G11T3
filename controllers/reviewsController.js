@@ -26,33 +26,17 @@ exports.showForm = (req, res) => {
 
 //  Create a new Review
 exports.createReviews = async (req, res) => {
-    const { petName, rating, title, message } = req.body; // Get data from the form
-    // Trim spaces from each input (prevents issues from accidental spaces)
+    // Get and trim data from the form
+    const { petName, rating, title, message } = req.body; 
     const trimmedPetName = (petName || "").trim();
     const trimmedTitle = (title || "").trim();
     const trimmedMessage = (message || "").trim();
     const trimmedRating = rating ? parseInt(rating) : null;
 
-    // Validation: Checks if any field is empty or invalid
+    // Validation: Checks if any field is empty or invalid and then renders the error message.
     if (!trimmedPetName || !trimmedTitle || !trimmedMessage || !trimmedRating) {
         let result = "fail";
-        let msg = "All fields are required, and rating should be a number between 1 and 5.";
-
-        // Send a response back to the user, rendering the 'add-review' page with the error message
-        return res.render("add-review", { result, msg });
-    }
-
-    // Make sure a logged-in user exists in session before creating a review
-    if (!req.session || !req.session.user || !req.session.user.username) {
-        let result = "fail";
-        let msg = "Please log in before submitting a review.";
-        return res.render("add-review", { result, msg });
-    }
-    
-    // Rating should be between 1 and 5
-    if (trimmedRating < 1 || trimmedRating > 5) {
-        let result = "fail";
-        let msg = "Rating must be between 1 and 5.";
+        let msg = "All fields are required";
         return res.render("add-review", { result, msg });
     }
     

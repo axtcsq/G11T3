@@ -33,7 +33,7 @@ const Review = mongoose.model("Review", reviewSchema, "reviews")
 
 // CREATE
 exports.addReview = function(newReview) {
-    return Review.create(newReview); // Uses the .create() method to insert a new review
+    return Review.create(newReview);
 };
 
 // READ
