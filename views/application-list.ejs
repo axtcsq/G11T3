@@ -76,13 +76,13 @@
             <th>Status</th>
         </tr>
 
-        <% adoptedList.forEach(adopted => { %>
+        <% applicationList.forEach(application => { %>
             <tr>
-                <td><%= adopted._id %></td>
-                <td><%= adopted.userName %></td>
-                <td><%= adopted.petId %></td>
-                <td><%= (adopted.adoptedAt).toLocaleString() %></td>
-                <td><%= adopted.status %></td>
+                <td><%= application._id %></td>
+                <td><%= application.userName %></td>
+                <td><%= application.petId %></td>
+                <td><%= (application.applicationAt).toLocaleString() %></td>
+                <td><%= application.status %></td>
             </tr>
         <% }) %>
         

@@ -1,14 +1,14 @@
-const adopted = require('./../models/adoptedModel');
-const Pet = require('./../models/petsModel');
-const Favourite = require('./../models/favouritesModel');
-const appointment = require('./../models/appointmentModel'); 
+const application = require('./../models/applicationModel');
+const Pet = require('../models/petsModel');
+const Favourite = require('../models/favouritesModel');
+const appointment = require('../models/appointmentModel'); 
 
 // Helper function to fetch all appointments
 const getExistingAppointments = async () => {
     return await appointment.retrieveAll({}); 
 };
 
-exports.displayAdopted = async (req, res) => {
+exports.displayapplication = async (req, res) => {
     const isAdmin = req.body.admin;
     const id = req.body.selectPet;
     const userName = req.body.userName;
@@ -75,7 +75,7 @@ exports.displayAdopted = async (req, res) => {
 
         // Send ONE single render command with all required data
         // This prevents the "Headers already sent" error
-        res.render("adopted-pets", {
+        res.render("application-pets", {
             isAdmin: isAdmin,
             pet: lastPet,
             userName: userName,
@@ -84,20 +84,20 @@ exports.displayAdopted = async (req, res) => {
 
 
     } catch (error) {
-        console.error("Error in displayAdopted:", error);
+        console.error("Error in displayapplication:", error);
         res.status(500).send("Error reading database");
     }
 };
 
-exports.displayAdoptedList = async (req,res) => {
-  adoptedList = await adopted.retrieveAll()
-  res.render('adopted-list', {adoptedList})
+exports.displayapplicationList = async (req,res) => {
+  applicationList = await application.retrieveAll()
+  res.render('application-list', {applicationList})
 }
   
 exports.showEdit = async (req, res) => {
   try {
-      let adoptedList = await adopted.retrieveAll();// fetch all the list    
-      res.render("edit-adopted", { adoptedList }); // Render the EJS form view and pass the posts
+      let applicationList = await application.retrieveAll();// fetch all the list    
+      res.render("edit-application", { applicationList }); // Render the EJS form view and pass the posts
     
     } catch (error) {
       console.error(error);
@@ -105,7 +105,7 @@ exports.showEdit = async (req, res) => {
     }
 }
 
-exports.getAdopted = async (req, res) => {
+exports.getapplication = async (req, res) => {
   // Retrieve form data
   const data = req.query; // its a GET request
   const id = data.petId;
@@ -114,15 +114,15 @@ exports.getAdopted = async (req, res) => {
     // find() always return an Array of result
     // findOne will return 1 document
     // let result = await Pet.find({isbn:isbnNo}); // find a pet with its record id
-    let result = await adopted.findByID(id); // find a pet with id
-    res.render("update-adopted", {result:result || null, successful: false});
+    let result = await application.findByID(id); // find a pet with id
+    res.render("update-application", {result:result || null, successful: false});
     
   } catch (error) {
     console.log(error);
   }
 };
 
-exports.updateAdopted = async (req, res) => {
+exports.updateapplication = async (req, res) => {
   // Retrieve form data
   const data = req.body;
 
@@ -133,13 +133,13 @@ exports.updateAdopted = async (req, res) => {
 
   // When successful
   try {
-    await adopted.editAdopted (id, newName, status);
-    let updatedAdopted = await adopted.findByID(id)
+    await application.editapplication (id, newName, status);
+    let updatedapplication = await application.findByID(id)
 
     // to check the output of success
     // console.log(success);
 
-    res.render("update-adopted", {successful: true, result: updatedAdopted})
+    res.render("update-application", {successful: true, result: updatedapplication})
   // When unsuccessful
   } catch (error) {
     console.log(error);
@@ -150,22 +150,22 @@ exports.showDelForm = async (req, res) => {
   let result = "";
   let msg = "";
 
-  let adoptedList = await adopted.retrieveAll()
-  res.render("del-adopted", {adoptedList, result, msg}); // Render the EJS form view and pass the posts
+  let applicationList = await application.retrieveAll()
+  res.render("del-application", {applicationList, result, msg}); // Render the EJS form view and pass the posts
 }
 
-exports.delAdopted = async (req, res) => {
+exports.delapplication = async (req, res) => {
   const recordID = req.body.recordID
-  let adoptedList = await adopted.retrieveAll()
+  let applicationList = await application.retrieveAll()
   
   try{
-      let result = await adopted.delAdopted(recordID);
+      let result = await application.delapplication(recordID);
   
       if (result.deletedCount === 0){
-        return res.render("del-adopted", { adoptedList, result: "fail", msg: "Adopted not found" });
+        return res.render("del-application", { applicationList, result: "fail", msg: "application not found" });
       }
   
-      res.render("del-adopted", { adoptedList, result, msg:"Adopted deleted successfully"});
+      res.render("del-application", { applicationList, result, msg:"application deleted successfully"});
     }
   
     catch(err){
@@ -173,6 +173,6 @@ exports.delAdopted = async (req, res) => {
         let msg = "Error deleting record";
         console.log(err)
   
-        res.render("del-adopted", {adoptedList, result, msg})};
+        res.render("del-application", {applicationList, result, msg})};
   
 }

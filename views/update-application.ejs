@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Update Adopted Record</title>
+    <title>Update application Record</title>
     <link rel="icon" type="image/x-icon" href="./img/paw.png">
 
     <!-- Google Font -->
@@ -101,7 +101,7 @@
             <p class="msg success">Adoption Record updated successfully!</p>
         <% } %>
 
-        <form action="/update-adopted" method="POST">
+        <form action="/update-application" method="POST">
             <!-- Username -->
             <label>Username</label>
             <input type="text" name="name" value="<%= result.userName %>">
@@ -121,7 +121,7 @@
             <!-- Hidden ID -->
             <input type="hidden" name="id" value="<%= result.petId %>">
 
-            <button type="submit">Update Adopted</button>
+            <button type="submit">Update application</button>
         </form>
     </div>
     <% } %>

@@ -41,8 +41,8 @@ server.use(account);
 const pet = require("./routes/pets");
 server.use(pet);
 
-const adopted = require("./routes/adopted");
-server.use(adopted);
+const application = require("./routes/application");
+server.use(application);
 
 const favourites = require("./routes/favourites");
 server.use(favourites)

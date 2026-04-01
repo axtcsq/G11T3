@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Delete Adopted Record</title>
+    <title>Delete application Record</title>
     <link rel="icon" type="image/x-icon" href="./img/paw.png">
 
     <!-- Google Font -->
@@ -108,25 +108,25 @@
     <%- include("common/header") %>
 
     <div class="card">
-        <h3>Delete Adopted Record</h3>
+        <h3>Delete application Record</h3>
         
         <!-- Displays error message -->
         <% if (!result || result === "fail") { %>
             <p class="msg error"><%= msg %></p>
         <% } else if (result) { %>
             <!-- Displays success message -->
-            <p class="msg success">Adopted Record deleted successfully!</p>
+            <p class="msg success">application Record deleted successfully!</p>
         <% } %>
         
-        <form action="/del-adopted" method="POST">
+        <form action="/del-application" method="POST">
             <!-- PetID -->
             <label>Select Record</label>
             
             <select name="recordID" required>
                 <option value="">-- Choose an Option --</option>
-                <% adoptedList.forEach(adopted => { %>
-                    <option value="<%= adopted._id %>">
-                        Application ID: <%= adopted._id %> | (USER: <%= adopted.userName %> , ID: <%= adopted.petId %>)
+                <% applicationList.forEach(application => { %>
+                    <option value="<%= application._id %>">
+                        Application ID: <%= application._id %> | (USER: <%= application.userName %> , ID: <%= application.petId %>)
                     </option>
                 <% }); %>
             </select>

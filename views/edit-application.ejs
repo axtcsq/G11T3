@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit Adopted Record</title>
+    <title>Edit application Record</title>
     <link rel="icon" type="image/x-icon" href="./img/paw.png">
 
     <!-- Google Font -->
@@ -94,22 +94,22 @@
     <%- include("common/header") %>
 
     <div class="card">
-        <h3>Edit Adopted Record</h3>
+        <h3>Edit application Record</h3>
         
-        <form action="/update-adopted" method="GET">
-            <label>Select Adopted</label>
+        <form action="/update-application" method="GET">
+            <label>Select application</label>
 
             <select name="petId" required>
                 <option value="">-- Choose an option --</option>
 
-                <% adoptedList.forEach(adopted => { %>
-                    <option value="<%= adopted.petId %>">
-                        Application ID: <%= adopted._id %> | (USER: <%= adopted.userName %>, ID: <%= adopted.petId %>)
+                <% applicationList.forEach(application => { %>
+                    <option value="<%= application.petId %>">
+                        Application ID: <%= application._id %> | (USER: <%= application.userName %>, ID: <%= application.petId %>)
                     </option>
                 <% }); %>
             </select>
 
-            <button type="submit">Edit Adopted</button>
+            <button type="submit">Edit application</button>
         </form>
     </div>
 </body>
