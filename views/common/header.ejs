@@ -1,173 +1,209 @@
-<!-- Nav Bar -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Pet</title>
-  
-  <style>
-      /* Unvisited link */
-      a:link {
-          color: white;
-      }
-
-      /* Visited link */
-      a:visited {
-          color: goldenrod;
-      }
-
-      /* Mouse over link */
-      a:hover {
-          color: cyan;
-      }
-      /* Dropdown container */
-      .dropdown {
-          display: inline-block;
-          position: relative;
-      }
-
-      /* Button */
-      .dropbtn {
-          cursor: pointer;
-          color: white;
-      }
-
-      /* Dropdown menu */
-      .dropdown-content {
-          display: none;
-          position: absolute;
-          background-color: #333;
-          min-width: 150px;
-          z-index: 1;
-      }
-
-      /* Links inside dropdown */
-      .dropdown-content a {
-          display: block;
-          padding: 8px 12px;
-          text-decoration: none;
-          color: white;
-      }
-
-      /* Hover effect */
-      .dropdown-content a:hover {
-          background-color: #555;
-      }
-
-      /* Show dropdown on hover */
-      .dropdown:hover .dropdown-content {
-          display: block;
-      }
-      /* Force navbar to always align left and span full width */
-      body {
-          width: 100%;
-      }
-
-      nav {
-          width: 100%;
-          display: flex;
-          justify-content: flex-start; /* force left alignment */
-          align-items: center;
-          gap: 10px;
-      }
-
-      /* Prevent parent flex containers from centering navbar */
-      nav {
-          align-self: stretch;
-      }
-
-      .logout-btn {
-          padding: 6px 12px;
-          border-radius: 20px;
-          background: rgba(255, 183, 77, 0.2);
-          border: 1px solid rgba(255, 183, 77, 0.6);
-          color: #ffcc80;
-          text-decoration: none;
-          transition: all 0.2s ease;
-      }
-
-      .logout-btn:hover {
-          background: rgba(255, 183, 77, 0.35);
-          color: #fff;
-      }
-  </style>
+  <title>Pet Records</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
 </head>
 
+<style>
+    /* Main SPCA-style Container */
+    .petShop-header {
+        background-color: white;
+        padding: 10px 40px;
+        border-radius: 0 0 30px 30px; 
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        margin-bottom: 25px;
+        font-family: 'Inter', sans-serif;
+    }
+    /* Logo Section */
+    .petShop-logo-section {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        text-decoration: none;
+        flex-shrink: 0;      /* Prevents the logo section from being squashed */
+}
+        /* Updated Logo Style to scale the paw.png correctly */
+    .logo-img {
+        height: 60px;        /* Fixes the height to a reasonable size */
+        width: auto;         /* Maintains the aspect ratio */
+        object-fit: contain; /* Ensures the entire heart is visible within the bounds */
+        display: block;      /* Removes any default inline spacing */
+    }
+
+    .logo-circle {
+        width: 45px;
+        height: 45px;
+        background: #1a2a5a;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-weight: bold;
+        font-size: 22px;
+    }
+
+    .logo-text {
+        color: #1a2a5a;
+        line-height: 1.1;
+        font-weight: 800;
+        font-size: 0.65rem;
+        text-transform: uppercase;
+    }
+
+    /* Navigation & Dropdowns */
+    .nav-links {
+        display: flex;
+        gap: 20px;
+        align-items: center;
+    }
+
+    .dropdown {
+        position: relative;
+        display: inline-block;
+    }
+
+    .dropbtn {
+        color: #333;
+        font-weight: 600;
+        font-size: 0.9rem;
+        cursor: pointer;
+        padding: 10px 5px;
+        transition: color 0.2s;
+    }
+
+    .dropbtn:hover {
+        color: #ffb74d; 
+    }
+
+    .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: white;
+        min-width: 180px;
+        box-shadow: 0px 8px 16px rgba(0,0,0,0.1);
+        border-radius: 8px;
+        z-index: 1000;
+        top: 100%;
+        left: 0;
+        overflow: hidden;
+    }
+
+    .dropdown-content a {
+        color: #444 !important;
+        padding: 12px 16px;
+        text-decoration: none;
+        display: block;
+        font-size: 0.85rem;
+        border-bottom: 1px solid #f0f0f0;
+    }
+
+    .dropdown-content a:last-child { border-bottom: none; }
+
+    .dropdown-content a:hover {
+        background-color: #fffaf0;
+        color: #ffb74d !important;
+    }
+
+    .dropdown:hover .dropdown-content {
+        display: block;
+    }
+
+    /* Auth Buttons */
+    .auth-btn {
+        text-decoration: none;
+        font-weight: 700;
+        font-size: 0.85rem;
+        color: #ffb74d !important;
+        border: 1.5px solid #ffb74d;
+        padding: 6px 15px;
+        border-radius: 20px;
+        transition: all 0.2s;
+    }
+
+    .auth-btn:hover {
+        background: #ffb74d;
+        color: white !important;
+    }
+</style>
+
 <body>
-  <nav>
-    <!-- Dynamically updates to login/logout -->
-    <% if (user) { %>
-      <a href="/logout" class="logout-btn">Logout</a> |
-    <% } else { %>
-      <a href="/login">Login</a> |
-    <% } %>
+    <header class="petShop-header">
+    <a href="/" class="petShop-logo-section">
+        <img src="/img/paw.png" alt="Paw Logo" class="logo-img">
+        <div class="logo-text">Manoj Animals Association<br>Singapore</div>
+    </a>
 
-    <!-- Dropdown Menu -->
-    <!-- Pet Records -->
-    <div class="dropdown">
-      <span class="dropbtn">Pet Records ▾</span>
-      <div class="dropdown-content">
-        <a href="/display-pet">View Pets</a>
-        <!-- ADMIN ONLY -->
-        <% if (user && user.type === "admin") { %>
-          <a href="/add-pet">Add Pet</a>
-          <a href="/edit-pet">Update Pet</a>
-          <a href="/del-pet">Delete Pet</a>
-        <% } %>
-      </div>
-    </div> |
-
-    <!-- User Records - ADMIN ONLY -->
-    <% if (user && user.type === "admin") { %>
+    <nav class="nav-links">
       <div class="dropdown">
-        <span class="dropbtn">User Records ▾</span>
+        <span class="dropbtn">Pet Records ▾</span>
         <div class="dropdown-content">
-          <a href="/display-user">View Users</a>
-          <a href="/add-user">Add User</a>
-          <a href="/edit-user">Update User</a>
-          <a href="/del-user">Delete User</a>
+          <a href="/display-pet">View Pets</a>
+          <% if (user && user.type === "admin") { %>
+            <a href="/add-pet">Add Pet</a>
+            <a href="/edit-pet">Update Pet</a>
+            <a href="/del-pet">Delete Pet</a>
+          <% } %>
         </div>
-      </div> |
-    <% } %>
+      </div>
 
-    <!-- Adoption Records - ADMIN ONLY -->
-    <% if (user && user.type === "admin") { %>
+      <% if (user && user.type === "admin") { %>
+        <div class="dropdown">
+          <span class="dropbtn">User Records ▾</span>
+          <div class="dropdown-content">
+            <a href="/display-user">View Users</a>
+            <a href="/add-user">Add User</a>
+            <a href="/edit-user">Update User</a>
+            <a href="/del-user">Delete User</a>
+          </div>
+        </div>
+      <% } %>
+
+      <% if (user && user.type === "admin") { %>
+        <div class="dropdown">
+          <span class="dropbtn">Applications ▾</span>
+          <div class="dropdown-content">
+            <a href="/adopted-list">View Applications</a>
+            <a href="/edit-adopted">Edit Application</a>
+            <a href="/del-adopted">Delete Application</a>
+          </div>
+        </div>
+      <% } %>
+
       <div class="dropdown">
-        <span class="dropbtn">Application Records ▾</span>
+        <span class="dropbtn">Favourites ▾</span>
         <div class="dropdown-content">
-          <a href="/adopted-list">View Application</a>
-          <a href="/edit-adopted">Edit Application</a>
-          <a href="/del-adopted">Delete Application</a>
+          <a href="/view-favourites">View My List</a>
         </div>
-      </div> |
-    <% } %>
-
-    <!-- Favourites -->
-    <div class="dropdown">
-      <span class="dropbtn">Favourites ▾</span>
-      <div class="dropdown-content">
-        <a href="/view-favourites">View Favourites</a>
       </div>
-    </div> |
 
-    <!-- Appointments --> <!-- work in progess -->
-    <div class="dropdown">
-      <span class="dropbtn">Appointments ▾</span>
-      <div class="dropdown-content">
-        <a href="/view-appointment">View My Appointments</a>
+      <div class="dropdown">
+        <span class="dropbtn">Appointments ▾</span>
+        <div class="dropdown-content">
+          <a href="/view-appointment">View Schedule</a>
+        </div>
       </div>
-    </div> |
-    
-      <!-- Review Records -->
-    <div class="dropdown">
-      <span class="dropbtn">Reviews ▾</span>
-      <div class="dropdown-content">
-        <a href="/pet-reviews">View Reviews</a>
-        <a href="/add-review">Add Review</a>
-        <a href="/my-reviews">Update My Reviews</a>
-    </div>
-  </div>
-</nav>
 
+      <div class="dropdown">
+        <span class="dropbtn">Reviews ▾</span>
+        <div class="dropdown-content">
+          <a href="/pet-reviews">View Reviews</a>
+          <a href="/add-review">Add Review</a>
+          <a href="/my-reviews">Update My Reviews</a>
+        </div>
+      </div>
+
+      <% if (user) { %>
+        <a href="/logout" class="auth-btn">Logout</a>
+      <% } else { %>
+        <a href="/login" class="auth-btn">Login</a>
+      <% } %>
+    </nav>
+  </header>
 </body>
 </html>
