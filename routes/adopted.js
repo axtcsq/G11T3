@@ -1,10 +1,11 @@
 const express = require('express');
 const router = express.Router();
 const { requireAdmin } = require("../middleware/auth");
+const { requireLogin } = require("../middleware/auth");
 const adoptedController = require("../controllers/adoptedController");
 
 router.get("/adopted-list", requireAdmin, adoptedController.displayAdoptedList)
-router.post("/adopted-pets", adoptedController.displayAdopted);
+router.post("/adopted-pets", requireLogin, adoptedController.displayAdopted);
 
 router.get('/edit-adopted', requireAdmin, adoptedController.showEdit)
 router.get("/update-adopted", requireAdmin, adoptedController.getAdopted);
