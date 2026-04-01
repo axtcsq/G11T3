@@ -148,19 +148,19 @@
         <form action="/signup" method="post">
             <!-- Username -->
             <label for="userName">Username</label>
-            <input type="text" name="userName" value="<%= userName %>" required>
+            <input type="text" name="userName" value="<%= userName %>" required placeholder="Enter a username">
 
             <!-- Full Name -->
             <label for="fullName">Full Name</label>
-            <input type="text" name="fullName" value="<%= fullName %>" required>
+            <input type="text" name="fullName" value="<%= fullName %>" required placeholder="Enter your full name">
 
             <!-- Password -->
             <label for="password">Password</label>
-            <input type="password" name="password" required>
+            <input type="password" name="password" required placeholder="Requires 1 upper, number, special & 5 min. chars">
 
             <!-- Confirm Password -->
             <label for="password2">Confirm Password</label>
-            <input type="password" name="password2" required>
+            <input type="password" name="password2" required placeholder="Re-enter your chosen password">
 
             <!-- Gender -->
             <label>Gender</label>
