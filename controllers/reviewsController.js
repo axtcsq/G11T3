@@ -3,13 +3,10 @@ const Review = require("../models/reviewsModels");
 
 // Show all reviews on one page
 exports.showReviewsPage = async (req, res) => {
-    //gets isAdmin from the URL which we put inside from the previous /login
-    const isAdmin = req.query.admin
     try{
         let reviews = await Review.retrieveAllReviews() // Retrieving from Retrieve model
         console.log(reviews)
         res.render("pet-reviews", {
-            isAdmin,
             reviews,
             currentUser: req.session.user || null
         }) // Render the EJS form view and pass the posts
