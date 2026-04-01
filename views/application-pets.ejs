@@ -132,19 +132,24 @@
                             <% const slots = ["10:00 AM - 12:00 PM", "12:00 PM - 2:00 PM", "2:00 PM - 4:00 PM", "4:00 PM - 6:00 PM"]; %>
                             <% slots.forEach(slot => { %>
                                 <% 
-                                    // Check if this specific date and time exists in the bookedSlots array passed from the controller 
-                                    const isBooked = bookedSlots.some(b => b.date === dateVal && b.time === slot);
+                                    // RULE 1: Is THIS SPECIFIC PET already busy at this time?
+                                    const isPetBusy = bookedSlots.some(b => b.date === dateVal && b.time === slot && b.petId === pet.id);
+                                    
+                                    // RULE 2: Is THE CURRENT USER already busy at this time?
+                                    const isUserBusy = bookedSlots.some(b => b.date === dateVal && b.time === slot && b.userName === userName);
+
+                                    const isDisabled = isPetBusy || isUserBusy;
                                 %>
                                 <div>
-                                    <% if (isBooked) { %>
-                                        <label class="time-slot-label" style="background: #333; color: #777; border-color: #444; cursor: not-allowed; opacity: 0.6;">
-                                            <%= slot %> (Taken)
+                                    <% if (isDisabled) { %>
+                                        <label class="time-slot-label" style="background: #333; color: #777; cursor: not-allowed; opacity: 0.6;">
+                                            <%= slot %> <%= isPetBusy ? '(Pet Booked)' : '(You are Busy)' %>
                                         </label>
                                     <% } else { %>
                                         <input type="radio" name="appointmentDateTime" 
-                                               value="<%= dateVal %>|<%= slot %>" 
-                                               id="<%= dateVal %>-<%= slot %>" 
-                                               class="time-slot-radio" required>
+                                            value="<%= dateVal %>|<%= slot %>" 
+                                            id="<%= dateVal %>-<%= slot %>" 
+                                            class="time-slot-radio" required>
                                         <label for="<%= dateVal %>-<%= slot %>" class="time-slot-label">
                                             <%= slot %>
                                         </label>

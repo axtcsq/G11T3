@@ -66,23 +66,20 @@ exports.displayapplication = async (req, res) => {
     }
 
     // 2. Handle the successful path (Pet ID exists)
-    try {
-        // Fetch pet details
+   try {
         let lastPet = await Pet.findByID(id);
+        const bookedSlots = await getExistingAppointments(); 
         
-        // Fetch all booked slots using the helper
-        const bookedSlots = await getExistingAppointments();
+        // Ensure we identify who is currently logged in
+        const currentUserName = req.session.user ? req.session.user.username : userName;
 
-        // Send ONE single render command with all required data
-        // This prevents the "Headers already sent" error
         res.render("application-pets", {
             isAdmin: isAdmin,
             pet: lastPet,
-            userName: userName,
-            bookedSlots: bookedSlots // Passed to EJS for the conflict-checking logic
-        });
-
-
+            userName: currentUserName, // Explicitly pass the current user
+            bookedSlots: bookedSlots    // The global list of appointments
+        })
+        
     } catch (error) {
         console.error("Error in displayapplication:", error);
         res.status(500).send("Error reading database");

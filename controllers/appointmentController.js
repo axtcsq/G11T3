@@ -26,14 +26,22 @@ exports.bookAppointment = async (req, res) => {
         // 1. Fetch actual Pet details
         const actualPet = await Pet.findByID(petId); 
         const petName = actualPet ? actualPet.name : "Unknown Pet";
-
-        // 2. Conflict Check
-        const existing = await appointment.checkConflict(petId, appointmentDate, timeSlot);
-        if (existing) {
-            return res.render('error-appointment', { 
-                message: "Sorry! This pet already has an appointment for that date and time slot." 
+        
+        // 2. Multi-Rule Conflict Check
+            const existing = await appointment.findOne({
+                $and: [
+                    { date: appointmentDate },
+                    { time: timeSlot },
+                    { $or: [ { petId: petId }, { userName: userName } ] }
+                ]
             });
-        }
+
+            if (existing) {
+                const msg = existing.petId === petId 
+                    ? "This pet is already booked for that time." 
+                    : "You already have another appointment at this time.";
+                return res.render('error-appointment', { message: msg });
+            }
 
         // 3. Save Appointment
         await application.addapplication({ userName, petId });

@@ -93,34 +93,44 @@
 
                             <div class="time-options">
                                 <% const slots = ["10:00 AM - 12:00 PM", "12:00 PM - 2:00 PM", "2:00 PM - 4:00 PM", "4:00 PM - 6:00 PM"]; %>
-                                <% slots.forEach(slot => { %>
-                                    <% 
-                                        // 1. Check if this slot is taken by ANYONE in the database
-                                        const isBooked = bookedSlots.some(b => b.date === dateVal && b.time === slot);
-                                        
-                                        // 2. Check if this is the specific slot the user is ALREADY booked for
-                                        // We must allow them to see/re-select their current slot!
-                                        const isCurrentSlot = appointment.date === dateVal && appointment.time === slot;
-                                    %>
-                                    <div>
-                                        <% if (isBooked && !isCurrentSlot) { %>
-                                            <label class="time-slot-label" style="background: #333; color: #666; border-color: #444; cursor: not-allowed; opacity: 0.6;">
-                                                <%= slot %> (Taken)
-                                            </label>
-                                        <% } else { %>
-                                            <input type="radio" 
-                                                name="appointmentDateTime" 
-                                                value="<%= dateVal %>|<%= slot %>" 
-                                                id="<%= dateVal %>-<%= slot %>" 
-                                                class="time-slot-radio" 
-                                                <%= isCurrentSlot ? 'checked' : '' %> 
-                                                required>
-                                            <label for="<%= dateVal %>-<%= slot %>" class="time-slot-label">
-                                                <%= slot %>
-                                            </label>
-                                        <% } %>
-                                    </div>
-                                <% }); %>
+                              <% slots.forEach(slot => { %>
+                                <% 
+                                    // Identify the specific appointment we are currently editing
+                                    const isThisAppointment = appointment.date === dateVal && appointment.time === slot;
+
+                                    // RULE 1: Someone else has booked THIS pet at this time
+                                    const isPetBusy = bookedSlots.some(b => 
+                                        b.date === dateVal && b.time === slot && 
+                                        b.petId === appointment.petId && 
+                                        b._id.toString() !== appointment._id.toString()
+                                    );
+                                    
+                                    // RULE 2: THE USER has another appointment (for a different pet) at this same time
+                                    const isUserBusy = bookedSlots.some(b => 
+                                        b.date === dateVal && b.time === slot && 
+                                        b.userName === appointment.userName && 
+                                        b._id.toString() !== appointment._id.toString()
+                                    );
+
+                                    const isBlocked = isPetBusy || isUserBusy;
+                                %>
+                                <div>
+                                    <% if (isBlocked) { %>
+                                        <label class="time-slot-label" style="background: #333; color: #666; cursor: not-allowed;">
+                                            <%= slot %> (Unavailable)
+                                        </label>
+                                    <% } else { %>
+                                        <input type="radio" name="appointmentDateTime" 
+                                            value="<%= dateVal %>|<%= slot %>" 
+                                            id="<%= dateVal %>-<%= slot %>" 
+                                            class="time-slot-radio" 
+                                            <%= isThisAppointment ? 'checked' : '' %> required>
+                                        <label for="<%= dateVal %>-<%= slot %>" class="time-slot-label">
+                                            <%= slot %>
+                                        </label>
+                                    <% } %>
+                                </div>
+                            <% }); %>
                             </div>
                         </div>
                     <% } %>
