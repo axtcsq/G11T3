@@ -143,7 +143,7 @@ exports.handleLogin = async (req, res) => {
     
     // Checks users existence & credentials
     if (!user) {
-        errors.push("Invalid username or password.");
+        errors.push("Invalid username");
 
         return res.render("login", { userName, errors });
     }
@@ -153,7 +153,7 @@ exports.handleLogin = async (req, res) => {
     console.log('Is match :' + match);
 
     if (!match) {
-        errors.push("Password mismatch");
+        errors.push("Invalid password, mismatch");
         return res.render("login", { userName, errors });
     }
 
