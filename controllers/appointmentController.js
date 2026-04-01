@@ -15,39 +15,31 @@ const mongoose = require('mongoose'); // Add this at the very top of your contro
 exports.bookAppointment = async (req, res) => {
     try {
         const petId = req.body.petId;
-        const appointmentDate = req.body.appointmentDate;
-        const timeSlot = req.body.timeSlot;
-        const userName = req.session.user.username
-        console.log(petId)
-        console.log(userName)
+        const userName = req.session.user.username;
+        
+        // Split the combined value "YYYY-MM-DD|10:00 AM..."
+        const [appointmentDate, timeSlot] = req.body.appointmentDateTime.split('|');
 
-        // 1. Fetch the actual Pet details using the petId from the form
-        // We look in the Pet collection to find the name (e.g., "Ronaldo")
+        // 1. Fetch actual Pet details
         const actualPet = await Pet.findByID(petId); 
-       
-        // 2. Check if the pet exists; if not, provide a fallback name
-        const petName = actualPet ? actualPet.name : "Unknown Pet"; // !!! not sure what this does , why pet is unknown pet ?
+        const petName = actualPet ? actualPet.name : "Unknown Pet";
 
-        // IMPROVED CONFLICT CHECK 
+        // 2. Conflict Check
         const existing = await appointment.checkConflict(petId, appointmentDate, timeSlot);
         if (existing) {
-        // Instead of res.send, we go back to the page with a message
-        return res.render('error-appointment', { 
-            message: "Sorry! This pet already has an appointment for that date and time slot." 
-        });
-        };
+            return res.render('error-appointment', { 
+                message: "Sorry! This pet already has an appointment for that date and time slot." 
+            });
+        }
 
-        // 4. Save the appointment with the REAL pet name we just found
-        await adopted.addAdopted({ 
-            userName: req.session.user.username,
-            petId: petId,
-          })
+        // 3. Save Appointment
+        await adopted.addAdopted({ userName, petId });
         await appointment.addAppointment({
-            petId: petId,
+            petId,
             date: appointmentDate,
             time: timeSlot,
-            userName: userName,
-            name: petName // This is no longer an empty string!
+            userName,
+            name: petName 
         });
 
         res.render('successful-appointment');
@@ -56,7 +48,6 @@ exports.bookAppointment = async (req, res) => {
         res.status(500).send("Error saving appointment");
     }
 };
-
 // READ - view appointments based on user session
 // it now checks for the user logged in and filters for the appointments belonging to that user only by implementing sessions
 exports.viewAppointments = async (req, res) => {
