@@ -1,40 +1,92 @@
 const adopted = require('./../models/adoptedModel');
 const Pet = require('./../models/petsModel');
-const Favourite = require('./../models/favouritesModel')
+const Favourite = require('./../models/favouritesModel');
+const appointment = require('./../models/appointmentModel'); 
+
+// Helper function to fetch all appointments
+const getExistingAppointments = async () => {
+    return await appointment.retrieveAll({}); 
+};
 
 exports.displayAdopted = async (req, res) => {
-  const isAdmin = req.body.admin
-  const id  = req.body.selectPet
-  const userName = req.body.userName
-  // to check where the post req is coming from (display-pets or favourites)
-  const source = req.body.source
-  
+    const isAdmin = req.body.admin;
+    const id = req.body.selectPet;
+    const userName = req.body.userName;
+    const source = req.body.source;
+
+    // 1. Handle the case where no pet was selected
+    if (!id) {
+        if (source === "favourites") {
+            const favourites = await Favourite.findById(userName);
+            const petList = await Pet.retrieveAll();
+            let favouriteList = [];
+
+            for (let i = 0; i < favourites.length; i++) {
+                for (let j = 0; j < petList.length; j++) {
+                    if (favourites[i].petID === petList[j].id) {
+                        favouriteList.push({
+                            petID: petList[j].id,
+                            type: petList[j].type,
+                            name: petList[j].name,
+                            age: petList[j].age,
+                            desc: petList[j].desc,
+                            photo: petList[j].photo,
+                            remark: favourites[i].remark,
+                            priority: favourites[i].priority,
+                            dateAdded: favourites[i].dateAdded
+                        });
+                    }
+                }
+            }
+
+            return res.render("view-favourites", {
+                favouriteList,
+                userName,
+                isAdmin,
+                error: "Please select 1 pet to adopt"
+            });
+        } else {
+            let petList = await Pet.retrieveAll();
+            let favouriteList = [];
+
+            if (userName) {
+                const favourites = await Favourite.findById(userName);
+                for (let i = 0; i < favourites.length; i++) {
+                    favouriteList.push(favourites[i].petID);
+                }
+            }
+            return res.render("display-pet", { 
+                petList, 
+                isAdmin, 
+                userName, 
+                favouriteList, 
+                error: "Please select 1 pet to adopt" 
+            });
+        }
+    }
+
+    // 2. Handle the successful path (Pet ID exists)
+    try {
+        // Fetch pet details
+        let lastPet = await Pet.findByID(id);
+        
+        // Fetch all booked slots using the helper
+        const bookedSlots = await getExistingAppointments();
+
+        // Send ONE single render command with all required data
+        // This prevents the "Headers already sent" error
+        res.render("adopted-pets", {
+            isAdmin: isAdmin,
+            pet: lastPet,
+            userName: userName,
+            bookedSlots: bookedSlots // Passed to EJS for the conflict-checking logic
+        });
 
 
-  try {
-
-    // 2. FETCH the pet we just added to show it on the summary page
-      // Assuming your adopted model has a way to get all adopted pets
-      let lastPet = await Pet.findByID(id)
-      
-
-      
-      // Grab the most recent one (the one we just added)
-      
-      
-
-      // 3. PASS 'pet' to the EJS
-      res.render("adopted-pets", {
-          isAdmin: isAdmin,
-          pet: lastPet,
-          userName: userName // This is the key! This stops the "pet is undefined" error
-      });
-
-  } catch (error) {
-    console.error(error);
-    
-    res.send("Error reading database"); // Send error message if fetching fails
-  }
+    } catch (error) {
+        console.error("Error in displayAdopted:", error);
+        res.status(500).send("Error reading database");
+    }
 };
 
 exports.displayAdoptedList = async (req,res) => {

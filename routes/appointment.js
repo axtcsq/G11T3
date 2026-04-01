@@ -16,7 +16,8 @@ router.get('/view-appointment', requireLogin, appointmentController.viewAppointm
 // GET shows the form
 router.get('/edit-appointment/:id', requireLogin, appointmentController.editAppointmentPage);
 // POST saves the data
-router.post('/update-appointment/:id', requireLogin, appointmentController.updateAppointment);
+// In your routes/index.js or wherever your routes are:
+router.post('/update-appointment/:id', appointmentController.updateAppointment);
 
 // route for DELETE 
 // The :id is a placeholder. It tells the server: "If someone visits a URL that starts with /delete/, take whatever characters come next and call them id."

@@ -10,6 +10,9 @@ const mongoose = require('mongoose'); // Add this at the very top of your contro
 // 4. Create session to allow each user to only view thier OWN scheduled appointments
 // 5. Improve design of "This slot has already been boooked" page and see how it actually is functioning
 // 6. admin should be able to see all appointments (and username of person ?)
+const getExistingAppointments = async () => {
+    return await appointment.retrieveAll({}); 
+};
 
 // CREATE 
 exports.bookAppointment = async (req, res) => {
@@ -90,13 +93,28 @@ exports.viewAppointments = async (req, res) => {
 // UPDATE 
 
 // 1. Show the Edit Page
+// Look for the function that RENDERS the edit page
 exports.editAppointmentPage = async (req, res) => {
     try {
         const id = req.params.id;
         const appt = await appointment.findAppointmentById(id);
-        if (!appt) return res.status(404).send("Appointment not found");
         
-        res.render('edit-appointment', { appointment: appt });
+        // We MUST define isAdmin and pass it to the render function
+        // Usually, this comes from your session or user object
+        const isAdmin = req.session.user && req.session.user.type === 'admin';
+
+        // FETCH ALL BOOKED SLOTS
+        const bookedSlots = await getExistingAppointments();
+        
+
+
+        res.render('edit-appointment', { 
+            appointment: appt,
+            isAdmin: isAdmin, // <--- THIS WAS MISSING
+            user: req.session.user, // Also pass user if your header uses it
+            bookedSlots: bookedSlots // Pass this to the view
+        });
+
     } catch (err) {
         console.error(err);
         res.status(500).send("Error loading edit page");
@@ -104,47 +122,52 @@ exports.editAppointmentPage = async (req, res) => {
 };
 
 // 2. Process the Update
+// UPDATE / RESCHEDULE
+// UPDATE / RESCHEDULE
 exports.updateAppointment = async (req, res) => {
     try {
         const id = req.params.id;
-        const newDate = req.body.appointmentDate;
-        const newTime = req.body.timeSlot;
+        
+        // 1. Safety Check: Ensure the form actually sent the data
+        if (!req.body.appointmentDateTime) {
+            return res.status(400).send("No date or time selected. Please go back and select a slot.");
+        }
 
-        // 1. Convert the ID string to a MongoDB ObjectId
+        // 2. Split the combined value "YYYY-MM-DD|10:00 AM..."
+        const [newDate, newTime] = req.body.appointmentDateTime.split('|');
         const objectId = new mongoose.Types.ObjectId(id);
 
-        // Fetch the existing appointment to get the petId
+        // 3. Fetch existing appointment to get the petId
         const currentAppt = await appointment.findAppointmentById(id);
         if (!currentAppt) return res.status(404).send("Appointment not found");
 
-        // 2. Fix the typo in the conflict check (Line 103)
+        // 4. Conflict Check
+        // We look for a conflict with the SAME pet at the SAME time
+        // BUT we exclude the current appointment (_id: { $ne: objectId }) 
+        // so you can "resave" your current slot if you want.
         const conflict = await appointment.findOne({
-            _id: { $ne: objectId },
-            petId: currentAppt.petId, // Use capital 'I' as defined in your schema
+            _id: { $ne: objectId }, 
+            petId: currentAppt.petId,
             date: newDate,
             time: newTime
         });
 
         if (conflict) {
-            // This will only trigger now if a DIFFERENT appointment exists there
             return res.render('error-appointment', { 
-                message: "Sorry! That time slot is already taken by another booking." 
+                message: "Sorry! That time slot is already taken for this pet." 
             });
         }
 
-        // 3. If no conflict, save the changes
-        const updatedData = { date: newDate, time: newTime };
-        await appointment.updateToAppointment(id, updatedData);
+        // 5. Save the changes
+        await appointment.updateToAppointment(id, { date: newDate, time: newTime });
         
         res.render('successful-appointment'); 
 
     } catch (err) {
-        console.error("Reschedule Error:", err);
-        res.render('error-appointment', { message: "Error during rescheduling." });
+        console.error("Update Error:", err);
+        res.render('error-appointment', { message: "Error during update." });
     }
 };
-
-
 
 // DELETE 
 exports.deleteAppointment = async (req, res) => {

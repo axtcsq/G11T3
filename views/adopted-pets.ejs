@@ -81,54 +81,66 @@
     <%- include("common/header", {isAdmin: isAdmin}) %>
     
     <div class="card">
-        <h3>Adopted Pet Summary</h3>
-        
-        <% if (pet) { %> <table>
-                <thead>
-                    <tr>
-                        <th>Pet Number</th>
-                        <th>Adoption Status</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><%= pet.id %></td>
-                        <td class="status">Pending ...</td>
-                    </tr>
-                </tbody>
-            </table>
+    <h3>Adopted Pet Summary</h3>
+    
+    <% if (pet) { %> 
+        <table>
+            <thead>
+                <tr>
+                    <th>Pet Number</th>
+                    <th>Adoption Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><%= pet.id %></td>
+                    <td class="status">Pending ...</td>
+                </tr>
+            </tbody>
+        </table>
 
-            <br>
-            <p class="success-text">
-                Congratulations <%= userName %>! Your request to adopt pet (Pet Number  <%= pet.id %>) has been noted. We will keep in touch!
-            </p>
+        <br>
+        <p class="success-text">
+            Congratulations <%= userName %>!
+            Your request to adopt pet (Pet Number <%= pet.id %>) has been noted.
+        </p>
+        <br>
 
-            <h3>Please make an appointment below:</h3>
+        <p><strong>Please make an appointment below:</strong></p>
 
-            <form action="/book" method="POST">
-                <input type="hidden" name="petId" value="<%= pet.id %>">
-                <input type="hidden" name="userName" value="<%= pet.userName %>">
+        <form action="/book" method="POST">
+            <input type="hidden" name="petId" value="<%= pet.id %>">
+            <input type="hidden" name="userName" value="<%= pet.userName %>">
 
-                <div class="appointment-grid">
-                    <% 
-                    const dayOptions = { weekday: 'long' };
-                    const dateOptions = { month: 'short', day: 'numeric' };
-                    
-                    for(let i = 1; i <= 4; i++) { 
-                        let d = new Date();
-                        d.setDate(d.getDate() + i);
-                        let dateVal = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
-                    %>
-                        <div class="day-column">
-                            <div class="day-header">
-                                <div class="day-name"><%= d.toLocaleDateString(undefined, dayOptions) %></div>
-                                <div class="day-date"><%= d.toLocaleDateString(undefined, dateOptions) %></div>
-                            </div>
+            <div class="appointment-grid">
+                <% 
+                const dayOptions = { weekday: 'long' };
+                const dateOptions = { month: 'short', day: 'numeric' };
+                
+                for(let i = 1; i <= 7; i++) { 
+                    let d = new Date();
+                    d.setDate(d.getDate() + i);
+                    let dateVal = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+                %>
+                    <div class="day-column">
+                        <div class="day-header">
+                            <div class="day-name"><%= d.toLocaleDateString(undefined, dayOptions) %></div>
+                            <div class="day-date"><%= d.toLocaleDateString(undefined, dateOptions) %></div>
+                        </div>
 
-                            <div class="time-options">
-                                <% const slots = ["10:00 AM - 12:00 PM", "12:00 PM - 2:00 PM", "2:00 PM - 4:00 PM", "4:00 PM - 6:00 PM"]; %>
-                                <% slots.forEach(slot => { %>
-                                    <div>
+                        <div class="time-options">
+                            <% const slots = ["10:00 AM - 12:00 PM", "12:00 PM - 2:00 PM", "2:00 PM - 4:00 PM", "4:00 PM - 6:00 PM"]; %>
+                            <% slots.forEach(slot => { %>
+                                <% 
+                                    // Check if this specific date and time exists in the bookedSlots array passed from the controller 
+                                    const isBooked = bookedSlots.some(b => b.date === dateVal && b.time === slot);
+                                %>
+                                <div>
+                                    <% if (isBooked) { %>
+                                        <label class="time-slot-label" style="background: #333; color: #777; border-color: #444; cursor: not-allowed; opacity: 0.6;">
+                                            <%= slot %> (Taken)
+                                        </label>
+                                    <% } else { %>
                                         <input type="radio" name="appointmentDateTime" 
                                                value="<%= dateVal %>|<%= slot %>" 
                                                id="<%= dateVal %>-<%= slot %>" 
@@ -136,16 +148,20 @@
                                         <label for="<%= dateVal %>-<%= slot %>" class="time-slot-label">
                                             <%= slot %>
                                         </label>
-                                    </div>
-                                <% }); %>
-                            </div>
+                                    <% } %>
+                                </div>
+                            <% }); %>
                         </div>
-                    <% } %>
-                </div>
+                    </div>
+                <% } %>
+            </div>
 
-                <button type="submit">Confirm Appointment</button>
-            </form>
-        <% } else { %> <p>No pet data found for this adoption request.</p>
-        <% } %> </div>
-</body>
+            <button type="submit">Confirm Appointment</button>
+        </form>
+
+    <% } else { %> 
+        <p>No pet data found for this adoption request.</p>
+    <% } %> 
+
+</div> </body>
 </html>
