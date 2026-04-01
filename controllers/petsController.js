@@ -223,7 +223,9 @@ exports.deletePet = async (req, res) => {
     // 3) delete pet record from database
     const result = await Pet.delPet(recordID);
 
-    if (result.deletedCount === 0) {
+    if (result.deletedCount === 0) {{
+      
+    }
       return res.render("del-pet", {
         petLists,
         result: "fail",

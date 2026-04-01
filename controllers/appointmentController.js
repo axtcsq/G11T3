@@ -15,7 +15,7 @@ const getExistingAppointments = async () => {
 };
 
 // CREATE 
-exports.bookAppointment = async (req, res) => {
+exports.bookAppointment = async (req, res) => { // if have await feature must have async to tell javascript the code is asynchronous
     try {
         const petId = req.body.petId;
         const userName = req.session.user.username;
@@ -26,7 +26,7 @@ exports.bookAppointment = async (req, res) => {
         // 1. Fetch actual Pet details
         const actualPet = await Pet.findByID(petId); 
         const petName = actualPet ? actualPet.name : "Unknown Pet";
-        
+
         // 2. Multi-Rule Conflict Check
             const existing = await appointment.findOne({
                 $and: [
