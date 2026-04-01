@@ -8,12 +8,8 @@ exports.displayAdopted = async (req, res) => {
   const userName = req.body.userName
   // to check where the post req is coming from (display-pets or favourites)
   const source = req.body.source
-  console.log(id)
-if (req.session?.user?.username) {
-  console.log(req.session.user.username);
-} else {
-  console.warn("⚠️ No username found in session.");
-}
+  
+
 
 
   if (!id) {
@@ -73,7 +69,8 @@ if (req.session?.user?.username) {
     // 2. FETCH the pet we just added to show it on the summary page
       // Assuming your adopted model has a way to get all adopted pets
       let lastPet = await Pet.findByID(id)
-      console.log(lastPet)
+      
+
       
       // Grab the most recent one (the one we just added)
       
@@ -82,7 +79,8 @@ if (req.session?.user?.username) {
       // 3. PASS 'pet' to the EJS
       res.render("adopted-pets", {
           isAdmin: isAdmin,
-          pet: lastPet // This is the key! This stops the "pet is undefined" error
+          pet: lastPet,
+          userName: userName // This is the key! This stops the "pet is undefined" error
       });
 
   } catch (error) {
@@ -132,13 +130,13 @@ exports.updateAdopted = async (req, res) => {
   const id = data.id; // in the hidden field
   const status = data.status
   const newName = data.name;
-  console.log(newName)
+  
 
   // When successful
   try {
     await adopted.editAdopted (id, newName, status);
     let updatedAdopted = await adopted.findByID(id)
-    console.log(updatedAdopted)
+
     // to check the output of success
     // console.log(success);
 
@@ -160,7 +158,7 @@ exports.showDelForm = async (req, res) => {
 exports.delAdopted = async (req, res) => {
   const recordID = req.body.recordID
   let adoptedList = await adopted.retrieveAll()
-  console.log(recordID)
+  
   try{
       let result = await adopted.delAdopted(recordID);
   

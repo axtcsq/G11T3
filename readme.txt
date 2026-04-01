@@ -30,3 +30,8 @@ Generic User:
 Admin
     Username: sam
     Password: 123
+
+Create Pet Function:
+
+After uploading the pet, it is imperative that you commit and push the uploaded folder in "public/uploads",
+so that the other people using the website can see the picture
