@@ -59,7 +59,7 @@ exports.handleSignup = async (req, res) => {
     
     // Adds to error list if validation requirement not met
     if (password.length < 5 || !hasUpper || !hasSpecial || !hasNum) {
-        errors.push("Password must have 1 uppercase, 1 number, 1 special char, and be of a minimum of 5 characters");
+        errors.push("Password must have 1 uppercase, 1 number, 1 special character, and be of a minimum of 5 characters");
     }
     
     // Unmatched password
@@ -198,9 +198,51 @@ exports.createUser = async (req, res) => {
     const userName = data.userName;
     const fullName = data.fullName;
     const password = data.password;
-    const hashedPassword = await bcrypt.hash(password, 10);
     const gender = data.gender;
     const type = data.type;
+
+    // Initialise validation requirement
+    let hasUpper = false;
+    let hasSpecial = false;
+    let hasNum = false;
+    let errors = [];
+
+    // Handles validation
+    if (!userName || !fullName || !password || !gender || !type) {
+        let result = null;
+        let msg = "All fields are required";
+
+        return res.render("add-user", { result: "fail", msg, userName, fullName });
+    }
+
+    // Iterates each character of password
+    for (let char of password) {
+        
+        // Checks if it contains at least 1 uppercase char
+        if (char === char.toUpperCase() && char !== char.toLowerCase()) {
+            hasUpper = true;
+        };
+
+        // Checks if it contains at least 1 special char
+        if ("!@#$%^&*()".includes(char)) {
+            hasSpecial = true;
+        }
+        
+        // Checks if it contains at least 1 number
+        if ("0123456789".includes(char)) {
+            hasNum = true;
+        }
+    }
+    
+    // Adds to error list if validation requirement not met
+    if (password.length < 5 || !hasUpper || !hasSpecial || !hasNum) {
+        let result = "fail";
+        let msg = "Password must have at least 1 uppercase letter, 1 number, 1 special character, and be at least 5 characters long";
+
+        return res.render("add-user", { result, msg, userName, fullName });
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 10);
 
     // Create a structure that stores the new user
     let newUser = {
@@ -211,19 +253,6 @@ exports.createUser = async (req, res) => {
         type: type
     };
 
-    // Handles validation
-    if (!userName || !fullName || !password || !gender || !type) {
-        let result = null;
-        let msg = "All fields are required";
-
-        return res.render("add-user", { 
-            result: "fail", 
-            msg, 
-            userName, 
-            fullName 
-        });
-    }
-
     // When successful
     try {
         let result = await Account.addUser(newUser);
@@ -231,6 +260,7 @@ exports.createUser = async (req, res) => {
         
         res.render("add-user", { result, msg, userName: "", fullName: "" 
         });
+        
     // When fail
     } catch (error) {
         console.error(error);
@@ -263,11 +293,9 @@ exports.getUser = async (req, res) => {
     const userName = req.query.userName;
 
     try {
-        // find() always return an Array of result
-        // findOne will return 1 document
-        // let result = await Account.findByID(userName); // find a user with its userName
+        // find a user with its userName
         let user = await Account.findByID(userName);
-        res.render("update-user", { result: user || null, successful: false });
+        res.render("update-user", { result: user || null, successful: false, msg: "" });
 
     } catch (err) {
         console.error(err);
@@ -286,9 +314,46 @@ exports.updateUser = async (req, res) => {
     // Handles hashed password using bcrypt ONLY if user entered a new password
     let hashedPassword;
 
-    // Runs if password is not blank
+    // ONLY RUNS IF PASSWORD IS NOT BLANK / HAS BEEN MODIFIED
     if (newPassword && newPassword.trim() !== "") {
+
+        // Initialise validation flags
+        let hasUpper = false;
+        let hasSpecial = false;
+        let hasNum = false;
+
+        // Check password characters
+        for (let char of newPassword) {
+
+            // Checks if it contains at least 1 uppercase char
+            if (char === char.toUpperCase() && char !== char.toLowerCase()) {
+                hasUpper = true;
+            }
+
+            // Checks if it contains at least 1 special char
+            if ("!@#$%^&*()".includes(char)) {
+                hasSpecial = true;
+            }
+
+            // Checks if it contains at least 1 number
+            if ("0123456789".includes(char)) {
+                hasNum = true;
+            }
+        }
+
+        // Adds to error list if validation requirement not met
+        if (newPassword.length < 5 || !hasUpper || !hasSpecial || !hasNum) {
+            
+            let msg = "Password must have at least 1 uppercase letter, 1 number, 1 special character, and be at least 5 characters long";
+            let user = await Account.findByID(userName);
+
+            return res.render("update-user", { result: user, msg ,successful: false });
+        }
+
+        // Hash only AFTER validation passes
         hashedPassword = await bcrypt.hash(newPassword, 10);
+
+    // RUNS IF PASSWORD IS UNMODIFIED
     } else {
         // Keeps existing password if no new password provided
         const existingUser = await Account.findByID(userName);
@@ -298,7 +363,7 @@ exports.updateUser = async (req, res) => {
     const newGender = data.gender;
     const newType = data.type;
 
-    // When successful
+    // When validations has no issues + update is successful
     try {
         const result = await Account.editUser(
             userName,
@@ -307,15 +372,16 @@ exports.updateUser = async (req, res) => {
             newGender,
             newType
         );
+
         let updatedUser = await Account.findByID(userName);
 
         if (result.modifiedCount === 0) {
-            return res.render("update-user", { successful: false, result: updatedUser });
+            return res.render("update-user", { successful: false, result: updatedUser, msg: "" });
         }
 
-        res.render("update-user", { successful: true, result: updatedUser });
+        res.render("update-user", { successful: true, result: updatedUser, msg: "" });
 
-    // When unsuccessful
+    // When update is unsuccessful
     } catch (err) {
         console.error(err);
     }

@@ -112,8 +112,14 @@
     <div class="card">
         <h3>Update User: <%= result.userName %></h3>
 
+        <!-- If updated successfully -->
         <% if (successful) { %>
             <p class="msg success">User updated successfully!</p>
+        <% } %>
+
+        <!-- If error occurs -->
+        <% if (msg) { %>
+            <p class="msg" style="color: #ff6b6b;"><%= msg %></p>
         <% } %>
 
         <form action="/update-user" method="POST">
