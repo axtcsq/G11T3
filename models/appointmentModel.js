@@ -42,8 +42,8 @@ exports.findById = function(id) {
 
 // READ APPOINTMENT (VIEW)
 exports.retrieveAll = async (filter = {}) => {
-    // Sorts by Date first, then by Time for appointments on the same day
-    return await Appointment.find(filter).sort({ date: 1, time: 1 }); 
+    // sort by date first then by time for appointments on the same day 
+    return await Appointment.find(filter).sort({date:1 , time:1}); 
 };
 
 // UPDATE FUNCTION (EDIT)
