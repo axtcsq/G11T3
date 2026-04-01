@@ -27,10 +27,39 @@ exports.handleSignup = async (req, res) => {
 
     // Initialise error list
     let errors = [];
+    
+    // Initialise validation requirement
+    let hasUpper = false;
+    let hasSpecial = false;
+    let hasNum = false;
 
     // Validation: Handles invalid fields
     if (!userName || !fullName || !password || !password2 || !gender || !type) {
         errors.push("All fields are required");
+    }
+
+    // Iterates each character of password
+    for (let char of password) {
+        
+        // Checks if it contains at least 1 uppercase char
+        if (char === char.toUpperCase() && char !== char.toLowerCase()) {
+            hasUpper = true;
+        };
+
+        // Checks if it contains at least 1 special char
+        if ("!@#$%^&*()".includes(char)) {
+            hasSpecial = true;
+        }
+        
+        // Checks if it contains at least 1 number
+        if ("0123456789".includes(char)) {
+            hasNum = true;
+        }
+    }
+    
+    // Adds to error list if validation requirement not met
+    if (password.length < 5 || !hasUpper || !hasSpecial || !hasNum) {
+        errors.push("Password must have 1 uppercase, 1 number, 1 special char, and be of a minimum of 5 characters");
     }
     
     // Unmatched password

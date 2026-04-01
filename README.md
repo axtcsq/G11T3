@@ -31,10 +31,10 @@ dynamically with authentication and security features. This project also utilise
 ### c. Username/password details used (stored in MongoDB)
 * Generic User:
     * Username: larry
-    * Password: 456
+    * Password: Password456!
 * Admin
     * Username: sam
-    * Password: 123
+    * Password: Password123!
 
 ## Features Implemented
 * CRUD

@@ -26,10 +26,10 @@ We recommend using Google Chrome(https://www.google.com/intl/en_sg/chrome/) brow
 c. Username/password details used (stored in MongoDB)
 Generic User:
     Username: larry
-    Password: 456
+    Password: Password456!
 Admin
     Username: sam
-    Password: 123
+    Password: Password123!
 
 Create Pet Function:
 
