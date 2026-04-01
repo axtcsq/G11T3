@@ -53,12 +53,16 @@ exports.showFavourites = async (req, res) => {
     const user = req.session.user;
     const userName = user.username;
     const isAdmin = user.type === "admin";
+    const filterType = req.query.filterType
     // get all favourite records for this user
     const favourites = await Favourite.findById(userName);
 
     // get all pets
-    const petList = await Pet.retrieveAll();
+    let petList = await Pet.retrieveAll();
 
+    if (filterType && filterType !== 'all'){
+      petList = petList.filter(pet => pet.type.toLowerCase() === filterType)
+    }
     // combine only matching pets into a new array
     let favouriteList = [];
 
@@ -81,10 +85,12 @@ exports.showFavourites = async (req, res) => {
     }
 
     res.render("view-favourites", {
+      petList,
       favouriteList,
       userName,
       isAdmin,
-      error: ""
+      error: "",
+      filterType
     });
 
   } catch (error) {

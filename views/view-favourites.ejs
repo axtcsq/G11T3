@@ -3,14 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Favourites</title>
+    <title>Favourite Pets</title>
+    <link rel="icon" type="image/x-icon" href="/img/paw.png">
 
-    <link rel="icon" type="image/x-icon" href="./img/paw.png">
-    
-    <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 
-    <!-- CSS to beautify page -->
     <style>
         * {
             margin: 0;
@@ -21,7 +18,7 @@
 
         body {
             min-height: 100vh;
-            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url("./img/bg2.png");
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url("/img/bg2.png");
             background-size: cover;
             background-position: center;
             color: white;
@@ -33,49 +30,114 @@
             font-weight: 600;
         }
 
-        p {
-            margin-bottom: 10px;
+        .empty-msg {
+            margin-top: 20px;
+            font-size: 1rem;
         }
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
+        .pet-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 25px;
+            margin-top: 20px;
+        }
+
+        .pet-card {
             background: rgba(255, 255, 255, 0.08);
             backdrop-filter: blur(10px);
             border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
             overflow: hidden;
+            display: flex;
+            flex-direction: column;
         }
 
-        th, td {
-            padding: 12px 14px;
-            text-align: left;
+        .pet-card:hover {
+            background: rgba(255,255,255,0.12);
         }
 
-        th {
-            background: rgba(255, 183, 0, 0.15);
-            font-weight: 500;
+        .pet-photo {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
         }
 
-        tr {
-            border-bottom: 1px solid rgba(255,255,255,0.1);
+        .pet-info {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
         }
 
-        tr:hover {
-            background: rgba(255,255,255,0.05);
+        .pet-info h3 {
+            margin-bottom: 12px;
+            color: #ffb74d;
+            font-size: 1.4rem;
         }
 
-        a {
-            color: #ffcc80;
+        .pet-details {
+            margin-bottom: 10px;
+            font-size: 0.95rem;
+            color: #e0e0e0;
+        }
+
+        .pet-desc {
+            margin-top: 10px;
+            margin-bottom: 12px;
+            font-style: italic;
+            color: #ccc;
+            line-height: 1.4;
+        }
+
+        .fav-extra {
+            margin-top: 8px;
+            margin-bottom: 18px;
+            line-height: 1.5;
+            color: #f1f1f1;
+        }
+
+        .pet-actions {
+            margin-top: auto;
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            align-items: center;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding-top: 15px;
+            flex-wrap: wrap;
+        }
+
+        .action-link {
             text-decoration: none;
-            font-size: 0.85rem;
+            color: white;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 8px 12px;
+            border-radius: 8px;
+            transition: background 0.2s;
+            font-size: 0.9rem;
         }
 
-        a:hover {
-            text-decoration: underline;
+        .action-link:hover {
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+        .edit-link {
+            background: rgba(255, 183, 77, 0.25);
+        }
+
+        .edit-link:hover {
+            background: rgba(255, 183, 77, 0.4);
+        }
+
+        .remove-link {
+            background: rgba(255, 80, 80, 0.25);
+        }
+
+        .remove-link:hover {
+            background: rgba(255, 80, 80, 0.45);
         }
 
         button {
-            margin-top: 10px;
             padding: 10px 14px;
             border: none;
             border-radius: 8px;
@@ -90,118 +152,97 @@
             transform: translateY(-2px);
             box-shadow: 0 4px 12px rgba(255,152,0,0.4);
         }
-    .action-btn {
-        padding: 5px 10px;
-        border-radius: 20px;
-        background: rgba(255, 183, 77, 0.2);
-        border: 1px solid rgba(255, 183, 77, 0.6);
-        color: #ffcc80;
-        text-decoration: none;
-        font-size: 0.75rem;
-        margin-right: 5px;
-        transition: all 0.2s ease;
-    }
 
-    .action-btn:hover {
-        background: rgba(255, 183, 77, 0.35);
-        color: #fff;
-    }
-
-    .action-btn.danger {
-        border-color: rgba(255, 77, 77, 0.6);
-        background: rgba(255, 77, 77, 0.2);
-        color: #ff9a9a;
-    }
-
-    .action-btn.danger:hover {
-        background: rgba(255, 77, 77, 0.35);
-        color: #fff;
-    }
+        @media (max-width: 900px) {
+            .pet-grid {
+                grid-template-columns: 1fr;
+            }
+        }
     </style>
 </head>
 
 <body>
 
-  <%- include("common/header", {isAdmin: isAdmin}) %>
-
-  <% if (error) { %>
-    <br>
-    <p style="color: red;"><%= error %></p>
-  <% } %>
-
-  <% if (favouriteList.length === 0) { %>
-    <p>No favourite pets yet.</p>
-
-  <% } else { %>
+    <%- include("common/header", {isAdmin: isAdmin}) %>
 
     <h2>Favourite Pets</h2>
 
-    <form action="/adopted-pets" method="post">
-      <p>
-        <% if (favouriteList.length === 1) { %>
-          Hey <%= userName %>! Here is your favourite pet.  
-        <% } else { %>
-          Hey <%= userName %>! Here are your favourite pets.  
+    <% if (favouriteList.length === 0) { %>
+        <form action="/view-favourites" method="get" style="margin-bottom: 20px; background: rgba(255,255,255,0.1); padding: 15px; border-radius: 10px;">
+        <label>Filter by animal: </label>
+          <select name="filterType" style="padding: 5px; border-radius: 7px;">
+            <option value="all" <%= filterType === "all" ? "selected" : "" %>>All Pets</option>
+            <option value="dog" <%= filterType === "dog" ? "selected" : "" %>>Dogs</option>
+            <option value="cat" <%= filterType === "cat" ? "selected" : "" %>>Cats</option>
+            <option value="rabbit" <%= filterType === "rabbit" ? "selected" : "" %>>Rabbits</option>
+          </select>
+          <button type="submit" style="margin-top: 0; padding: 7px 12px;">Apply</button>
+        </form>
+        <p class="empty-msg">No favourite pets yet.</p>
+    <% } else { %>
+
+        <% if (error) { %>
+            <p style="color: red; margin-top: 10px;"><%= error %></p>
         <% } %>
-        You can only choose <mark>one</mark> to adopt:
-      </p>
 
-      <br>
+        <form action="/view-favourites" method="get" style="margin-bottom: 20px; background: rgba(255,255,255,0.1); padding: 15px; border-radius: 10px;">
+        <label>Filter by animal: </label>
+          <select name="filterType" style="padding: 5px; border-radius: 7px;">
+            <option value="all" <%= filterType === "all" ? "selected" : "" %>>All Pets</option>
+            <option value="dog" <%= filterType === "dog" ? "selected" : "" %>>Dogs</option>
+            <option value="cat" <%= filterType === "cat" ? "selected" : "" %>>Cats</option>
+            <option value="rabbit" <%= filterType === "rabbit" ? "selected" : "" %>>Rabbits</option>
+          </select>
+          <button type="submit" style="margin-top: 0; padding: 7px 12px;">Apply</button>
+        </form>
 
-      <table border="1">
-        <tr>
-          <th>No.</th>
-          <th>Record ID</th>
-          <th>Breed</th>
-          <th>Name</th>
-          <th>Age (years)</th>
-          <th>Description</th>
-          <th>Photo</th>
-          <th>Remark</th>
-          <th>Priority</th>
-          <th>Date Added</th>
-          <th>Actions</th>
-          <th>Adopt?</th>
-        </tr>
+        <div class="pet-grid">
+            <% let i = 1; %>
+            <% favouriteList.forEach(favourite => { %>
 
-        <% let i = 1; %>
+                <div class="pet-card">
+                    <img src="/uploads/<%= favourite.photo %>" alt="<%= favourite.name %>" class="pet-photo">
 
-        <% favouriteList.forEach(fav => { %>
+                    <div class="pet-info">
+                        <h3><%= i %>. <%= favourite.name %></h3>
 
-          <tr>
-            <td><%= i %>.</td>
-            <td><%= fav.petID %></td>
-            <td><%= fav.type %></td>
-            <td><%= fav.name %></td>
-            <td><%= fav.age %></td>
-            <td><%= fav.desc %></td>
-            <td><img src ="/pet-img/<%= fav.photo %>" width="100"> </td>
-            <td><%= fav.remark || "No remarks yet." %></td>
-            <td><%= fav.priority %></td>
-            <td><%= (fav.dateAdded).toLocaleString() %></td>
-            <td>
-              <a href="/edit-favourite?petID=<%= fav.petID %>" class="action-btn">Edit</a>
-              <br><br>
-              <a href="/delete-favourite?petID=<%= fav.petID %>" class="action-btn danger">Remove</a>
-            </td>
+                        <div class="pet-details">
+                            <strong>Pet No:</strong> <%= favourite.petID %> |
+                            <strong>Breed:</strong> <%= favourite.type %> |
+                            <strong>Age:</strong> <%= favourite.age %> years
+                        </div>
 
-            <td>
-              <input type="radio" name="selectPet" value="<%= fav.petID %>">
-            </td>
-          </tr>
+                        <p class="pet-desc">"<%= favourite.desc %>"</p>
 
-          <% i++; %>
+                        <div class="fav-extra">
+                            <p><strong>Remark:</strong> <%= favourite.remark || "None" %></p>
+                            <p><strong>Priority:</strong> <%= favourite.priority || "Not set" %></p>
+                            <p><strong>Date Added:</strong> <%= new Date(favourite.dateAdded).toLocaleString() %></p>
+                        </div>
 
-        <% }); %>
+                        <div class="pet-actions">
+                            <a href="/edit-favourite?petID=<%= favourite.petID %>" class="action-link edit-link">Edit</a>
 
-      </table>
-      <input type="hidden" name="source" value="favourites">
-      <input type="hidden" name="userName" value="<%= userName %>"
-      <br><br>
-      <button>Adopt!</button>
+                            <a href="/delete-favourite?petID=<%= favourite.petID %>&source=favourites" class="action-link remove-link">Remove</a>
 
-    </form>
+                            <form action="/adopted-pets" method="post" style="margin: 0;">
+                                <input type="hidden" name="admin" value="<%= isAdmin %>">
+                                <input type="hidden" name="source" value="favourites">
+                                <input type="hidden" name="userName" value="<%= userName %>">
 
-  <% } %>
+                                <button type="submit" name="selectPet" value="<%= favourite.petID %>">
+                                    Adopt Me!
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <% i++; %>
+            <% }) %>
+        </div>
+
+    <% } %>
 
 </body>
+</html>
