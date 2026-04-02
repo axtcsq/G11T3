@@ -3,6 +3,7 @@ const application = require('./../models/applicationModel');
 const Pet = require('./../models/petsModel');
 const mongoose = require('mongoose'); // Add this at the very top of your controller
 
+
 // TO BE FIXED
 // 1. Edit/update schedule function
 // 2. Display petID (short) instead of 16 digit ID (fixed)
@@ -13,6 +14,8 @@ const mongoose = require('mongoose'); // Add this at the very top of your contro
 const getExistingAppointments = async () => {
     return await appointment.retrieveAll({}); 
 };
+
+
 
 // CREATE 
 exports.bookAppointment = async (req, res) => { // if have await feature must have async to tell javascript the code is asynchronous
@@ -43,7 +46,14 @@ exports.bookAppointment = async (req, res) => { // if have await feature must ha
                 return res.render('error-appointment', { message: msg });
             }
 
-        // 3. Save Appointment
+        // 3 Limiter : sets a limit of 3 appointments per user at one time --> prevents any user from spam booking all available appointments 
+            const userAppointmentCount = await appointment.countAppointments({ userName });
+            if (userAppointmentCount >= 3) {
+                return res.render('appointment-limit', { 
+                    message: "You have reached the maximum of 3 appointments. Please cancel an existing one before booking again." 
+                });
+            }
+        // 4. Save Appointment
         await application.addapplication({ userName, petId });
         await appointment.addAppointment({
             petId,

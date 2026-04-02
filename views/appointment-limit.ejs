@@ -35,6 +35,14 @@
             .container {
                 padding: 20px;
             }
+            .btn-home {
+                color: #fff;
+                text-decoration: none;
+                background-color: #E8A020;
+                padding: 10px 24px;
+                border-radius: 8px;
+                display: inline-block;
+            }
         </style>
     </head>
 
@@ -43,7 +51,7 @@
 
         <div class="container" style="text-align: center; padding: 60px 20px; color: white;">
             
-            <img src="/img/sad-dog.png" alt="Sad crying dog" style="max-width: 250px; margin-bottom: 20px;">
+            <img src="/img/angry-meow.png" alt="Sad crying dog" style="max-width: 250px; margin-bottom: 20px;">
 
             <h1 style="color: #ff4d4d; font-size: 2.5rem; margin-bottom: 10px;">Oh No! A Conflict!</h1>
             
@@ -51,16 +59,7 @@
                 <%= message %>
             </p>
 
-            <div style="margin-top: 40px;">
-                <button onclick="window.history.back()" 
-                        style="background-color: #ffcc00; color: black; border: none; padding: 12px 25px; cursor: pointer; border-radius: 5px; font-weight: bold; font-size: 1rem;">
-                Try a different timeslot
-                </button>
-            </div>
-
-            <p style="margin-top: 30px;">
-                <a href="/display-pets" style="color: #bbb; text-decoration: none;">Return to Home</a>
-            </p>
+          <a href="/display-pet" class="btn-home">Return to Home</a>
         </div>
     </body>
 </htmll>

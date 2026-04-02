@@ -40,6 +40,11 @@ exports.findById = function(id) {
     return Appointment.findOne({ petId:id });
 };
 
+// counts num of appointments that current user has 
+exports.countAppointments = async (filter) => {
+    return await Appointment.countDocuments(filter);
+};
+
 // READ APPOINTMENT (VIEW)
 exports.retrieveAll = async (filter = {}) => {
     // sort by date first then by time for appointments on the same day 
