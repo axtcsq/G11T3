@@ -26,6 +26,14 @@ const reviewSchema = new mongoose.Schema({
     createdAt: {
         type: Date,
         default: Date.now
+    },
+    isEdited: {
+        type: Boolean,
+        default: false
+    },
+    editedAt: {
+        type: Date,
+        default: null
     }
 });
 
@@ -63,7 +71,7 @@ exports.searchReviews = function(query){ // query is the text string that the us
 exports.updateReview = function(id, title, message, rating, petName) {
     return Review.updateOne(
     { _id: id }, // Finds the review by ID
-    { title: title, message: message, rating: rating, petName: petName} // Updates the review fields
+    { title: title, message: message, rating: rating, petName: petName, isEdited: true, editedAt: new Date() } // Updates the review fields
     );
 };
 
