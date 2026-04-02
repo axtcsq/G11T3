@@ -35,14 +35,15 @@ exports.showPets = async (req, res) => {
 exports.displayPetDetails = async (req,res) => {
   try {
         // Get pet name from URL parameter
-        const petName = req.params.petName;
+        const id = req.params._id;
+        
 
         // Fetch the pet from the database
-        const pet = await Pet.findByName(petName);
+        const pet = await Pet.findByObjectID(id);
 
         if (!pet) {
             // If pet not found, send 404
-            return res.status(404).send(`Pet ${petName} not found!`);
+            return res.status(404).send(`Pet not found!`);
         }
 
         // Render the pet-detail EJS page and pass the pet object

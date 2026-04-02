@@ -21,7 +21,7 @@ const upload = multer({ storage });
 
 // Define a GET route to DISPLAY/READ the list of pets
 router.get("/display-pet", requireLogin, petsController.showPets);
-router.get('/display-pets/:petName', petsController.displayPetDetails);
+router.get('/display-pets/:_id', petsController.displayPetDetails);
 
 // Define GET route to ADD pets to database & // Define a POST route to upload photos 
 router.get("/add-pet", requireAdmin, petsController.showAddForm);

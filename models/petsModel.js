@@ -58,6 +58,10 @@ exports.findByID = function(id) {
     return Pet.findOne({ id:id });
 };
 
+exports.findByObjectID = function(id) {
+    return Pet.findOne({ _id:id });
+};
+
 exports.findByName = function(petName) {
     return Pet.findOne({ name: { $regex: `^${petName}$`, $options: 'i' } });
 };
