@@ -161,7 +161,12 @@
                 </tr>
                 <tr>
                     <th>Date</th>
-                    <td><%= new Date(review.createdAt).toLocaleDateString() %></td>
+                    <td>
+                        <%= new Date(review.createdAt).toLocaleDateString() %>
+                        <% if (review.isEdited) { %>
+                            <span style="font-size: 0.75rem; color: #ffcc80; margin-left: 8px;">(edited <%= new Date(review.editedAt).toLocaleDateString() %>)</span>
+                        <% } %>
+                    </td>
                 </tr>
             </table>
 
