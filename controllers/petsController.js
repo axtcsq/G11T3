@@ -8,33 +8,25 @@ exports.showPets = async (req, res) => {
   const user = req.session.user;
   const isAdmin = user && user.type === "admin";
   const userName = user ? user.username : null;
-  const filterType = req.query.filterType
+  const filterType = req.query.filterType || "all";
 
   try {
-    let petList = await Pet.retrieveAll();// fetch all the list
-    let favouriteList = [];
+    let petList = await Pet.retrieveAll(); // fetch all pets
 
-    //first render doesnt have filterType, and thus this wouldnt run, full pet list shows
-    //after selecting filter, filter the petList to show the specified pet type
-    if (filterType && filterType !== 'all'){
-        petList = petList.filter(pet => pet.type.toLowerCase() === filterType)
+    if (filterType && filterType !== "all") {
+      petList = petList.filter(pet => pet.type.toLowerCase() === filterType);
     }
-    
 
-
-
+    let favouriteList = [];
     if (userName) {
       const favourites = await Favourite.findById(userName);
-      for (let i = 0; i < favourites.length; i++) {
-        favouriteList.push(favourites[i].petID);
-      }
+      favouriteList = favourites.map(fav => fav.petID);
     }
-    res.render("display-pet", { petList, isAdmin, userName, favouriteList, error: ""}); // Render the EJS form view and pass the posts
 
-  } catch (error) {
-    console.error(error);
-    
-    res.send("Error reading database"); // Send error message if fetching fails
+    res.render("display-pet", {petList,isAdmin,userName,favouriteList,error: "",filterType});
+  } catch (err) {
+    console.error(err);
+    res.send("Error reading database");
   }
 };
 
@@ -66,6 +58,8 @@ exports.createPet = async (req, res) => {
   const newId = String(Math.max(0,...petList.map(petList=>parseInt(petList.id,10))) + 1).padStart(3,'0');
   const name = (data.name || "").trim();
   const type = (data.type || "").trim();
+  const breed = (data.breed || "").trim();
+  const colour = (data.breed || "").trim();
   const age = (data.age || "").trim();
   const desc = (data.desc || "").trim();
   const photo = req.file ? req.file.filename : "";
@@ -74,7 +68,7 @@ exports.createPet = async (req, res) => {
   console.log("req.file:", req.file);
 
   // Validation: Handles invalid fields
-  if ( !name || !type || !age || !desc || !photo) {
+  if ( !name || !type || !breed || !colour ||  !age || !desc || !photo) {
     let result = "fail";
     let msg = "All fields are required, including a photo";
 
@@ -86,6 +80,8 @@ exports.createPet = async (req, res) => {
     id: newId,
     name: name,
     type: type,
+    breed: breed,
+    colour: colour,
     age: age,
     desc: desc,
     photo: photo
@@ -158,6 +154,8 @@ exports.updatePet = async (req, res) => {
   
   const newName = data.name;
   const newType = data.type;
+  const newBreed = data.breed;
+  const newColour = data.colour;
   const newAge = data.age;
   const newDesc = data.desc;
 
@@ -165,7 +163,7 @@ exports.updatePet = async (req, res) => {
 
   // When successful
  
-    await Pet.editPet (id, newName, newType, newAge, newDesc, newPhoto);
+    await Pet.editPet (id, newName, newType, newBreed, newColour, newAge, newDesc, newPhoto);
     const updatedPet = await Pet.findByID(id);
     res.render("update-pet", {successful: true, result: updatedPet})
     

@@ -175,6 +175,12 @@
   <% if (petList.length === 0) { %>
     <br>
     <p>No pets yet.</p> 
+    <br>
+    <form action="/display-pet" method="get" style="margin-top: 10px;">
+    <button type="submit" style="padding: 7px 12px; border-radius: 7px; background-color: #ff9800; color: white; border: none;">
+      Return to View Pets
+    </button>
+  </form>
     
   <% } else { %>
     <br>
@@ -182,13 +188,14 @@
   <form action="/display-pet" method="get" style="margin-bottom: 20px; background: rgba(255,255,255,0.1); padding: 15px; border-radius: 10px;">
     <label>Filter by animal: </label>
     <select name="filterType" style="padding: 5px; border-radius: 7px;">
-      <option value="all">All Pets</option>
-      <option value="dog">Dogs</option>
-      <option value="cat">Cats</option>
-      <option value="rabbit">Rabbits</option>
+      <option value="all" <%= filterType === "all" ? " selected" : "" %>>All Pets</option>
+      <option value="dog" <%= filterType === "dog" ? " selected" : "" %>>Dogs</option>
+      <option value="cat" <%= filterType === "cat" ? " selected" : "" %>>Cats</option>
+      <option value="rabbit" <%= filterType === "rabbit" ? " selected" : "" %>>Rabbits</option>
     </select>
     <button type="submit" style="margin-top: 0; padding: 7px 12px;">Apply</button>
   </form>
+  
     
     <h2>Pet Records</h2>
 
@@ -215,7 +222,7 @@
                 <h3><%= i %>. <%= pet.name %></h3>
                 <div class="pet-details">
                   <strong>Pet No:</strong> <%= pet.id %> | 
-                  <strong>Breed:</strong> <%= pet.type %> | 
+                  <strong>Breed:</strong> <%= pet.breed %> | 
                   <strong>Age:</strong> <%= pet.age %> years
                 </div>
                 
@@ -250,28 +257,42 @@
 
     <br>
     <hr>
+  
+  <% let summary = {};
 
-    <h2>Summary</h2>
-    <table border="1">
-      <tr>
-        <th>Total Type</th>
-        <th>Count</th>
-      </tr>
-      <tr>
-        <td>Dogs</td>
-        <td><%= dogCount %></td>
-      </tr>
-      <tr>
-        <td>Cats</td>
-        <td><%= catCount %></td>
-      </tr>
-      <tr class="highlight">
-        <td>Pets</td>
-        <td><%= i - 1 %></td>
-      </tr>
-    </table>
-    
+    if (filterType === "all") {
+      petList.forEach(pet => {
+        const type = pet.type.substring(0, 1).toUpperCase() + pet.type.substring(1).toLowerCase();
+        summary[type] = (summary[type] || 0) + 1;
+      });
+    } else {
+      petList.forEach(pet => {
+        const breed = pet.breed || pet.type;
+        summary[breed] = (summary[breed] || 0) + 1;
+      });
+    }
+    %>
+
+<h2>Summary</h2>
+<table border="1">
+  <tr>
+    <th><%= filterType === "all" ? "Type" : "Breed" %></th>
+    <th>Count</th>
+  </tr>
+
+  <% for (let key in summary) { %>
+    <tr>
+      <td><%= key %></td>
+      <td><%= summary[key] %></td>
+    </tr>
   <% } %>
-     
+
+  <tr class="highlight">
+    <td>Total Pets</td>
+    <td><%= petList.length %></td>
+  </tr>
+</table>
+<% } %>
+
 </body>
 </html>
