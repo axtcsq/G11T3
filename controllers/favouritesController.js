@@ -54,8 +54,6 @@ exports.showFavourites = async (req, res) => {
     const userName = user.username;
     const isAdmin = user.type === "admin";
     const filterType = req.query.filterType
-    // get all favourite records for this user
-    const favourites = await Favourite.findById(userName);
 
     // get all pets
     let petList = await Pet.retrieveAll();
@@ -63,6 +61,11 @@ exports.showFavourites = async (req, res) => {
     if (filterType && filterType !== 'all'){
       petList = petList.filter(pet => pet.type.toLowerCase() === filterType)
     }
+    // get all favourite records for this user
+    const favourites = await Favourite.findById(userName);
+
+
+
     // combine only matching pets into a new array
     let favouriteList = [];
 
@@ -71,8 +74,10 @@ exports.showFavourites = async (req, res) => {
         if (favourites[i].petID === petList[j].id) {
           favouriteList.push({
             petID: petList[j].id,
-            type: petList[j].type,
+            breed: petList[j].breed,
             name: petList[j].name,
+            gender: petList[j].gender,
+            colour: petList[j].colour,
             age: petList[j].age,
             desc: petList[j].desc,
             photo: petList[j].photo,

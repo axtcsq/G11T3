@@ -208,8 +208,10 @@
 
                         <div class="pet-details">
                             <strong>Pet No:</strong> <%= favourite.petID %> |
-                            <strong>Breed:</strong> <%= favourite.type %> |
-                            <strong>Age:</strong> <%= favourite.age %> years
+                            <strong>Gender:</strong> <%= favourite.gender %> |
+                            <strong>Breed:</strong> <%= favourite.breed %> |
+                            <strong>Colour:</strong> <%= favourite.colour %> |
+                            <strong>Age:</strong> <%= favourite.age %> years old
                         </div>
 
                         <p class="pet-desc">"<%= favourite.desc %>"</p>
@@ -231,7 +233,7 @@
                                 <input type="hidden" name="userName" value="<%= userName %>">
 
                                 <button type="submit" name="selectPet" value="<%= favourite.petID %>">
-                                    Adopt Me!
+                                    Meet Me!
                                 </button>
                             </form>
                         </div>
