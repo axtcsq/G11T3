@@ -170,9 +170,10 @@
             </div>
 
             <!-- Type -->
-            <label>Type</label>
-            <select name="type">
-                <option value="user">User</option>
+            <!-- Disabled & hidden selection of admin -->
+            <label hidden>Type</label>
+            <select name="type" disabled hidden>
+                <option value="user" selected>User</option>
                 <option value="admin">Admin</option>
             </select>
 
