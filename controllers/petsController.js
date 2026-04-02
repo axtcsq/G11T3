@@ -80,9 +80,9 @@ exports.createPet = async (req, res) => {
   const newId = String(Math.max(0,...petList.map(petList=>parseInt(petList.id,10))) + 1).padStart(3,'0');
   const name = (data.name || "").trim();
   const type = (data.type || "").trim();
-  const gender = (data.type || "").trim();
+  const gender = (data.gender || "").trim();
   const breed = (data.breed || "").trim();
-  const colour = (data.breed || "").trim();
+  const colour = (data.colour || "").trim();
   const age = (data.age || "").trim();
   const desc = (data.desc || "").trim();
   const photo = req.file ? req.file.filename : "";
