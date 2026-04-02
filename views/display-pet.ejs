@@ -165,6 +165,24 @@
         .fav-link:hover {
             background: rgba(0, 0, 0, 0.5);
         }
+
+        .view-details-link {
+            text-decoration: none;
+            color: white;
+            background: linear-gradient(135deg, #42a5f5, #64b5f6);
+            padding: 8px 14px;
+            border-radius: 999px; /* pill shape */
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+            display: inline-block;
+        }
+
+        .view-details-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(66,165,245,0.4);
+            background: linear-gradient(135deg, #1e88e5, #42a5f5);
+        }
     </style>
 </head>
 
@@ -234,7 +252,7 @@
                   <% } else { %>
                     <a href="/add-favourite?petID=<%=pet.id%>" class="fav-link">🤍 Add Fav</a>
                   <% } %>
-                    <a href="/display-pets/<%= pet.name %>" class="view-details-link">🔎 View Details</a>
+                    <a href="/display-pets/<%= pet.name %>" class="view-details-link">🔎 View More Details</a>
                   <button type="submit" name="selectPet" value="<%= pet.id %>">
                       Meet Me!
                   </button>
