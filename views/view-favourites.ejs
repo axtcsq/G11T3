@@ -225,11 +225,10 @@
                         <div class="pet-actions">
                             <a href="/edit-favourite?petID=<%= favourite.petID %>" class="action-link edit-link">Edit</a>
 
-                            <a href="/delete-favourite?petID=<%= favourite.petID %>&source=favourites" class="action-link remove-link">Remove</a>
+                            <a href="/delete-favourite?petID=<%= favourite.petID %>" class="action-link remove-link">Remove</a>
 
                             <form action="/application-pets" method="post" style="margin: 0;">
                                 <input type="hidden" name="admin" value="<%= isAdmin %>">
-                                <input type="hidden" name="source" value="favourites">
                                 <input type="hidden" name="userName" value="<%= userName %>">
 
                                 <button type="submit" name="selectPet" value="<%= favourite.petID %>">

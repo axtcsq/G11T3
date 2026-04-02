@@ -14,58 +14,7 @@ exports.displayapplication = async (req, res) => {
     const userName = req.body.userName;
     const source = req.body.source;
 
-    // 1. Handle the case where no pet was selected
-    if (!id) {
-        if (source === "favourites") {
-            const favourites = await Favourite.findById(userName);
-            const petList = await Pet.retrieveAll();
-            let favouriteList = [];
-
-            for (let i = 0; i < favourites.length; i++) {
-                for (let j = 0; j < petList.length; j++) {
-                    if (favourites[i].petID === petList[j].id) {
-                        favouriteList.push({
-                            petID: petList[j].id,
-                            type: petList[j].type,
-                            name: petList[j].name,
-                            age: petList[j].age,
-                            desc: petList[j].desc,
-                            photo: petList[j].photo,
-                            remark: favourites[i].remark,
-                            priority: favourites[i].priority,
-                            dateAdded: favourites[i].dateAdded
-                        });
-                    }
-                }
-            }
-
-            return res.render("view-favourites", {
-                favouriteList,
-                userName,
-                isAdmin,
-                error: "Please select 1 pet to adopt"
-            });
-        } else {
-            let petList = await Pet.retrieveAll();
-            let favouriteList = [];
-
-            if (userName) {
-                const favourites = await Favourite.findById(userName);
-                for (let i = 0; i < favourites.length; i++) {
-                    favouriteList.push(favourites[i].petID);
-                }
-            }
-            return res.render("display-pet", { 
-                petList, 
-                isAdmin, 
-                userName, 
-                favouriteList, 
-                error: "Please select 1 pet to adopt" 
-            });
-        }
-    }
-
-    // 2. Handle the successful path (Pet ID exists)
+    // 1. Handle the successful path (Pet ID exists)
    try {
         let lastPet = await Pet.findByID(id);
         const bookedSlots = await getExistingAppointments(); 
