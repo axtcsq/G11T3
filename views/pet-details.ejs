@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= pet.name %> - Pet Details</title>
+  <link rel="icon" type="image/x-icon" href="./img/paw.png">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url("./img/bg2.png");
+      background-size: cover;
+      background-position: center;
+      color: white;
+      padding: 20px;
+    }
+
+    .container {
+      display: flex;
+      flex-wrap: wrap;
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(10px);
+      border-radius: 12px;
+      padding: 30px;
+      max-width: 900px;
+      margin: 40px auto;
+    }
+
+    .pet-photo {
+      flex: 1 1 300px;
+      max-width: 400px;
+      margin-right: 30px;
+      border-radius: 12px;
+      object-fit: cover;
+      height: 400px;
+    }
+
+    .pet-info {
+      flex: 1 1 300px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+    }
+
+    .pet-info h1 {
+      color: #ffb74d;
+      font-size: 2rem;
+      margin-bottom: 15px;
+    }
+
+    .pet-info p {
+      margin-bottom: 12px;
+      color: #e0e0e0;
+      line-height: 1.4;
+    }
+
+    .pet-info strong {
+      color: #ffee00;
+    }
+
+    .back-button {
+      margin-top: 20px;
+      padding: 10px 15px;
+      background: linear-gradient(135deg, #ff9800, #ffb74d);
+      color: white;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+      width: fit-content;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .back-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(255,152,0,0.4);
+      opacity: 0.9;
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .pet-photo {
+        margin-right: 0;
+        margin-bottom: 20px;
+        width: 100%;
+        height: auto;
+      }
+
+      .pet-info {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <%- include("common/header") %>
+
+  <div class="container">
+    <!-- Left column: pet photo -->
+    <img src="/uploads/<%= pet.photo %>" alt="<%= pet.name %>" class="pet-photo">
+
+    <!-- Right column: pet details -->
+    <div class="pet-info">
+      <h1><%= pet.name %></h1>
+      <p><strong>Pet No:</strong> <%= pet.id %></p>
+      <p><strong>Type:</strong> <%= pet.type %></p>
+      <p><strong>Breed:</strong> <%= pet.breed %></p>
+      <p><strong>Colour:</strong> <%= pet.colour %></p>
+      <p><strong>Age:</strong> <%= pet.age %> years</p>
+      <p><strong>Description:</strong> "<%= pet.desc %>"</p>
+
+      <a href="/display-pet" class="back-button">⬅ Back to Pets</a>
+    </div>
+  </div>
+
+</body>
+</html>

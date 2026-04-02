@@ -54,6 +54,10 @@ exports.findByID = function(id) {
     return Pet.findOne({ id:id });
 };
 
+exports.findByName = function(petName) {
+    return Pet.findOne({ name: { $regex: `^${petName}$`, $options: 'i' } });
+};
+
 // UPDATE Website
 exports.editPet = function(id, name, type, breed, colour, age, desc, photo) {
     return Pet.updateOne({id:id}, {$set: {name:name, type:type, breed:breed, colour:colour, age:age, desc:desc, photo:photo}});

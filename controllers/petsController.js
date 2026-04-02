@@ -32,6 +32,28 @@ exports.showPets = async (req, res) => {
 
 // -----------------------------------------------------------------------------------------------------------------------
 
+exports.displayPetDetails = async (req,res) => {
+  try {
+        // Get pet name from URL parameter
+        const petName = req.params.petName;
+
+        // Fetch the pet from the database
+        const pet = await Pet.findByName(petName);
+
+        if (!pet) {
+            // If pet not found, send 404
+            return res.status(404).send(`Pet ${petName} not found!`);
+        }
+
+        // Render the pet-detail EJS page and pass the pet object
+        res.render('pet-details', { pet });
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Server Error');
+    }
+};
+// -----------------------------------------------------------------------------------------------------------------------
+
 // ADD
 // Add pet records
 exports.showAddForm = async (req, res) => {

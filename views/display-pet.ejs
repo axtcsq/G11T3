@@ -234,7 +234,7 @@
                   <% } else { %>
                     <a href="/add-favourite?petID=<%=pet.id%>" class="fav-link">🤍 Add Fav</a>
                   <% } %>
-                  
+                    <a href="/display-pets/<%= pet.name %>" class="view-details-link">🔎 View Details</a>
                   <button type="submit" name="selectPet" value="<%= pet.id %>">
                       Meet Me!
                   </button>
