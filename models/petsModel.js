@@ -15,6 +15,10 @@ const petSchema = new mongoose.Schema({
     type: String,
     required: [true, "A pet must have a type"],
   },
+  gender: {
+    type: String,
+    required: [true, "A pet must have a gender (Male/Female)"],
+  },
   breed: {
     type: String,
     required: [true, "A pet must have a breed"],
@@ -59,8 +63,8 @@ exports.findByName = function(petName) {
 };
 
 // UPDATE Website
-exports.editPet = function(id, name, type, breed, colour, age, desc, photo) {
-    return Pet.updateOne({id:id}, {$set: {name:name, type:type, breed:breed, colour:colour, age:age, desc:desc, photo:photo}});
+exports.editPet = function(id, name, type, gender, breed, colour, age, desc, photo) {
+    return Pet.updateOne({id:id}, {$set: {name:name, type:type, gender:gender, breed:breed, colour:colour, age:age, desc:desc, photo:photo}});
 };
 
 // DELETE

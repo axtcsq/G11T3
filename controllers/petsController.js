@@ -80,6 +80,7 @@ exports.createPet = async (req, res) => {
   const newId = String(Math.max(0,...petList.map(petList=>parseInt(petList.id,10))) + 1).padStart(3,'0');
   const name = (data.name || "").trim();
   const type = (data.type || "").trim();
+  const gender = (data.type || "").trim();
   const breed = (data.breed || "").trim();
   const colour = (data.breed || "").trim();
   const age = (data.age || "").trim();
@@ -90,7 +91,7 @@ exports.createPet = async (req, res) => {
   console.log("req.file:", req.file);
 
   // Validation: Handles invalid fields
-  if ( !name || !type || !breed || !colour ||  !age || !desc || !photo) {
+  if ( !name || !type || !gender || !breed || !colour ||  !age || !desc || !photo) {
     let result = "fail";
     let msg = "All fields are required, including a photo";
 
@@ -102,6 +103,7 @@ exports.createPet = async (req, res) => {
     id: newId,
     name: name,
     type: type,
+    gender: gender,
     breed: breed,
     colour: colour,
     age: age,
@@ -176,6 +178,7 @@ exports.updatePet = async (req, res) => {
   
   const newName = data.name;
   const newType = data.type;
+  const newGender = data.gender;
   const newBreed = data.breed;
   const newColour = data.colour;
   const newAge = data.age;
@@ -185,7 +188,7 @@ exports.updatePet = async (req, res) => {
 
   // When successful
  
-    await Pet.editPet (id, newName, newType, newBreed, newColour, newAge, newDesc, newPhoto);
+    await Pet.editPet (id, newName, newType, newGender, newBreed, newColour, newAge, newDesc, newPhoto);
     const updatedPet = await Pet.findByID(id);
     res.render("update-pet", {successful: true, result: updatedPet})
     

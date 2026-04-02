@@ -244,7 +244,9 @@
                   <strong>Age:</strong> <%= pet.age %> years
                 </div>
                 
-                <p class="pet-desc">"<%= pet.desc %>"</p>
+                <p class="pet-desc">
+                  "<%= pet.desc.split('. ')[0] %>."
+                </p>
                 
                 <div class="pet-actions">
                   <% if (favouriteList.includes(pet.id)) { %>
@@ -252,7 +254,7 @@
                   <% } else { %>
                     <a href="/add-favourite?petID=<%=pet.id%>" class="fav-link">🤍 Add Fav</a>
                   <% } %>
-                    <a href="/display-pets/<%= pet.name %>" class="view-details-link">🔎 View More Details</a>
+                  <a href="/display-pets/<%= pet.name %>" class="view-details-link">🔎 View More Details</a>
                   <button type="submit" name="selectPet" value="<%= pet.id %>">
                       Meet Me!
                   </button>
