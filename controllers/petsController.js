@@ -34,7 +34,7 @@ exports.showPets = async (req, res) => {
 
 exports.displayPetDetails = async (req,res) => {
   try {
-        // Get pet name from URL parameter
+        // Get pet id from URL parameter
         const id = req.params._id;
         
 
@@ -112,8 +112,6 @@ exports.createPet = async (req, res) => {
     photo: photo
   }
 
-  // NOTE: HAVE YET TO IMPLEMENT DUPLICATE ADDITION LOGIC (will need to add some sort of Pet ID as unique identifier)
-
   // When successful
   try {
     let result = await Pet.addPet(newPet);
@@ -154,9 +152,6 @@ exports.getPet = async (req, res) => {
   const id = data.id;
 
   try {
-    // find() always return an Array of result
-    // findOne will return 1 document
-    // let result = await Pet.find({isbn:isbnNo}); // find a pet with its record id
     let result = await Pet.findByID(id); // find a pet with id
     res.render("update-pet", {result:result || null, successful: false});
     
@@ -220,7 +215,6 @@ exports.deletePet = async (req, res) => {
   let petLists = await Pet.retrieveAll();
 
   try {
-    // 1) find pet first
     const pet = await Pet.findByID(recordID);
 
     if (!pet) {
@@ -231,7 +225,6 @@ exports.deletePet = async (req, res) => {
       });
     }
 
-    // 2) delete image file if it exists
     if (pet.photo) {
       const imagePath = path.join(
         __dirname,
@@ -244,7 +237,6 @@ exports.deletePet = async (req, res) => {
       }
     }
 
-    // 3) delete pet record from database
     const result = await Pet.delPet(recordID);
 
     if (result.deletedCount === 0) {{
@@ -257,7 +249,6 @@ exports.deletePet = async (req, res) => {
       });
     }
 
-    // 4) refresh pet list after delete
     petLists = await Pet.retrieveAll();
 
     res.render("del-pet", {
