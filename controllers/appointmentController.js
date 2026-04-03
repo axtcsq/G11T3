@@ -187,6 +187,9 @@ exports.deleteAppointment = async (req, res) => {
     try {
         const id = req.params.id; // We get the ID from the URL
 
+        const appt = await appointment.findAppointmentById(id);
+        if (!appt) return res.status(404).send("Appointment not found");
+
         // ensures only the owner or an admin can edit
         if (req.session.user.type !== 'admin' && appt.userName !== req.session.user.username) {
             return res.status(403).send("You are not allowed to delete this appointment");
