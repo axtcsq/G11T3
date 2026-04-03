@@ -35,9 +35,12 @@ exports.addapplication = function(newapplication) {
 exports.findByID = function(id) {
     return application.findOne({ petId:id });
 };
+exports.findByObjectID = function(id) {
+    return application.findOne({ _id:id });
+};
 
 exports.editapplication = function(id, name, status) {
-    return application.updateOne({petId:id}, {userName:name, status: status});
+    return application.updateOne({_id:id}, {userName:name, status: status});
 };
 
 exports.delapplication = function(id) {

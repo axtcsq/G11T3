@@ -99,11 +99,11 @@
         <form action="/update-application" method="GET">
             <label>Select application</label>
 
-            <select name="petId" required>
+            <select name="app_id" required>
                 <option value="">-- Choose an option --</option>
 
                 <% applicationList.forEach(application => { %>
-                    <option value="<%= application.petId %>">
+                    <option value="<%= application._id%>">
                         Application ID: <%= application._id %> | (USER: <%= application.userName %>, ID: <%= application.petId %>)
                     </option>
                 <% }); %>

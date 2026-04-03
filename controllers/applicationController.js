@@ -54,13 +54,14 @@ exports.showEdit = async (req, res) => {
 exports.getapplication = async (req, res) => {
   // Retrieve form data
   const data = req.query; // its a GET request
-  const id = data.petId;
+  const id = data.app_id;
+  console.log(id)
 
   try {
     // find() always return an Array of result
     // findOne will return 1 document
     // let result = await Pet.find({isbn:isbnNo}); // find a pet with its record id
-    let result = await application.findByID(id); // find a pet with id
+    let result = await application.findByObjectID(id); // find a pet with id
     res.render("update-application", {result:result || null, successful: false});
     
   } catch (error) {
@@ -72,7 +73,8 @@ exports.updateapplication = async (req, res) => {
   // Retrieve form data
   const data = req.body;
 
-  const id = data.id; // in the hidden field
+  const id = data.app_id
+  console.log(id)
   const status = data.status
   const newName = data.name;
   
@@ -80,7 +82,7 @@ exports.updateapplication = async (req, res) => {
   // When successful
   try {
     await application.editapplication (id, newName, status);
-    let updatedapplication = await application.findByID(id)
+    let updatedapplication = await application.findByObjectID(id)
 
     // to check the output of success
     // console.log(success);
