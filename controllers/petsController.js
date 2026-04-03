@@ -124,7 +124,7 @@ exports.createPet = async (req, res) => {
       
       // Added as result will not be returned when operation is not successful
       let result = "fail";
-      let msg = "Record ID already exists";
+      let msg = "All fields are required, including a photo";
 
       res.render("add-pet", {newId: newId, result, msg});
   }
