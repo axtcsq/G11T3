@@ -94,7 +94,7 @@ exports.handleSignup = async (req, res) => {
     } catch (err) {
         console.error(err);
 
-        // When existing username exists
+        // When existing username exists (11000: MongoDB Duplicate Key Error)
         if (err.code === 11000) {
             errors.push("Username already exists");
         // For other errors
@@ -283,7 +283,7 @@ exports.createUser = async (req, res) => {
         let result = "fail";
         let msg;
 
-        // When username exists
+        // When existing username exists (11000: MongoDB Duplicate Key Error)
         if (error.code === 11000) {
             msg = "Username already exists";
         // Other errors
