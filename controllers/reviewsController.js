@@ -5,7 +5,6 @@ const Review = require("../models/reviewsModels");
 exports.showReviewsPage = async (req, res) => {
     try{
         let reviews = await Review.retrieveAllReviews() // Retrieving from Retrieve model
-        console.log(reviews)
         res.render("pet-reviews", {
             reviews,
             currentUser: req.session.user || null,
