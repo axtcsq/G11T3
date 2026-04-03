@@ -12,7 +12,7 @@ Instructions
 To use our project, please follow these sets of instructions:
 
 a. How to set up our application based on the submitted file(s)
-Ensure that the necessary dependencies have been installed onto your computer
+Ensure that the necessary dependencies have been installed onto your computer by running this command on your VS Code terminal
 
 npm i
 
@@ -32,6 +32,9 @@ Admin
     Password: Password123!
 
 Create Pet Function:
-
 After uploading the pet, it is imperative that you commit and push the uploaded folder in "public/uploads",
 so that the other people using the website can see the picture
+
+Solely Rely on AI:
+-We used AI for CSS as we were not taught on it
+-We also made use of AI to help us find bugs & debug
