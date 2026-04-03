@@ -160,6 +160,11 @@ exports.updateAppointment = async (req, res) => {
         const currentAppt = await appointment.findAppointmentById(id);
         if (!currentAppt) return res.status(404).send("Appointment not found");
 
+        // ensures only the owner or an admin can edit
+        if (req.session.user.type !== 'admin' && currentAppt.userName !== req.session.user.username) {
+            return res.status(403).send("You are not allowed to edit this appointment");
+        }
+
         // 4. Conflict Check
         // We look for a conflict with the SAME pet at the SAME time
         // BUT we exclude the current appointment (_id: { $ne: objectId }) 
@@ -192,6 +197,12 @@ exports.updateAppointment = async (req, res) => {
 exports.deleteAppointment = async (req, res) => {
     try {
         const id = req.params.id; // We get the ID from the URL
+
+        // ensures only the owner or an admin can edit
+        if (req.session.user.type !== 'admin' && appt.userName !== req.session.user.username) {
+            return res.status(403).send("You are not allowed to delete this appointment");
+        }
+
         await appointment.deleteAppointment(id);
         res.redirect('/view-appointment');
     } catch (err) {
