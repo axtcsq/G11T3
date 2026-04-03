@@ -36,10 +36,6 @@ exports.checkConflict = function(petId, date, time) {
     return Appointment.findOne({ petId, date, time });
 };
 
-exports.findById = function(id) {
-    return Appointment.findOne({ petId:id });
-};
-
 // counts num of appointments that current user has 
 exports.countAppointments = async (filter) => {
     return await Appointment.countDocuments(filter);
