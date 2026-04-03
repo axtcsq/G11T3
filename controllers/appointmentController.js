@@ -3,19 +3,9 @@ const application = require('./../models/applicationModel');
 const Pet = require('./../models/petsModel');
 const mongoose = require('mongoose'); // Add this at the very top of your controller
 
-
-// TO BE FIXED
-// 1. Edit/update schedule function
-// 2. Display petID (short) instead of 16 digit ID (fixed)
-// 3. Display petname instead of unknown pet (fixed)
-// 4. Create session to allow each user to only view thier OWN scheduled appointments
-// 5. Improve design of "This slot has already been boooked" page and see how it actually is functioning
-// 6. admin should be able to see all appointments (and username of person ?)
 const getExistingAppointments = async () => {
     return await appointment.retrieveAll({}); 
 };
-
-
 
 // CREATE 
 exports.bookAppointment = async (req, res) => { // if have await feature must have async to tell javascript the code is asynchronous
@@ -167,8 +157,7 @@ exports.updateAppointment = async (req, res) => {
 
         // 4. Conflict Check
         // We look for a conflict with the SAME pet at the SAME time
-        // BUT we exclude the current appointment (_id: { $ne: objectId }) 
-        // so still can resave current slot 
+        // BUT we exclude the current appointment (_id: { $ne: objectId }) so still can resave current slot 
         const conflict = await appointment.findOne({
             _id: { $ne: objectId }, 
             petId: currentAppt.petId,

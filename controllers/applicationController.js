@@ -3,7 +3,7 @@ const Pet = require('../models/petsModel');
 const Favourite = require('../models/favouritesModel');
 const appointment = require('../models/appointmentModel'); 
 
-// Helper function to fetch all appointments
+// Helper function to fetch all appointments for bookedSlots
 const getExistingAppointments = async () => {
     return await appointment.retrieveAll({}); 
 };
@@ -25,8 +25,8 @@ exports.displayapplication = async (req, res) => {
         res.render("application-pets", {
             isAdmin: isAdmin,
             pet: lastPet,
-            userName: currentUserName, // Explicitly pass the current user
-            bookedSlots: bookedSlots    // The global list of appointments
+            userName: currentUserName, 
+            bookedSlots: bookedSlots   
         })
         
     } catch (error) {

@@ -1,6 +1,5 @@
 const mongoose = require("mongoose");
 
-// Create a new appointment schema
 const appointmentSchema = new mongoose.Schema({ 
     userName: {
     type: String,
@@ -12,7 +11,7 @@ const appointmentSchema = new mongoose.Schema({
   },
     name: {
     type: String,
-    required: [true, "A pet must have a name"], // added pet name 
+    required: [true, "A pet must have a name"], 
   },
     date: { 
     type: String,  
@@ -48,7 +47,6 @@ exports.retrieveAll = async (filter = {}) => {
 };
 
 // UPDATE FUNCTION (EDIT)
-// Find by ID for the Edit Page
 exports.findAppointmentById = function(id) {
     return Appointment.findById(id);
 };

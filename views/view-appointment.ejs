@@ -112,7 +112,7 @@
                 <tr>
                     <th>User</th>
                     <th>Pet ID</th>
-                    <th>Pet Name</th> <!-- added name column -->
+                    <th>Pet Name</th> 
                     <th>Date</th>
                     <th>Time</th>
                     <th>Change Appointment</th>
@@ -127,12 +127,10 @@
                                 <td><%= app.name %></td>
                                 <td><%= app.date %></td>
                                 <td><%= app.time %></td>
-                                <!-- reschedule button -->
                                 <td>
                                     <!-- One click: This stops the click for a second and asks the user "Are you sure?". if they click "No", the "baton" is dropped and nothing happens. -->
                                     <a href="/edit-appointment/<%= app._id %>" class="action-btn">Reschedule</a>
 
-                                    <!-- Cancel button -->
                                     <a href="/delete-appointment/<%= app._id %>" 
                                         onclick="return confirm('Are you sure you want to cancel this booking?')" 
                                         class="action-btn danger">
