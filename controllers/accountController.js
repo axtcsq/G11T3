@@ -198,6 +198,7 @@ exports.createUser = async (req, res) => {
     const userName = data.userName;
     const fullName = data.fullName;
     const password = data.password;
+    const password2 = data.password2;
     const gender = data.gender;
     const type = data.type;
 
@@ -208,7 +209,7 @@ exports.createUser = async (req, res) => {
     let errors = [];
 
     // Handles validation
-    if (!userName || !fullName || !password || !gender || !type) {
+    if (!userName || !fullName || !password || !password2 || !gender || !type) {
         let result = null;
         let msg = "All fields are required";
 
@@ -238,6 +239,14 @@ exports.createUser = async (req, res) => {
     if (password.length < 5 || !hasUpper || !hasSpecial || !hasNum) {
         let result = "fail";
         let msg = "Password must have at least 1 uppercase letter, 1 number, 1 special character, and be at least 5 characters long";
+
+        return res.render("add-user", { result, msg, userName, fullName });
+    }
+
+    // Check if both inputted passwords match
+    if (password !== password2) {
+        let result = "fail";
+        let msg = "Passwords don't match";
 
         return res.render("add-user", { result, msg, userName, fullName });
     }
