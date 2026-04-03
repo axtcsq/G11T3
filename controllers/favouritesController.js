@@ -3,13 +3,12 @@ const Pet = require("./../models/petsModel")
 
 exports.addFavourite = async (req, res) => {
     const petID = req.query.petID
-    // have to change when session is implemented
     const userName = req.session.user.username;
 
     let newFavourite = {
         userName: userName,
         petID: petID,
-        remarks: "",
+        remark: "",
         priority: "Medium"
     }
 
@@ -23,7 +22,6 @@ exports.addFavourite = async (req, res) => {
 
 exports.removeFavourite = async (req, res) => {
     const petID = req.query.petID
-    // have to change when session is implemented
     const userName = req.session.user.username;
 
     try {
@@ -36,7 +34,6 @@ exports.removeFavourite = async (req, res) => {
 
 exports.deleteFavourite = async (req, res) => {
     const petID = req.query.petID
-    // have to change when session is implemented
     const userName = req.session.user.username;
 
     try {
@@ -49,7 +46,6 @@ exports.deleteFavourite = async (req, res) => {
 
 exports.showFavourites = async (req, res) => {
   try {
-    // to change when session is implemented
     const user = req.session.user;
     const userName = user.username;
     const isAdmin = user.type === "admin";
@@ -107,7 +103,6 @@ exports.showFavourites = async (req, res) => {
 exports.editFavourite = async (req, res) => {
   try {
     const petID = req.query.petID;
-    // to change when session is implemented
     const user = req.session.user;
     const userName = user.username;
     const isAdmin = user.type === "admin";
@@ -128,7 +123,6 @@ exports.editFavourite = async (req, res) => {
 exports.updateFavourite = async (req, res) => {
   try {
     const id = req.body.id;
-    // change when session is implemented
     const userName = req.session.user.username;
     let remark = req.body.remark;
     let priority = req.body.priority
