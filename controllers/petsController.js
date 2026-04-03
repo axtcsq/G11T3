@@ -61,7 +61,7 @@ exports.showAddForm = async (req, res) => {
 
   try {
   const petList = await Pet.retrieveAll();
-  const newId = String(Math.max(0,...petList.map(petList=>parseInt(petList.id,10))) + 1).padStart(3,'0');
+  const newId = String(Math.max(0,...petList.map(p => parseInt(p.id, 10)).filter(n => !isNaN(n))) + 1).padStart(3, '0');
   
   let result = "";
   let msg = "";
@@ -78,13 +78,13 @@ exports.createPet = async (req, res) => {
   const data = req.body;
 
   const petList = await Pet.retrieveAll();
-  const newId = String(Math.max(0,...petList.map(petList=>parseInt(petList.id,10))) + 1).padStart(3,'0');
+  const newId = String(Math.max(0,...petList.map(p => parseInt(p.id, 10)).filter(n => !isNaN(n))) + 1).padStart(3, '0');
   const name = (data.name || "").trim();
   const type = (data.type || "").trim();
   const gender = (data.gender || "").trim();
   const breed = (data.breed || "").trim();
   const colour = (data.colour || "").trim();
-  const age = (data.age || "").trim();
+  const age = (data.age || "")
   const desc = (data.desc || "").trim();
   const photo = req.file ? req.file.filename : "";
 
@@ -124,7 +124,7 @@ exports.createPet = async (req, res) => {
       
       // Added as result will not be returned when operation is not successful
       let result = "fail";
-      let msg = "All fields are required, including a photo";
+      let msg = "Please check the values entered";
 
       res.render("add-pet", {newId: newId, result, msg});
   }
@@ -239,9 +239,7 @@ exports.deletePet = async (req, res) => {
 
     const result = await Pet.delPet(recordID);
 
-    if (result.deletedCount === 0) {{
-      
-    }
+    if (result.deletedCount === 0) {
       return res.render("del-pet", {
         petLists,
         result: "fail",
