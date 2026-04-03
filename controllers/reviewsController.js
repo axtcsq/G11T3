@@ -8,7 +8,8 @@ exports.showReviewsPage = async (req, res) => {
         console.log(reviews)
         res.render("pet-reviews", {
             reviews,
-            currentUser: req.session.user || null
+            currentUser: req.session.user || null,
+            isSearch: false
         }) // Render the EJS form view and pass the posts
     } catch (error) {
         console.log(error);
@@ -159,7 +160,8 @@ exports.searchReviews = async (req, res) => {
         // Render the reviews page with the search results
         res.render("pet-reviews", {
             reviews,
-            currentUser: req.session.user || null
+            currentUser: req.session.user || null,
+            isSearch: true
         });
     } catch (error) {
         console.log(error);

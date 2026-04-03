@@ -164,7 +164,11 @@
     <br>
     <a href="/add-review" class="link-btn">Leave a Review!</a>
     <% if (reviews.length === 0) { %>
-        <p>Be the first to leave a review!</p>
+        <% if (isSearch) { %>
+            <p>No Reviews Found!</p>
+        <% } else { %>
+            <p>Be the first to leave a review!</p>
+        <% } %>
     <% } else { %>
         <% reviews.forEach((review, index) => { %>
             <h2 class="review-header">Review <%= index + 1 %>: <%= review.title %></h2>
