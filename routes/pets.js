@@ -28,7 +28,7 @@ router.get("/add-pet", requireAdmin, petsController.showAddForm);
 router.post("/add-pet", requireAdmin, upload.single("photo"), petsController.createPet);
 
 // Ex 3: Define GET/POST route to edit pets in database
-router.get("/edit-pet", petsController.showPetList);
+router.get("/edit-pet", requireAdmin, petsController.showPetList);
 router.get("/update-pet", requireAdmin, petsController.getPet);
 router.post("/update-pet", requireAdmin, upload.single("photo"), petsController.updatePet);
 
