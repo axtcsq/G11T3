@@ -20,6 +20,11 @@ const getExistingAppointments = async () => {
 // CREATE 
 exports.bookAppointment = async (req, res) => { // if have await feature must have async to tell javascript the code is asynchronous
     try {
+
+        // null check 
+        if (!req.session.user) {
+            return res.redirect('/login');
+        }
         const petId = req.body.petId;
         const userName = req.session.user.username;
         
@@ -117,19 +122,16 @@ exports.editAppointmentPage = async (req, res) => {
         const id = req.params.id;
         const appt = await appointment.findAppointmentById(id);
         
-        // We MUST define isAdmin and pass it to the render function
-        // Usually, this comes from your session or user object
+        // must define isAdmin and pass it to the render function
         const isAdmin = req.session.user && req.session.user.type === 'admin';
 
         // FETCH ALL BOOKED SLOTS
         const bookedSlots = await getExistingAppointments();
         
-
-
         res.render('edit-appointment', { 
             appointment: appt,
-            isAdmin: isAdmin, // <--- THIS WAS MISSING
-            user: req.session.user, // Also pass user if your header uses it
+            isAdmin: isAdmin,
+            user: req.session.user,
             bookedSlots: bookedSlots // Pass this to the view
         });
 
@@ -140,7 +142,6 @@ exports.editAppointmentPage = async (req, res) => {
 };
 
 // 2. Process the Update
-// UPDATE / RESCHEDULE
 // UPDATE / RESCHEDULE
 exports.updateAppointment = async (req, res) => {
     try {
@@ -162,7 +163,7 @@ exports.updateAppointment = async (req, res) => {
         // 4. Conflict Check
         // We look for a conflict with the SAME pet at the SAME time
         // BUT we exclude the current appointment (_id: { $ne: objectId }) 
-        // so you can "resave" your current slot if you want.
+        // so still can resave current slot 
         const conflict = await appointment.findOne({
             _id: { $ne: objectId }, 
             petId: currentAppt.petId,
