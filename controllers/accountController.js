@@ -94,7 +94,13 @@ exports.handleSignup = async (req, res) => {
     } catch (err) {
         console.error(err);
 
-        errors.push("An error occurred while adding to the database");
+        // When existing username exists
+        if (err.code === 11000) {
+            errors.push("Username already exists");
+        // For other errors
+        } else {
+            errors.push("An error occurred while adding to the database");
+        }
 
         res.render("signup", { userName, fullName, gender, type, errors });
     }
@@ -274,9 +280,16 @@ exports.createUser = async (req, res) => {
     } catch (error) {
         console.error(error);
         
-        // Added as result will not be returned when operation is not successful
         let result = "fail";
-        let msg = "An error occured when adding a new user";
+        let msg;
+
+        // When username exists
+        if (error.code === 11000) {
+            msg = "Username already exists";
+        // Other errors
+        } else {
+            msg = "An error occured when adding a new user";
+        }
 
         res.render("add-user", { 
             result, msg, userName, fullName 
