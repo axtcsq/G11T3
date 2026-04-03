@@ -55,7 +55,7 @@ exports.getapplication = async (req, res) => {
   // Retrieve form data
   const data = req.query; // its a GET request
   const id = data.app_id;
-  console.log(id)
+  
 
   try {
     // find() always return an Array of result
@@ -74,7 +74,7 @@ exports.updateapplication = async (req, res) => {
   const data = req.body;
 
   const id = data.app_id
-  console.log(id)
+ 
   const status = data.status
   const newName = data.name;
   
