@@ -55,10 +55,21 @@
 
     .logo-text {
         color: #1a2a5a;
-        line-height: 1.1;
-        font-weight: 800;
-        font-size: 0.65rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        line-height: 1.2;
         text-transform: uppercase;
+    }
+
+    .logo-title {
+        font-weight: 800;
+        font-size: 1.2rem;
+    }
+
+    .logo-subtitle {
+        font-weight: 600;
+        font-size: 0.7rem;
     }
 
     /* Navigation & Dropdowns */
@@ -141,7 +152,10 @@
     <header class="petShop-header">
     <a href="/display-pet" class="petShop-logo-section">
         <img src="/img/paw.png" alt="Paw Logo" class="logo-img">
-        <div class="logo-text"><h3>PAWS</h3>Pet Adoption Website Singapore</div>
+        <div class="logo-text">
+            <span class="logo-title">PAWS</span>
+            <span class="logo-subtitle">Pet Adoption Website Singapore</span>
+        </div>
     </a>
 
     <nav class="nav-links">
